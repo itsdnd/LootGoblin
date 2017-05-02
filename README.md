@@ -1,4 +1,5 @@
 ![Loot Goblin Image](http://i.imgur.com/DTw0qmx.png)
+
 A D&D 5e loot creation and generation application for Windows. 
 
 [![GitHub release](https://img.shields.io/github/release/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/releases/) [![Issues](https://img.shields.io/github/issues/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/issues) 
