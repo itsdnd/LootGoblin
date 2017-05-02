@@ -106,6 +106,8 @@ namespace LootGoblin
                     ContainerTypes.Add(container.Type);
                 }
             }
+
+            ContainerTypes.Sort();
         }
     }
 }

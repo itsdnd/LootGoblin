@@ -1911,6 +1911,9 @@ namespace LootGoblin.Controls
 
             UpdateTotalItemsAvailable();
             currentContainerHasChanged = false;
+
+            comboContainerType.ItemsSource = null;
+            comboContainerType.ItemsSource = programStorage.ContainerTypes;
         }
 
         private void txtBoxNumber_TextChanged(object sender, TextChangedEventArgs e)

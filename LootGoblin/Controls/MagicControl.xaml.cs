@@ -144,9 +144,7 @@ namespace LootGoblin.Controls
                 }
             }
 
-            MagicItem newItem = new MagicItem();
-            LoadMagicItem(newItem);
-            currentItemHasChanged = false;
+            ClearControlInputs();
         }
 
         private void btnDuplicate_Click(object sender, RoutedEventArgs e)
@@ -346,6 +344,11 @@ namespace LootGoblin.Controls
             MagicItem newItem = new MagicItem();
             LoadMagicItem(newItem);
             currentItemHasChanged = false;
+
+            comboItemType.ItemsSource = null;
+            comboItemType.ItemsSource = programStorage.MagicItemTypes;
+            comboItemRarity.ItemsSource = null;
+            comboItemRarity.ItemsSource = programStorage.MagicItemTypes;
         }
     }
 }
