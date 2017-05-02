@@ -1717,13 +1717,11 @@ namespace LootGoblin.Controls
                 File.Move(startFile, endFile);
 
                 programStorage.LootContainers.Remove(currentContainer);
-
-                ClearControlInputs();
-
+                
                 programStorage.GenerateLootContainerTypesLists();
                 PopulateContainerTree();
 
-                currentContainerHasChanged = false;
+                ClearControlInputs();
             }
         }
 
@@ -1757,11 +1755,11 @@ namespace LootGoblin.Controls
             SaveFile();
 
             WarningPopup.Show("Container Save Successfully", String.Format("The loot container '{0}' has been saved successfully.", currentContainer.Name));
-
-            ClearControlInputs();
-
+            
             programStorage.GenerateLootContainerTypesLists(); // Recheck all types
             PopulateContainerTree(); // Repopulate tree
+
+            ClearControlInputs();
         }
 
         private void SaveObject()

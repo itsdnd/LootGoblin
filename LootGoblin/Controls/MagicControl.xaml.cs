@@ -197,8 +197,6 @@ namespace LootGoblin.Controls
                 PopulateMagicItemTree();
 
                 ClearControlInputs();
-
-                currentItemHasChanged = false;
             }
         }
 
@@ -325,11 +323,10 @@ namespace LootGoblin.Controls
 
             SaveMagicItems();
 
-            ClearControlInputs();
-            currentItemHasChanged = false;
-
             programStorage.GenerateMagicTypesAndRaritiesLists(); // Recheck all types/rarities
             PopulateMagicItemTree(); // Repopulate tree
+
+            ClearControlInputs();
         }
 
         private void SaveMagicItems()
