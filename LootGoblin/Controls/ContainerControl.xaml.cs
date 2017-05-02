@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,7 +67,7 @@ namespace LootGoblin.Controls
             {
                 ContainerTreeType type = new ContainerTreeType { Name = containerType };
 
-                foreach (LootContainer container in programStorage.LootContainers)
+                foreach (LootContainer container in programStorage.LootContainers.OrderBy(x => x.Name))
                 {
                     if (container.Type.Equals(containerType, StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -1689,7 +1690,7 @@ namespace LootGoblin.Controls
             CopyContainer(currentContainer, newContainer);
 
             var name = String.Format("{0} - Copy", currentContainer.Name);
-            currentContainer.Name = name;
+            newContainer.Name = name;
 
             currentContainer = newContainer;
             currentContainerHasChanged = false;

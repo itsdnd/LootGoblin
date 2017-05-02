@@ -20,7 +20,7 @@
         <StackPanel>
             <Image Source="Resources/logo.png" Margin="0,8,0,0"/>
             <TextBlock x:Name="txtStatus" Margin="8,16,8,0" Text="Checking Directories..." Height="25" VerticalAlignment="Bottom" TextAlignment="Center"/>
-            <ProgressBar x:Name="progressBar" Height="15" Margin="0,8,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+            <ProgressBar x:Name="progressBar" Height="15" Margin="0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

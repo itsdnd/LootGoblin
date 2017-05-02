@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -61,7 +62,7 @@ namespace LootGoblin.Controls
                 {
                     MagicItemTreeRarity rarity = new MagicItemTreeRarity { Name = magicItemRarity };
 
-                    foreach (MagicItem magicItem in programStorage.MagicItems)
+                    foreach (MagicItem magicItem in programStorage.MagicItems.OrderBy(x => x.Name))
                     {
                         if (magicItem.Type.Equals(magicItemType, StringComparison.CurrentCultureIgnoreCase) && magicItem.Rarity.Equals(magicItemRarity, StringComparison.CurrentCultureIgnoreCase))
                         {

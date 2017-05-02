@@ -9,6 +9,7 @@ using System.Windows.Input;
 using LootGoblin.Storage;
 using LootGoblin.Storage.Trees;
 using LootGoblin.Storage.Grids;
+using System.Linq;
 
 namespace LootGoblin.Controls
 {
@@ -85,7 +86,7 @@ namespace LootGoblin.Controls
             {
                 ContainerTreeType type = new ContainerTreeType { Name = containerType };
 
-                foreach (LootContainer container in programStorage.LootContainers)
+                foreach (LootContainer container in programStorage.LootContainers.OrderBy(x => x.Name))
                 {
                     if (container.Type.Equals(containerType, StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -430,7 +431,7 @@ namespace LootGoblin.Controls
                 {
                     MagicItemTreeRarity rarity = new MagicItemTreeRarity { Name = magicItemRarity };
 
-                    foreach (MagicItem magicItem in programStorage.MagicItems)
+                    foreach (MagicItem magicItem in programStorage.MagicItems.OrderBy(x=> x.Name))
                     {
                         if (magicItem.Type.Equals(magicItemType, StringComparison.CurrentCultureIgnoreCase) && magicItem.Rarity.Equals(magicItemRarity, StringComparison.CurrentCultureIgnoreCase))
                         {
