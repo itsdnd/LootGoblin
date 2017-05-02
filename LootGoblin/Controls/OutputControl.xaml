@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="LootGoblin.Controls.OutputControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             Width="1370"
+    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+        <GroupBox Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16" >
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel Height="32">
+                        <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/magic.png"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Guaranteed Magic Items"/>
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+                <StackPanel Margin="8" VerticalAlignment="Top">
+                    <TextBox x:Name="txtGuaranteedMagicItems" materialDesign:HintAssist.Hint="Guaranteed Magic Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="200" HorizontalAlignment="Left" Width="617" />
+                </StackPanel>
+        </GroupBox>
+            <GroupBox Grid.Column="0" Grid.Row="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16" MinHeight="330" >
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel Height="32">
+                        <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/gear.png"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Individual Container Loot"/>
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel>
+                <TextBlock Text="Gear &amp; Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtIndividualGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" />
+                    <Button x:Name="btnExportIndividual" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnExportIndividual_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FileExport" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                            <TextBlock Text="Export Data" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+        </GroupBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <GroupBox Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel Height="32">
+                            <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/dice.png"/>
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Random Magic Items"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <StackPanel Margin="8">
+                    <TextBox x:Name="txtRandomMagicItems" materialDesign:HintAssist.Hint="Random Magic Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="200" HorizontalAlignment="Left" Width="617" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Grid.Row="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16" MinHeight="330">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel Height="32">
+                            <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/coins.png"/>
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter Combined Loot"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <StackPanel>
+                    <TextBlock Text="Currency:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" Margin="16,8,0,16">
+                        <TextBox x:Name="txtCopper" materialDesign:HintAssist.Hint="Copper" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="109" Text="0" Margin="8,0" />
+                        <TextBox x:Name="txtSilver" materialDesign:HintAssist.Hint="Silver" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="109" Text="0" Margin="8,0" />
+                        <TextBox x:Name="txtElectrum" materialDesign:HintAssist.Hint="Electrum" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="109" Text="0" Margin="8,0" />
+                        <TextBox x:Name="txtGold" materialDesign:HintAssist.Hint="Gold" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="109" Text="0" Margin="8,0" />
+                        <TextBox x:Name="txtPlatinum" materialDesign:HintAssist.Hint="Platinum" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="109" Text="0" Margin="8,0" />
+                    </StackPanel>
+                    <Separator Margin="0,8" />
+                    <TextBlock Text="Gear &amp; Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtEncounterGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" />
+                    <Button x:Name="btnExportEncounter" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnExportEncounter_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FileExport" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                            <TextBlock Text="Export Data" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

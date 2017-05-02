@@ -1,0 +1,744 @@
+﻿<UserControl x:Class="LootGoblin.Controls.ContainerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Width="1370"
+>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel Height="32">
+                        <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Container List"/>
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel>
+                <TreeView x:Name="containerTree" ItemsSource="{Binding}" VerticalAlignment="Top" Grid.Column="0" Height="690" SelectedItemChanged="containerTree_SelectedItemChanged">
+                    <TreeView.Resources>
+                        <DataTemplate x:Key="ContainerNames">
+                            <TextBlock Text="{Binding Path=Name}"  VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=NameList}" ItemTemplate="{StaticResource ResourceKey=ContainerNames}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Name}" Margin="5,0" VerticalAlignment="Center" />
+                                <Label Content="(Type)" Foreground="{DynamicResource PrimaryHueMidBrush}" Background="{x:Null}"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel Height="32">
+                        <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Container Management"/>
+                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
+                            <StackPanel>
+                                <Button x:Name="bntNew" Click="btnNew_Click" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="NewBox" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="New Container" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="bntDuplicate" Click="btnDuplicate_Click" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentCopy" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Duplicate Container" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnDelete" Click="btnDelete_Click" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Delete Container" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                                <Separator />
+                                <StackPanel Margin="18,10,20,10">
+                                    <CheckBox Content="Suppress Popups?" IsChecked="{Binding IsChecked, ElementName=SuppressContainerEditPopups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="SuppressContainerEditPopups_Checked" Unchecked="SuppressContainerEditPopups_Checked" />
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top"  >
+                <Expander HorizontalAlignment="Stretch" IsExpanded="True" >
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="32">
+                                <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/coins.png"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Basic Information &amp; Currency"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <Border Padding="10" RenderTransformOrigin="0.541,0.499">
+                        <StackPanel>
+                            <TextBlock Text="Container Basics:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,16">
+                                <TextBlock Text="Container Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="175" />
+                                <TextBox x:Name="txtContainerName" Width="555" materialDesign:HintAssist.Hint="Container Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" TextChanged="txtContainerName_TextChanged" />
+                            </StackPanel>
+                            <TextBlock x:Name="txtContainerNameError" Text="Error: Container name already in use" Margin="200,-8,0,-8" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
+                            <TextBlock x:Name="txtContainerNameEmptyError" Text="Error: Container name cannot be empty" Margin="200,-8,0,-8" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
+                            <Separator Margin="0,8" />
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,16">
+                                <TextBlock Text="Container Type: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="175" />
+                                <ComboBox x:Name="comboContainerType" materialDesign:HintAssist.Hint="Container Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26"  DropDownClosed="comboContainerType_DropDownClosed" TextBoxBase.TextChanged="comboContainerType_TextChanged" Width="555" IsEditable="True" />
+                            </StackPanel>
+                            <Separator Margin="0,8" />
+                            <StackPanel Margin="24,8,0,16">
+                                <TextBlock Text="Container Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
+                                <TextBox x:Name="txtContainerDescription" materialDesign:HintAssist.Hint="Container Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="200" TextChanged="txtContainerDescription_TextChanged" Width="730" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <Separator Margin="0,16,0,32" />
+                            <TextBlock Text="Currency:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Use the options below to select the minimum and maximum currency values for each currency type. Differing values will result in a random number between the two values being selected. Matching values will ensure that amount of currency is guaranteed. Matching values of zero will prevent that type of currency from being included." Margin="8,8,8,16" Width="735" />
+                            <DockPanel Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                    <TextBlock Text="Copper (Min): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtCopperMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtCopperMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnCopperMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnCopperMinUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnCopperMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnCopperMinDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0" >
+                                    <TextBlock Text="Copper (Max): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtCopperMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtCopperMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnCopperMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnCopperMaxUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnCopperMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnCopperMaxDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                            <DockPanel Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                    <TextBlock Text="Silver (Min): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtSilverMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtSilverMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnSilverMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnSilverMinUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnSilverMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnSilverMinDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0" >
+                                    <TextBlock Text="Silver (Max): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtSilverMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtSilverMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnSilverMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnSilverMaxUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnSilverMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnSilverMaxDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                            <DockPanel Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                    <TextBlock Text="Electrum (Min): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtElectrumMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtElectrumMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnElectrumMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnElectrumMinUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnElectrumMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnElectrumMinDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0" >
+                                    <TextBlock Text="Electrum (Max): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtElectrumMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtElectrumMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnElectrumMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnElectrumMaxUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnElectrumMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnElectrumMaxDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                            <DockPanel Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                    <TextBlock Text="Gold (Min): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtGoldMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtGoldMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnGoldMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGoldMinUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnGoldMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGoldMinDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0" >
+                                    <TextBlock Text="Gold (Max): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtGoldMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtGoldMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnGoldMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGoldMaxUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnGoldrMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGoldMaxDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                            <DockPanel Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                    <TextBlock Text="Platinum (Min): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtPlatinumMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtPlatinumMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnPlatinumMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnPlatinumMinUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnPlatinumMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnPlatinumMinDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0" >
+                                    <TextBlock Text="Platinum (Max): " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,8,4" VerticalAlignment="Center" Width="150" />
+                                    <TextBox x:Name="txtPlatinumMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="125" TextBoxBase.TextChanged="txtPlatinumMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                    <StackPanel Margin="0">
+                                        <RepeatButton x:Name="btnPlatinumMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnPlatinumMaxUp_Click" >
+                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                        <Separator Margin="4,0" />
+                                        <RepeatButton x:Name="btnPlatinumMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnPlatinumMaxDown_Click" >
+                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                        </RepeatButton>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                            <Separator Margin="0,16,0,32" />
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Width="300">
+                                    <TextBlock Text="Total Items Available:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="The numbers below represent the available items for each category. Use this information to determine the amount of each item type to include. You can add, edit, or remove items for each type in the sections below." Margin="8,8,8,16" FontSize="11" Padding="0,0,16,0" Height="91" />
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Total Items:" Margin="0,8,0,16" FontSize="10" Padding="0,0,16,0" Width="150" FontWeight="Bold" />
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Armor / Clothing:" Margin="0,8,0,16" FontSize="10" Padding="0,0,16,0" Width="150" FontWeight="Bold" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <DockPanel Width="300" Margin="0,0,0,16">
+                                                <Label x:Name="lblTotalItems" DockPanel.Dock="Left" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="50,0,0,0" FontSize="14" Padding="16,8" HorizontalContentAlignment="Center" BorderThickness="1" HorizontalAlignment="Left" />
+                                                <Label x:Name="lblArmorItems" DockPanel.Dock="Right" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="0,0,60,0" FontSize="14" Padding="16,8" HorizontalContentAlignment="Center" BorderThickness="1" HorizontalAlignment="Right" />
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Weapons / Ammo:" Margin="0,8,0,16" FontSize="10" Padding="0,0,16,0" Width="150" FontWeight="Bold" />
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Misc. Gear / Items:" Margin="0,8,0,16" FontSize="10" Padding="0,0,16,0" Width="150" FontWeight="Bold" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <DockPanel Width="300" Margin="0,0,0,16">
+                                                <Label x:Name="lblWeaponItems" DockPanel.Dock="Left" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="50,0,0,0" FontSize="14" Padding="16,8" HorizontalContentAlignment="Center" BorderThickness="1" HorizontalAlignment="Left" />
+                                                <Label x:Name="lblGearItems" DockPanel.Dock="Right" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="0,0,60,0" FontSize="14" Padding="16,8" HorizontalContentAlignment="Center" BorderThickness="1" HorizontalAlignment="Right" />
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Width="465">
+                                    <TextBlock Text="Number of Items to Receive:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="8,8,8,16" FontSize="11" Padding="0,0,16,0" Height="70" Text="Use the options below to select the minimum and maximum item values for each item type. Differing values will result in a random number between the two values being selected. Matching values will ensure that number of items is selected. Matching values of zero will prevent that type of item from being included. " />
+                                    <DockPanel Margin="0,0,0,8">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Armor / Clothing (Min):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtArmorMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150" TextBoxBase.TextChanged="txtArmorMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown"  />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="a" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnArmorMinUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="b" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnArmorMinDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Armor / Clothing (Max):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtArmorMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtArmorMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="c" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnArmorMaxUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="d" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnArmorMaxDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,0,0,8">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Weapons / Ammo (Min):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtWeaponMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtWeaponMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="a2" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnWeaponMinUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="b2" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnWeaponMinDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Weapons / Ammo (Max):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtWeaponMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtWeaponMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="c2" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnWeaponMaxUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="d2" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnWeaponMaxDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,0,0,8">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Misc. Gear / Items (Min):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtGearMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtGearMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="a3" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGearMinUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="b3" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGearMinDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Misc. Gear / Items (Max):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox x:Name="txtGearMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtGearMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                    <StackPanel Margin="0">
+                                                        <RepeatButton x:Name="c3" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGearMaxUp_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                        <Separator Margin="4,0" />
+                                                        <RepeatButton x:Name="d3" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnGearMaxDown_Click" >
+                                                            <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                        </RepeatButton>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <Separator Margin="0,16,0,32" />
+                            <StackPanel>
+                                <TextBlock Text="Mundane Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="8,8,8,16" FontSize="11" Padding="0,0,16,0" Width="735" Height="54" ><Span><Run Text="Mundane items are typically the common, ordinary, or simple items that are often present in any environment. They are so simple that they do not need any description and are usually listed with their values. The mundane items list is the same for each container, but you may specify individual minimum and maximum values for each container. To edit the mundane item list, click the &quot;Edit Mundane Items&quot; button below. Please note that each item should be on its own line."/></Span></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Width="300">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnMundaneEdit" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16,10,16" Width="175" Click="btnMundaneEdit_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-4" Width="24" Height="24" />
+                                                <TextBlock Text="Edit Mundane Items" VerticalAlignment="Center" FontSize="12" />
+                                            </StackPanel>
+                                        </Button>
+                                        <StackPanel Width="99" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Mundane Items:" Margin="8,0,-8,8" FontSize="10" Padding="0,0,16,0" FontWeight="Bold" />
+                                            <Label x:Name="lblMundaneItems" DockPanel.Dock="Right" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="0,0,0,8" FontSize="14" Padding="16,8" BorderThickness="1" Height="35" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Width="465">
+                                    <StackPanel>
+                                        <DockPanel Margin="0,0,0,8">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0,0,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="Mundane Items (Min):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBox x:Name="txtMundaneMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtMundaneMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                        <StackPanel Margin="0">
+                                                            <RepeatButton x:Name="a4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinUp_Click" >
+                                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                            </RepeatButton>
+                                                            <Separator Margin="4,0" />
+                                                            <RepeatButton x:Name="b4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinDown_Click" >
+                                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                            </RepeatButton>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,24,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="Mundane Items (Max):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBox x:Name="txtMundaneMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtMundaneMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" />
+                                                        <StackPanel Margin="0">
+                                                            <RepeatButton x:Name="c4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxUp_Click" >
+                                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                            </RepeatButton>
+                                                            <Separator Margin="4,0" />
+                                                            <RepeatButton x:Name="d4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxDown_Click" >
+                                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                            </RepeatButton>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Expander>
+                <Separator Margin="0,16" />
+                <Expander HorizontalAlignment="Stretch" IsExpanded="True" >
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="32">
+                                <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/armor.png"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Armor &amp; Clothing"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <Border Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Armor / Clothing Details:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,16">
+                                <TextBlock Text="Item Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="175" />
+                                <TextBox x:Name="txtArmorName" Width="555" TextChanged="txtArmorName_TextChanged" />
+                            </StackPanel>
+                            <StackPanel Margin="24,8,0,16">
+                                <TextBlock Text="Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
+                                <TextBox x:Name="txtArmorDescription" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="100" Width="730" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+                                <Button x:Name="btnArmorAdd" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="165" Click="btnArmorAdd_Click" Margin="0,0,16,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock x:Name="btnArmorAddText" Text="Add Item" VerticalAlignment="Center" FontSize="12" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <Separator Margin="0,16" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0,0,0" Width="735">
+                                <Button x:Name="btnArmorEdit" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0,16,10,16" Width="168" Click="btnArmorEdit_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-4" Width="24" Height="24" />
+                                        <TextBlock Text="Edit Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnArmorDuplicate" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="10,16" Width="168" Click="btnArmorDuplicate_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentDuplicate" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Duplicate Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnArmorRemove" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="10,16" Width="168" Click="btnArmorRemove_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentCut" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Remove Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnArmorClear" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="10,16,0,16" Width="168" Click="btnArmorClear_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="DeleteForever" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock Text="Clear List" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel>
+                                <DataGrid x:Name="dataArmorItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="385" Margin="16,0,0,16" Width="735">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Description}" Header="Item Description" MinWidth="478" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Expander>
+                <Separator Margin="0,16" />
+                <Expander HorizontalAlignment="Stretch" IsExpanded="True" >
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="32">
+                                <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/weapon.png"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Weapons &amp; Ammunition"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <Border Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Weapon / Ammo Details:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,16">
+                                <TextBlock Text="Item Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="175" />
+                                <TextBox x:Name="txtWeaponName" Width="555" TextChanged="txtWeaponName_TextChanged" />
+                            </StackPanel>
+                            <StackPanel Margin="24,8,0,16">
+                                <TextBlock Text="Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
+                                <TextBox x:Name="txtWeaponDescription" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="100" Width="730" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+                                <Button x:Name="btnWeaponAdd" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="165" Click="btnWeaponAdd_Click" Margin="0,0,16,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock x:Name="btnWeaponAddText" Text="Add Item" VerticalAlignment="Center" FontSize="12" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <Separator Margin="0,16" />
+                            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" Width="735" HorizontalAlignment="Left">
+                                <Button x:Name="btnWeaponEdit" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0,16,10,16" Width="168" Click="btnWeaponEdit_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-4" Width="24" Height="24" />
+                                        <TextBlock Text="Edit Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnWeaponDuplicate" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="10,16" Width="168" Click="btnWeaponDuplicate_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentDuplicate" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Duplicate Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnWeaponRemove" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="10,16" Width="168" Click="btnWeaponRemove_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentCut" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Remove Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnWeaponClear" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="10,16,0,16" Width="168" Click="btnWeaponClear_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="DeleteForever" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock Text="Clear List" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel>
+                                <DataGrid x:Name="dataWeaponItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="385" Margin="16,0,0,16" Width="735">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Description}" Header="Item Description" MinWidth="478" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Expander>
+                <Separator Margin="0,16" />
+                <Expander HorizontalAlignment="Stretch" IsExpanded="True" >
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="32">
+                                <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/gear.png"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Miscellaneous Gear &amp; Items"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <Border Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Misc. Gear / Items Details:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,16">
+                                <TextBlock Text="Item Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="175" />
+                                <TextBox x:Name="txtGearName" Width="555" TextChanged="txtGearName_TextChanged" />
+                            </StackPanel>
+                            <StackPanel Margin="24,8,0,16">
+                                <TextBlock Text="Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
+                                <TextBox x:Name="txtGearDescription" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MaxHeight="100" Width="730" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+                                <Button x:Name="btnGearAdd" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="165" Click="btnGearAdd_Click" Margin="0,0,16,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock x:Name="btnGearAddText" Text="Add Item" VerticalAlignment="Center" FontSize="12" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <Separator Margin="0,16" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0,0,0" Width="735">
+                                <Button x:Name="btnGearEdit" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0,16,10,16" Width="168" Click="btnGearEdit_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-4" Width="24" Height="24" />
+                                        <TextBlock Text="Edit Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnGearDuplicate" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="10,16" Width="168" Click="btnGearDuplicate_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentDuplicate" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Duplicate Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnGearRemove" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="10,16" Width="168" Click="btnGearRemove_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentCut" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                                        <TextBlock Text="Remove Selection" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnGearClear" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="12,16,0,16" Width="168" Click="btnGearClear_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="DeleteForever" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
+                                        <TextBlock Text="Clear List" VerticalAlignment="Center" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel>
+                                <DataGrid x:Name="dataGearItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="385" Margin="16,0,0,16" Width="735">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Description}" Header="Item Description" MinWidth="478" CanUserReorder="False">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                                    <Setter Property="AcceptsReturn" Value="true" />
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Expander>
+                <Separator Margin="0,16" />
+                <CheckBox x:Name="SuppressContainerEditPopups" Visibility="Hidden" Margin="0,-32,0,0" />
+                <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,0,16,16" Click="btnSave_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                        <TextBlock Text="Save / Update Container" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>
