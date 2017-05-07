@@ -588,10 +588,49 @@ namespace LootGoblin.Controls
                     magicItemTypes.Add(item.Type);
                 }
             }
-            
+
+            magicItemTypes.Add("Random");
+
             comboMagicItemType.ItemsSource = magicItemTypes;
             comboMagicItemType.Items.Refresh();
             comboMagicItemType.SelectedIndex = 0; // Set default selection
+        }
+
+        private void DetermineRandomMagicItemRarities()
+        {
+            magicItemRarities.Clear();
+
+            if (comboMagicItemType.Text.Equals("Random"))
+            {
+                foreach (MagicItem item in programStorage.MagicItems)
+                {
+                    if (!magicItemRarities.Contains(item.Rarity))
+                    {
+                        magicItemRarities.Add(item.Rarity);
+                    }
+                }
+            }
+            else
+            {
+                foreach (MagicItem item in programStorage.MagicItems)
+                {
+                    if (magicItemTypes.Contains(item.Type) && !magicItemRarities.Contains(item.Rarity))
+                    {
+                        if (!item.Type.Equals(comboMagicItemType.Text))
+                        {
+                            continue;
+                        }
+
+                        magicItemRarities.Add(item.Rarity);
+                    }
+                }
+            }
+
+            magicItemRarities.Add("Random");
+
+            comboMagicItemRarity.ItemsSource = magicItemRarities;
+            comboMagicItemRarity.Items.Refresh();
+            comboMagicItemRarity.SelectedIndex = 0; // Set default selection
         }
 
         private void CheckRandomMagicItemList()
@@ -708,28 +747,6 @@ namespace LootGoblin.Controls
         private void comboRandomMagicItemType_TextChanged(object sender, TextChangedEventArgs e)
         {
             DetermineRandomMagicItemRarities();
-        }
-
-        private void DetermineRandomMagicItemRarities()
-        {
-            magicItemRarities.Clear();
-
-            foreach (MagicItem item in programStorage.MagicItems)
-            {
-                if (magicItemTypes.Contains(item.Type) && !magicItemRarities.Contains(item.Rarity))
-                {
-                    if (!item.Type.Equals(comboMagicItemType.Text))
-                    {
-                        continue;
-                    }
-                    
-                    magicItemRarities.Add(item.Rarity);
-                }
-            }
-            
-            comboMagicItemRarity.ItemsSource = magicItemRarities;
-            comboMagicItemRarity.Items.Refresh();
-            comboMagicItemRarity.SelectedIndex = 0; // Set default selection
         }
     }
 }

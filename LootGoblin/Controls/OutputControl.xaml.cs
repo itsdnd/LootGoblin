@@ -77,19 +77,45 @@ namespace LootGoblin.Controls
             Random random = new Random();
             foreach (RandomMagicItem randomItem in programStorage.RandomMagicItemList)
             {
-                if (randomItem.Max == 0)
+                var min = randomItem.Min;
+                var max = randomItem.Max;
+
+                if (max == 0)
                 {
                     continue; // Skip random rarities with max value of 0
                 }
 
-                int amount = random.Next(randomItem.Min, randomItem.Max + 1);
-
                 List<MagicItem> temp = new List<MagicItem>();
                 foreach (MagicItem item in programStorage.MagicItems)
                 {
-                    if (item.Type.Equals(randomItem.Type, StringComparison.CurrentCultureIgnoreCase) && item.Rarity.Equals(randomItem.Rarity, StringComparison.CurrentCultureIgnoreCase))
+                    // Random Type, but set Rarity
+                    if (randomItem.Type.Equals("Random") && !randomItem.Rarity.Equals("Random"))
+                    {
+                        if (item.Rarity.Equals(randomItem.Rarity, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            temp.Add(item);
+                        }
+                    } 
+                    // Random Rarity, but set Type
+                    else if (!randomItem.Type.Equals("Random") && randomItem.Rarity.Equals("Random"))
+                    {
+                        if (item.Type.Equals(randomItem.Type, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            temp.Add(item);
+                        }
+                    } 
+                    // Random Type and Rarity
+                    else if (randomItem.Type.Equals("Random") && randomItem.Rarity.Equals("Random"))
                     {
                         temp.Add(item);
+                    }
+                    // Set Type and Rarity
+                    else
+                    {
+                        if (item.Type.Equals(randomItem.Type, StringComparison.CurrentCultureIgnoreCase) && item.Rarity.Equals(randomItem.Rarity, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            temp.Add(item);
+                        }
                     }
                 }
 
@@ -98,6 +124,8 @@ namespace LootGoblin.Controls
                     continue;
                 }
 
+                if (min > max) min = max;
+                int amount = random.Next(min, max + 1);
                 for (int i = 1; i <= amount; i++)
                 {
                     var selection = temp[random.Next(0, temp.Count)];
