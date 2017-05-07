@@ -348,7 +348,7 @@ namespace LootGoblin.Controls
             comboItemType.ItemsSource = null;
             comboItemType.ItemsSource = programStorage.MagicItemTypes;
             comboItemRarity.ItemsSource = null;
-            comboItemRarity.ItemsSource = programStorage.MagicItemTypes;
+            comboItemRarity.ItemsSource = programStorage.MagicItemRarities;
         }
     }
 }
