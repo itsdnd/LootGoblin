@@ -886,6 +886,8 @@ namespace LootGoblin.Controls
                 var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
                 item.Name = name;
 
+                item.Value = txtArmorSetsValue.Text;
+
                 var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
                 item.Description = desc;
 
@@ -901,6 +903,8 @@ namespace LootGoblin.Controls
                     var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtArmorSetsValue.Text;
+
                     var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
                     editedItem.Description = desc;
 
@@ -908,6 +912,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArmorSetsName.Text = String.Empty;
+                    txtArmorSetsValue.Text = "0";
                     txtArmorSetsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -944,6 +949,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtArmorSetsName.Text = item.Name;
+                        txtArmorSetsValue.Text = item.Value;
                         txtArmorSetsDescription.Text = item.Description;
 
                         btnArmorSetsAddText.Text = "Update Item";
@@ -961,6 +967,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 armorSetItems.Add(newItem);
@@ -1157,6 +1164,8 @@ namespace LootGoblin.Controls
                 var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
                 item.Name = name;
 
+                item.Value = txtArmorPiecesValue.Text;
+
                 var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
                 item.Description = desc;
 
@@ -1172,6 +1181,8 @@ namespace LootGoblin.Controls
                     var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtArmorPiecesValue.Text;
+
                     var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
                     editedItem.Description = desc;
 
@@ -1179,6 +1190,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArmorPiecesName.Text = String.Empty;
+                    txtArmorPiecesValue.Text = "0";
                     txtArmorPiecesDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1215,6 +1227,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtArmorPiecesName.Text = item.Name;
+                        txtArmorPiecesValue.Text = item.Value;
                         txtArmorPiecesDescription.Text = item.Description;
 
                         btnArmorPiecesAddText.Text = "Update Item";
@@ -1232,6 +1245,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 armorPieceItems.Add(newItem);
@@ -1428,6 +1442,8 @@ namespace LootGoblin.Controls
                 var name = (txtWeaponName.Text.Equals(String.Empty)) ? "No name provided" : txtWeaponName.Text;
                 item.Name = name;
 
+                item.Value = txtWeaponValue.Text;
+
                 var desc = (txtWeaponDescription.Text.Equals(String.Empty)) ? "No description provided" : txtWeaponDescription.Text;
                 item.Description = desc;
 
@@ -1443,6 +1459,8 @@ namespace LootGoblin.Controls
                     var name = (txtWeaponName.Text.Equals(String.Empty)) ? "No name provided" : txtWeaponName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtWeaponValue.Text;
+
                     var desc = (txtWeaponDescription.Text.Equals(String.Empty)) ? "No description provided" : txtWeaponDescription.Text;
                     editedItem.Description = desc;
 
@@ -1450,6 +1468,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtWeaponName.Text = String.Empty;
+                    txtWeaponValue.Text = "0";
                     txtWeaponDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1486,6 +1505,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtWeaponName.Text = item.Name;
+                        txtWeaponValue.Text = item.Value;
                         txtWeaponDescription.Text = item.Description;
 
                         btnWeaponAddText.Text = "Update Item";
@@ -1503,6 +1523,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 weaponItems.Add(newItem);
@@ -1699,6 +1720,8 @@ namespace LootGoblin.Controls
                 var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
                 item.Name = name;
 
+                item.Value = txtAmmoValue.Text;
+
                 var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
                 item.Description = desc;
 
@@ -1714,6 +1737,8 @@ namespace LootGoblin.Controls
                     var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtAmmoValue.Text;
+
                     var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
                     editedItem.Description = desc;
 
@@ -1721,6 +1746,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtAmmoName.Text = String.Empty;
+                    txtAmmoValue.Text = "0";
                     txtAmmoDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1757,6 +1783,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtAmmoName.Text = item.Name;
+                        txtAmmoValue.Text = item.Value;
                         txtAmmoDescription.Text = item.Description;
 
                         btnAmmoAddText.Text = "Update Item";
@@ -1774,6 +1801,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 ammoItems.Add(newItem);
@@ -1970,6 +1998,8 @@ namespace LootGoblin.Controls
                 var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
                 item.Name = name;
 
+                item.Value = txtClothingValue.Text;
+
                 var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
                 item.Description = desc;
 
@@ -1985,6 +2015,8 @@ namespace LootGoblin.Controls
                     var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtClothingValue.Text;
+
                     var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
                     editedItem.Description = desc;
 
@@ -1992,6 +2024,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtClothingName.Text = String.Empty;
+                    txtClothingValue.Text = "0";
                     txtClothingDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2028,6 +2061,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtClothingName.Text = item.Name;
+                        txtClothingValue.Text = item.Value;
                         txtClothingDescription.Text = item.Description;
 
                         btnClothingAddText.Text = "Update Item";
@@ -2045,6 +2079,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 clothingItems.Add(newItem);
@@ -2241,6 +2276,8 @@ namespace LootGoblin.Controls
                 var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
                 item.Name = name;
 
+                item.Value = txtClothingAccessoriesValue.Text;
+
                 var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
                 item.Description = desc;
 
@@ -2256,6 +2293,8 @@ namespace LootGoblin.Controls
                     var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtClothingAccessoriesValue.Text;
+
                     var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
                     editedItem.Description = desc;
 
@@ -2263,6 +2302,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtClothingAccessoriesName.Text = String.Empty;
+                    txtClothingAccessoriesValue.Text = "0";
                     txtClothingAccessoriesDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2299,6 +2339,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtClothingAccessoriesName.Text = item.Name;
+                        txtClothingAccessoriesValue.Text = item.Value;
                         txtClothingAccessoriesDescription.Text = item.Description;
 
                         btnClothingAccessoriesAddText.Text = "Update Item";
@@ -2316,6 +2357,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 clothingAccessoriesItems.Add(newItem);
@@ -2512,6 +2554,8 @@ namespace LootGoblin.Controls
                 var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
                 item.Name = name;
 
+                item.Value = txtFoodDrinkValue.Text;
+
                 var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
                 item.Description = desc;
 
@@ -2527,6 +2571,8 @@ namespace LootGoblin.Controls
                     var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtFoodDrinkValue.Text;
+
                     var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
                     editedItem.Description = desc;
 
@@ -2534,6 +2580,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtFoodDrinkName.Text = String.Empty;
+                    txtFoodDrinkValue.Text = "0";
                     txtFoodDrinkDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2570,6 +2617,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtFoodDrinkName.Text = item.Name;
+                        txtFoodDrinkValue.Text = item.Value;
                         txtFoodDrinkDescription.Text = item.Description;
 
                         btnFoodDrinkAddText.Text = "Update Item";
@@ -2587,6 +2635,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 foodDrinksItems.Add(newItem);
@@ -2783,6 +2832,8 @@ namespace LootGoblin.Controls
                 var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
                 item.Name = name;
 
+                item.Value = txtTradeGoodsValue.Text;
+
                 var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
                 item.Description = desc;
 
@@ -2798,6 +2849,8 @@ namespace LootGoblin.Controls
                     var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtTradeGoodsValue.Text;
+
                     var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
                     editedItem.Description = desc;
 
@@ -2805,6 +2858,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtTradeGoodsName.Text = String.Empty;
+                    txtTradeGoodsValue.Text = "0";
                     txtTradeGoodsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2841,6 +2895,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtTradeGoodsName.Text = item.Name;
+                        txtTradeGoodsValue.Text = item.Value;
                         txtTradeGoodsDescription.Text = item.Description;
 
                         btnTradeGoodsAddText.Text = "Update Item";
@@ -2858,6 +2913,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 tradeGoodsItems.Add(newItem);
@@ -3054,6 +3110,8 @@ namespace LootGoblin.Controls
                 var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
                 item.Name = name;
 
+                item.Value = txtPreciousItemsValue.Text;
+
                 var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
                 item.Description = desc;
 
@@ -3069,6 +3127,8 @@ namespace LootGoblin.Controls
                     var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtPreciousItemsValue.Text;
+
                     var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
                     editedItem.Description = desc;
 
@@ -3076,6 +3136,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtPreciousItemsName.Text = String.Empty;
+                    txtPreciousItemsValue.Text = "0";
                     txtPreciousItemsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3112,6 +3173,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtPreciousItemsName.Text = item.Name;
+                        txtPreciousItemsValue.Text = item.Value;
                         txtPreciousItemsDescription.Text = item.Description;
 
                         btnPreciousItemsAddText.Text = "Update Item";
@@ -3129,6 +3191,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 preciousItems.Add(newItem);
@@ -3325,6 +3388,8 @@ namespace LootGoblin.Controls
                 var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
                 item.Name = name;
 
+                item.Value = txtArtDecorValue.Text;
+
                 var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
                 item.Description = desc;
 
@@ -3340,6 +3405,8 @@ namespace LootGoblin.Controls
                     var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtArtDecorValue.Text;
+
                     var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
                     editedItem.Description = desc;
 
@@ -3347,6 +3414,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArtDecorName.Text = String.Empty;
+                    txtArtDecorValue.Text = "0";
                     txtArtDecorDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3383,6 +3451,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtArtDecorName.Text = item.Name;
+                        txtArtDecorValue.Text = item.Value;
                         txtArtDecorDescription.Text = item.Description;
 
                         btnArtDecorAddText.Text = "Update Item";
@@ -3400,6 +3469,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 artDecorItems.Add(newItem);
@@ -3596,6 +3666,8 @@ namespace LootGoblin.Controls
                 var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
                 item.Name = name;
 
+                item.Value = txtBooksPapersValue.Text;
+
                 var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
                 item.Description = desc;
 
@@ -3611,6 +3683,8 @@ namespace LootGoblin.Controls
                     var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtBooksPapersValue.Text;
+
                     var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
                     editedItem.Description = desc;
 
@@ -3618,6 +3692,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtBooksPapersName.Text = String.Empty;
+                    txtBooksPapersValue.Text = "0";
                     txtBooksPapersDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3654,6 +3729,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtBooksPapersName.Text = item.Name;
+                        txtBooksPapersValue.Text = item.Value;
                         txtBooksPapersDescription.Text = item.Description;
 
                         btnBooksPapersAddText.Text = "Update Item";
@@ -3671,6 +3747,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 booksPapersItems.Add(newItem);
@@ -3867,6 +3944,8 @@ namespace LootGoblin.Controls
                 var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
                 item.Name = name;
 
+                item.Value = txtOtherValue.Text;
+
                 var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
                 item.Description = desc;
 
@@ -3882,6 +3961,8 @@ namespace LootGoblin.Controls
                     var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
                     editedItem.Name = name;
 
+                    editedItem.Value = txtOtherValue.Text;
+
                     var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
                     editedItem.Description = desc;
 
@@ -3889,6 +3970,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtOtherName.Text = String.Empty;
+                    txtOtherValue.Text = "0";
                     txtOtherDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3925,6 +4007,7 @@ namespace LootGoblin.Controls
                         editedItem = item;
 
                         txtOtherName.Text = item.Name;
+                        txtOtherValue.Text = item.Value;
                         txtOtherDescription.Text = item.Description;
 
                         btnOtherAddText.Text = "Update Item";
@@ -3942,6 +4025,7 @@ namespace LootGoblin.Controls
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
+                newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
                 otherItems.Add(newItem);
