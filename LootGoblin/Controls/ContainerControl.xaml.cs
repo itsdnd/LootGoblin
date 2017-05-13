@@ -23,9 +23,18 @@ namespace LootGoblin.Controls
         private string originalFileName = String.Empty;
         private Item editedItem = null;
 
-        private List<Item> armorItems;
+        private List<Item> armorSetItems;
+        private List<Item> armorPieceItems;
         private List<Item> weaponItems;
-        private List<Item> gearItems;
+        private List<Item> ammoItems;
+        private List<Item> clothingItems;
+        private List<Item> clothingAccessoriesItems;
+        private List<Item> foodDrinksItems;
+        private List<Item> tradeGoodsItems;
+        private List<Item> preciousItems;
+        private List<Item> artDecorItems;
+        private List<Item> booksPapersItems;
+        private List<Item> otherItems;
 
         private const int Number_Maximum = 1000000;
 
@@ -139,21 +148,57 @@ namespace LootGoblin.Controls
             txtPlatinumMin.Text = container.PlatinumMin.ToString();
             txtPlatinumMax.Text = container.PlatinumMax.ToString();
 
-            armorItems = new List<Item>(container.Armor);
-            dataArmorItems.ItemsSource = armorItems;
+            armorSetItems = new List<Item>(container.ArmorSets);
+            dataArmorSetsItems.ItemsSource = armorSetItems;
+            armorPieceItems = new List<Item>(container.ArmorPieces);
+            dataArmorPieces.ItemsSource = armorPieceItems;
             weaponItems = new List<Item>(container.Weapons);
             dataWeaponItems.ItemsSource = weaponItems;
-            gearItems = new List<Item>(container.Gear);
-            dataGearItems.ItemsSource = gearItems;
+            ammoItems = new List<Item>(container.Ammo);
+            dataAmmoItems.ItemsSource = ammoItems;
+            clothingItems = new List<Item>(container.Clothing);
+            dataClothingItems.ItemsSource = clothingItems;
+            clothingAccessoriesItems = new List<Item>(container.ClothingAccessories);
+            dataClothingAccessoriesItems.ItemsSource = clothingAccessoriesItems;
+            foodDrinksItems = new List<Item>(container.FoodDrinks);
+            dataFoodDrinkItems.ItemsSource = foodDrinksItems;
+            tradeGoodsItems = new List<Item>(container.TradeGoods);
+            dataTradeGoodsItems.ItemsSource = tradeGoodsItems;
+            preciousItems = new List<Item>(container.PreciousItems);
+            dataPreciousItems.ItemsSource = preciousItems;
+            artDecorItems = new List<Item>(container.ArtDecor);
+            dataArtDecorItems.ItemsSource = artDecorItems;
+            booksPapersItems = new List<Item>(container.BooksPapers);
+            dataBooksPapersItems.ItemsSource = booksPapersItems;     
+            otherItems = new List<Item>(container.OtherItems);
+            dataOtherItems.ItemsSource = otherItems;
 
             UpdateTotalItemsAvailable(); // Update mins/maxes before setting values
 
-            txtArmorMin.Text = container.ArmorMin.ToString();
+            txtArmorSetsMin.Text = container.ArmorSetsMin.ToString();
+            txtArmorSetsMax.Text = container.ArmorSetsMax.ToString();
+            txtArmorPiecesMin.Text = container.ArmorPiecesMin.ToString();
+            txtArmorPiecesMax.Text = container.ArmorPiecesMax.ToString();
+            txtWeaponMin.Text = container.WeaponsMin.ToString();
             txtWeaponMax.Text = container.WeaponsMax.ToString();
-            txtArmorMax.Text = container.ArmorMax.ToString();
-            txtWeaponMax.Text = container.WeaponsMax.ToString();
-            txtGearMin.Text = container.GearMin.ToString();
-            txtGearMax.Text = container.GearMax.ToString();
+            txtAmmoMin.Text = container.AmmoMin.ToString();
+            txtAmmoMax.Text = container.AmmoMax.ToString();
+            txtClothingMin.Text = container.ClothingMin.ToString();
+            txtClothingMax.Text = container.ClothingMax.ToString();
+            txtClothingAccessoriesMin.Text = container.ClothingAccessoriesMin.ToString();
+            txtClothingAccessoriesMax.Text = container.ClothingAccessoriesMax.ToString();
+            txtFoodDrinkMin.Text = container.FoodDrinksMin.ToString();
+            txtFoodDrinkMax.Text = container.FoodDrinksMax.ToString();
+            txtTradeGoodsMin.Text = container.TradeGoodsMin.ToString();
+            txtTradeGoodsMax.Text = container.TradeGoodsMax.ToString();
+            txtPreciousItemsMin.Text = container.PreciousItemsMin.ToString();
+            txtPreciousItemsMax.Text = container.PreciousItemsMax.ToString();
+            txtArtDecorMin.Text = container.ArtDecorMin.ToString();
+            txtArtDecorMax.Text = container.ArtDecorMax.ToString();
+            txtBooksPapersMin.Text = container.BooksPapersMin.ToString();
+            txtBooksPapersMax.Text = container.BooksPapersMax.ToString();
+            txtOtherMin.Text = container.OtherItemsMin.ToString();
+            txtOtherMax.Text = container.OtherItemsMax.ToString();
 
             txtMundaneMin.Text = container.MundaneMin.ToString();
             txtMundaneMax.Text = container.MundaneMax.ToString();
@@ -709,33 +754,143 @@ namespace LootGoblin.Controls
         }
 
         //================================================================================
-        // Armor Details
+        // Mundane Items
         //================================================================================
 
-        private void txtArmorName_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnMundaneEdit_Click(object sender, RoutedEventArgs e)
         {
+            MundaneItemsWindow mundane = new MundaneItemsWindow();
+            mundane.ShowDialog();
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void txtMundaneMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtMundaneMax != null)
+            {
+                var min = Convert.ToInt32(txtMundaneMin.Text);
+                var max = Convert.ToInt32(txtMundaneMax.Text);
+
+                if (min > max)
+                {
+                    txtMundaneMax.Text = min.ToString();
+                }
+            }
+
             ChangeHappened();
         }
 
-        private void btnArmorAdd_Click(object sender, RoutedEventArgs e)
+        private void txtMundaneMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtMundaneMin.Text);
+            var max = Convert.ToInt32(txtMundaneMax.Text);
+
+            if (max < min)
+            {
+                txtMundaneMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnMundaneMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtMundaneMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtMundaneMax.Text))
+            {
+                txtMundaneMax.Text = value.ToString();
+            }
+
+            txtMundaneMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnMundaneMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtMundaneMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtMundaneMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnMundaneMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtMundaneMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtMundaneMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnMundaneMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtMundaneMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtMundaneMin.Text))
+            {
+                txtMundaneMin.Text = value.ToString();
+            }
+
+            txtMundaneMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Armor Sets
+        //================================================================================
+
+        private void btnArmorSetsAdd_Click(object sender, RoutedEventArgs e)
         {
             if (currentContainer == null)
             {
                 return;
             }
 
-            if (btnArmorAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            if (btnArmorSetsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
             {
                 Item item = new Item();
 
-                var name = (txtArmorName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorName.Text;
+                var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
                 item.Name = name;
 
-                var desc = (txtArmorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorDescription.Text;
+                var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
                 item.Description = desc;
 
-                armorItems.Add(item);
-                dataArmorItems.Items.Refresh();
+                armorSetItems.Add(item);
+                dataArmorSetsItems.Items.Refresh();
 
                 ChangeHappened();
             }
@@ -743,30 +898,30 @@ namespace LootGoblin.Controls
             { // Update item
                 if (editedItem != null)
                 {
-                    var name = (txtArmorName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorName.Text;
+                    var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
                     editedItem.Name = name;
 
-                    var desc = (txtArmorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorDescription.Text;
+                    var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
                     editedItem.Description = desc;
 
-                    dataArmorItems.Items.Refresh();
+                    dataArmorSetsItems.Items.Refresh();
 
                     // Reset inputs
-                    txtArmorName.Text = String.Empty;
-                    txtArmorDescription.Text = String.Empty;
+                    txtArmorSetsName.Text = String.Empty;
+                    txtArmorSetsDescription.Text = String.Empty;
 
                     ChangeHappened();
                 }
 
-                btnArmorAddText.Text = "Add Item";
+                btnArmorSetsAddText.Text = "Add Item";
             }
 
             UpdateTotalItemsAvailable();
         }
 
-        private void btnArmorEdit_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dataArmorItems.Items.Count < 1)
+            if (dataArmorSetsItems.Items.Count < 1)
             {
                 return;
             }
@@ -780,18 +935,18 @@ namespace LootGoblin.Controls
                 }
             }
 
-            foreach (Item item in dataArmorItems.SelectedItems)
+            foreach (Item item in dataArmorSetsItems.SelectedItems)
             {
-                foreach (Item listItem in armorItems)
+                foreach (Item listItem in armorSetItems)
                 {
                     if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
                         editedItem = item;
 
-                        txtArmorName.Text = item.Name;
-                        txtArmorDescription.Text = item.Description;
+                        txtArmorSetsName.Text = item.Name;
+                        txtArmorSetsDescription.Text = item.Description;
 
-                        btnArmorAddText.Text = "Update Item";
+                        btnArmorSetsAddText.Text = "Update Item";
 
                         return; // Get only first selected item
                     }
@@ -799,28 +954,28 @@ namespace LootGoblin.Controls
             }
         }
 
-        private void btnArmorDuplicate_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsDuplicate_Click(object sender, RoutedEventArgs e)
         {
             // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataArmorItems.SelectedItems)
+            foreach (Item item in dataArmorSetsItems.SelectedItems)
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
                 newItem.Description = item.Description;
 
-                armorItems.Add(newItem);
+                armorSetItems.Add(newItem);
             }
 
-            dataArmorItems.Items.Refresh(); // Refresh the item source
+            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
             ChangeHappened();
         }
 
-        private void btnArmorRemove_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (dataArmorItems.Items.Count < 1)
+            if (dataArmorSetsItems.Items.Count < 1)
             {
                 return;
             }
@@ -835,28 +990,28 @@ namespace LootGoblin.Controls
             }
 
             // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataArmorItems.SelectedItems)
+            foreach (Item item in dataArmorSetsItems.SelectedItems)
             {
-                foreach (Item listItem in armorItems)
+                foreach (Item listItem in armorSetItems)
                 {
                     if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        armorItems.Remove(item);
+                        armorSetItems.Remove(item);
                         break;
                     }
                 }
             }
 
-            dataArmorItems.Items.Refresh(); // Refresh the item source
+            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
             ChangeHappened();
         }
 
-        private void btnArmorClear_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsClear_Click(object sender, RoutedEventArgs e)
         {
-            if (dataArmorItems.Items.Count < 1)
+            if (dataArmorSetsItems.Items.Count < 1)
             {
                 return;
             }
@@ -870,53 +1025,53 @@ namespace LootGoblin.Controls
                 }
             }
 
-            // Remove all from the encounter list
-            armorItems.Clear();
-            dataArmorItems.Items.Refresh(); // Refresh the item source
+            // Remove all from the list
+            armorSetItems.Clear();
+            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
-            btnArmorAddText.Text = "Add To Item List"; // Failsafe
+            btnArmorSetsAddText.Text = "Add To Item List"; // Failsafe
 
             ChangeHappened();
         }
 
-        private void txtArmorMin_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtArmorSetsMin_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            if (txtArmorMax != null)
+            if (txtArmorSetsMax != null)
             {
-                var min = Convert.ToInt32(txtArmorMin.Text);
-                var max = Convert.ToInt32(txtArmorMax.Text);
+                var min = Convert.ToInt32(txtArmorSetsMin.Text);
+                var max = Convert.ToInt32(txtArmorSetsMax.Text);
 
                 if (min > max)
                 {
-                    txtArmorMax.Text = min.ToString();
+                    txtArmorSetsMax.Text = min.ToString();
                 }
             }
 
             ChangeHappened();
         }
 
-        private void txtArmorMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtArmorSetsMax_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            var min = Convert.ToInt32(txtArmorMin.Text);
-            var max = Convert.ToInt32(txtArmorMax.Text);
+            var min = Convert.ToInt32(txtArmorSetsMin.Text);
+            var max = Convert.ToInt32(txtArmorSetsMax.Text);
           
             if (max < min)
             {
-                txtArmorMin.Text = max.ToString();
+                txtArmorSetsMin.Text = max.ToString();
             }
 
             ChangeHappened();
         }
 
-        private void btnArmorMinUp_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsMinUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtArmorMin.Text);
+            var value = Convert.ToInt32(txtArmorSetsMin.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -924,19 +1079,19 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            if (value > Convert.ToInt32(txtArmorMax.Text))
+            if (value > Convert.ToInt32(txtArmorSetsMax.Text))
             {
-                txtArmorMax.Text = value.ToString();
+                txtArmorSetsMax.Text = value.ToString();
             }
 
-            txtArmorMin.Text = value.ToString();
+            txtArmorSetsMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnArmorMinDown_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsMinDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtArmorMin.Text);
+            var value = Convert.ToInt32(txtArmorSetsMin.Text);
             value--;
 
             if (value < 0)
@@ -944,14 +1099,14 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            txtArmorMin.Text = value.ToString();
+            txtArmorSetsMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnArmorMaxUp_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsMaxUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtArmorMax.Text);
+            var value = Convert.ToInt32(txtArmorSetsMax.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -959,14 +1114,14 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            txtArmorMax.Text = value.ToString();
+            txtArmorSetsMax.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnArmorMaxDown_Click(object sender, RoutedEventArgs e)
+        private void btnArmorSetsMaxDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtArmorMax.Text);
+            var value = Convert.ToInt32(txtArmorSetsMax.Text);
             value--;
 
             if (value < 0)
@@ -974,24 +1129,290 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            if (value < Convert.ToInt32(txtArmorMin.Text))
+            if (value < Convert.ToInt32(txtArmorSetsMin.Text))
             {
-                txtArmorMin.Text = value.ToString();
+                txtArmorSetsMin.Text = value.ToString();
             }
 
-            txtArmorMax.Text = value.ToString();
+            txtArmorSetsMax.Text = value.ToString();
 
             ChangeHappened();
         }
 
         //================================================================================
-        // Weapon Details
+        // Armor Pieces
         //================================================================================
 
-        private void txtWeaponName_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnArmorPiecesAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnArmorPiecesAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
+                item.Name = name;
+
+                var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
+                item.Description = desc;
+
+                armorPieceItems.Add(item);
+                dataArmorPieces.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataArmorPieces.Items.Refresh();
+
+                    // Reset inputs
+                    txtArmorPiecesName.Text = String.Empty;
+                    txtArmorPiecesDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnArmorPiecesAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnArmorPiecesEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArmorPieces.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataArmorPieces.SelectedItems)
+            {
+                foreach (Item listItem in armorPieceItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtArmorPiecesName.Text = item.Name;
+                        txtArmorPiecesDescription.Text = item.Description;
+
+                        btnArmorPiecesAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnArmorPiecesDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataArmorPieces.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                armorPieceItems.Add(newItem);
+            }
+
+            dataArmorPieces.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
             ChangeHappened();
         }
+
+        private void btnArmorPiecesRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArmorPieces.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataArmorPieces.SelectedItems)
+            {
+                foreach (Item listItem in armorPieceItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        armorPieceItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataArmorPieces.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArmorPieces.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            armorPieceItems.Clear();
+            dataArmorPieces.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnArmorPiecesAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtArmorPiecesMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtArmorPiecesMax != null)
+            {
+                var min = Convert.ToInt32(txtArmorPiecesMin.Text);
+                var max = Convert.ToInt32(txtArmorPiecesMax.Text);
+
+                if (min > max)
+                {
+                    txtArmorPiecesMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtArmorPiecesMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtArmorPiecesMin.Text);
+            var max = Convert.ToInt32(txtArmorPiecesMax.Text);
+
+            if (max < min)
+            {
+                txtArmorPiecesMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArmorPiecesMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtArmorPiecesMax.Text))
+            {
+                txtArmorPiecesMax.Text = value.ToString();
+            }
+
+            txtArmorPiecesMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArmorPiecesMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtArmorPiecesMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArmorPiecesMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtArmorPiecesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArmorPiecesMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtArmorPiecesMin.Text))
+            {
+                txtArmorPiecesMin.Text = value.ToString();
+            }
+
+            txtArmorPiecesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Weapons
+        //================================================================================
 
         private void btnWeaponAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -1146,7 +1567,7 @@ namespace LootGoblin.Controls
                 }
             }
 
-            // Remove all from the encounter list
+            // Remove all from the list
             weaponItems.Clear();
             dataWeaponItems.Items.Refresh(); // Refresh the item source
 
@@ -1261,33 +1682,28 @@ namespace LootGoblin.Controls
         }
 
         //================================================================================
-        // Gear Details
+        // Ammo
         //================================================================================
 
-        private void txtGearName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ChangeHappened();
-        }
-
-        private void btnGearAdd_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoAdd_Click(object sender, RoutedEventArgs e)
         {
             if (currentContainer == null)
             {
                 return;
             }
 
-            if (btnGearAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            if (btnAmmoAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
             {
                 Item item = new Item();
 
-                var name = (txtGearName.Text.Equals(String.Empty)) ? "No name provided" : txtGearName.Text;
+                var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
                 item.Name = name;
 
-                var desc = (txtGearDescription.Text.Equals(String.Empty)) ? "No description provided" : txtGearDescription.Text;
+                var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
                 item.Description = desc;
 
-                gearItems.Add(item);
-                dataGearItems.Items.Refresh();
+                ammoItems.Add(item);
+                dataAmmoItems.Items.Refresh();
 
                 ChangeHappened();
             }
@@ -1295,30 +1711,30 @@ namespace LootGoblin.Controls
             { // Update item
                 if (editedItem != null)
                 {
-                    var name = (txtGearName.Text.Equals(String.Empty)) ? "No name provided" : txtGearName.Text;
+                    var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
                     editedItem.Name = name;
 
-                    var desc = (txtGearDescription.Text.Equals(String.Empty)) ? "No description provided" : txtGearDescription.Text;
+                    var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
                     editedItem.Description = desc;
 
-                    dataGearItems.Items.Refresh();
+                    dataAmmoItems.Items.Refresh();
 
                     // Reset inputs
-                    txtGearName.Text = String.Empty;
-                    txtGearDescription.Text = String.Empty;
+                    txtAmmoName.Text = String.Empty;
+                    txtAmmoDescription.Text = String.Empty;
 
                     ChangeHappened();
                 }
 
-                btnGearAddText.Text = "Add Item";
+                btnAmmoAddText.Text = "Add Item";
             }
 
             UpdateTotalItemsAvailable();
         }
 
-        private void btnGearEdit_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGearItems.Items.Count < 1)
+            if (dataAmmoItems.Items.Count < 1)
             {
                 return;
             }
@@ -1332,18 +1748,18 @@ namespace LootGoblin.Controls
                 }
             }
 
-            foreach (Item item in dataGearItems.SelectedItems)
+            foreach (Item item in dataAmmoItems.SelectedItems)
             {
-                foreach (Item listItem in gearItems)
+                foreach (Item listItem in ammoItems)
                 {
                     if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
                         editedItem = item;
 
-                        txtGearName.Text = item.Name;
-                        txtGearDescription.Text = item.Description;
+                        txtAmmoName.Text = item.Name;
+                        txtAmmoDescription.Text = item.Description;
 
-                        btnGearAddText.Text = "Update Item";
+                        btnAmmoAddText.Text = "Update Item";
 
                         return; // Get only first selected item
                     }
@@ -1351,28 +1767,28 @@ namespace LootGoblin.Controls
             }
         }
 
-        private void btnGearDuplicate_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoDuplicate_Click(object sender, RoutedEventArgs e)
         {
             // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataGearItems.SelectedItems)
+            foreach (Item item in dataAmmoItems.SelectedItems)
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
                 newItem.Description = item.Description;
 
-                gearItems.Add(newItem);
+                ammoItems.Add(newItem);
             }
 
-            dataGearItems.Items.Refresh(); // Refresh the item source
+            dataAmmoItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
             ChangeHappened();
         }
 
-        private void btnGearRemove_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGearItems.Items.Count < 1)
+            if (dataAmmoItems.Items.Count < 1)
             {
                 return;
             }
@@ -1387,28 +1803,28 @@ namespace LootGoblin.Controls
             }
 
             // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataGearItems.SelectedItems)
+            foreach (Item item in dataAmmoItems.SelectedItems)
             {
-                foreach (Item listItem in gearItems)
+                foreach (Item listItem in ammoItems)
                 {
                     if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        gearItems.Remove(item);
+                        ammoItems.Remove(item);
                         break;
                     }
                 }
             }
 
-            dataGearItems.Items.Refresh(); // Refresh the item source
+            dataAmmoItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
             ChangeHappened();
         }
 
-        private void btnGearClear_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoClear_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGearItems.Items.Count < 1)
+            if (dataAmmoItems.Items.Count < 1)
             {
                 return;
             }
@@ -1422,53 +1838,53 @@ namespace LootGoblin.Controls
                 }
             }
 
-            // Remove all from the encounter list
-            gearItems.Clear();
-            dataGearItems.Items.Refresh(); // Refresh the item source
+            // Remove all from the list
+            ammoItems.Clear();
+            dataAmmoItems.Items.Refresh(); // Refresh the item source
 
             UpdateTotalItemsAvailable();
 
-            btnGearAddText.Text = "Add To Item List"; // Failsafe
+            btnAmmoAddText.Text = "Add To Item List"; // Failsafe
 
             ChangeHappened();
         }
 
-        private void txtGearMin_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtAmmoMin_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            if (txtGearMax != null)
+            if (txtAmmoMax != null)
             {
-                var min = Convert.ToInt32(txtGearMin.Text);
-                var max = Convert.ToInt32(txtGearMax.Text);
+                var min = Convert.ToInt32(txtAmmoMin.Text);
+                var max = Convert.ToInt32(txtAmmoMax.Text);
 
                 if (min > max)
                 {
-                    txtGearMax.Text = min.ToString();
+                    txtAmmoMax.Text = min.ToString();
                 }
             }
 
             ChangeHappened();
         }
 
-        private void txtGearMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtAmmoMax_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            var min = Convert.ToInt32(txtGearMin.Text);
-            var max = Convert.ToInt32(txtGearMax.Text);
+            var min = Convert.ToInt32(txtAmmoMin.Text);
+            var max = Convert.ToInt32(txtAmmoMax.Text);
 
             if (max < min)
             {
-                txtGearMin.Text = max.ToString();
+                txtAmmoMin.Text = max.ToString();
             }
 
             ChangeHappened();
         }
 
-        private void btnGearMinUp_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoMinUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtGearMin.Text);
+            var value = Convert.ToInt32(txtAmmoMin.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -1476,19 +1892,19 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            if (value > Convert.ToInt32(txtGearMax.Text))
+            if (value > Convert.ToInt32(txtAmmoMax.Text))
             {
-                txtGearMax.Text = value.ToString();
+                txtAmmoMax.Text = value.ToString();
             }
 
-            txtGearMin.Text = value.ToString();
+            txtAmmoMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnGearMinDown_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoMinDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtGearMin.Text);
+            var value = Convert.ToInt32(txtAmmoMin.Text);
             value--;
 
             if (value < 0)
@@ -1496,14 +1912,14 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            txtGearMin.Text = value.ToString();
+            txtAmmoMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnGearMaxUp_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoMaxUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtGearMax.Text);
+            var value = Convert.ToInt32(txtAmmoMax.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -1511,14 +1927,14 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            txtGearMax.Text = value.ToString();
+            txtAmmoMax.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnGearMaxDown_Click(object sender, RoutedEventArgs e)
+        private void btnAmmoMaxDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtGearMax.Text);
+            var value = Convert.ToInt32(txtAmmoMax.Text);
             value--;
 
             if (value < 0)
@@ -1526,64 +1942,220 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            if (value < Convert.ToInt32(txtGearMin.Text))
+            if (value < Convert.ToInt32(txtAmmoMin.Text))
             {
-                txtGearMin.Text = value.ToString();
+                txtAmmoMin.Text = value.ToString();
             }
 
-            txtGearMax.Text = value.ToString();
+            txtAmmoMax.Text = value.ToString();
 
             ChangeHappened();
         }
 
         //================================================================================
-        // Mundane Items
+        // Clothing
         //================================================================================
 
-        private void btnMundaneEdit_Click(object sender, RoutedEventArgs e)
+        private void btnClothingAdd_Click(object sender, RoutedEventArgs e)
         {
-            MundaneItemsWindow mundane = new MundaneItemsWindow();
-            mundane.ShowDialog();
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnClothingAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
+                item.Name = name;
+
+                var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
+                item.Description = desc;
+
+                clothingItems.Add(item);
+                dataClothingItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataClothingItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtClothingName.Text = String.Empty;
+                    txtClothingDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnClothingAddText.Text = "Add Item";
+            }
 
             UpdateTotalItemsAvailable();
         }
 
-        private void txtMundaneMin_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnClothingEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataClothingItems.SelectedItems)
+            {
+                foreach (Item listItem in clothingItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtClothingName.Text = item.Name;
+                        txtClothingDescription.Text = item.Description;
+
+                        btnClothingAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnClothingDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataClothingItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                clothingItems.Add(newItem);
+            }
+
+            dataClothingItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataClothingItems.SelectedItems)
+            {
+                foreach (Item listItem in clothingItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        clothingItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataClothingItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            clothingItems.Clear();
+            dataClothingItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnClothingAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtClothingMin_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            if (txtMundaneMax != null)
+            if (txtClothingMax != null)
             {
-                var min = Convert.ToInt32(txtMundaneMin.Text);
-                var max = Convert.ToInt32(txtMundaneMax.Text);
+                var min = Convert.ToInt32(txtClothingMin.Text);
+                var max = Convert.ToInt32(txtClothingMax.Text);
 
                 if (min > max)
                 {
-                    txtMundaneMax.Text = min.ToString();
+                    txtClothingMax.Text = min.ToString();
                 }
             }
 
             ChangeHappened();
         }
 
-        private void txtMundaneMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtClothingMax_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            var min = Convert.ToInt32(txtMundaneMin.Text);
-            var max = Convert.ToInt32(txtMundaneMax.Text);
+            var min = Convert.ToInt32(txtClothingMin.Text);
+            var max = Convert.ToInt32(txtClothingMax.Text);
 
             if (max < min)
             {
-                txtMundaneMin.Text = max.ToString();
+                txtClothingMin.Text = max.ToString();
             }
 
             ChangeHappened();
         }
 
-        private void btnMundaneMinUp_Click(object sender, RoutedEventArgs e)
+        private void btnClothingMinUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtMundaneMin.Text);
+            var value = Convert.ToInt32(txtClothingMin.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -1591,19 +2163,19 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            if (value > Convert.ToInt32(txtMundaneMax.Text))
+            if (value > Convert.ToInt32(txtClothingMax.Text))
             {
-                txtMundaneMax.Text = value.ToString();
+                txtClothingMax.Text = value.ToString();
             }
 
-            txtMundaneMin.Text = value.ToString();
+            txtClothingMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnMundaneMinDown_Click(object sender, RoutedEventArgs e)
+        private void btnClothingMinDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtMundaneMin.Text);
+            var value = Convert.ToInt32(txtClothingMin.Text);
             value--;
 
             if (value < 0)
@@ -1611,14 +2183,14 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            txtMundaneMin.Text = value.ToString();
+            txtClothingMin.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnMundaneMaxUp_Click(object sender, RoutedEventArgs e)
+        private void btnClothingMaxUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtMundaneMax.Text);
+            var value = Convert.ToInt32(txtClothingMax.Text);
             value++;
 
             if (value > Number_Maximum)
@@ -1626,14 +2198,14 @@ namespace LootGoblin.Controls
                 value = Number_Maximum;
             }
 
-            txtMundaneMax.Text = value.ToString();
+            txtClothingMax.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnMundaneMaxDown_Click(object sender, RoutedEventArgs e)
+        private void btnClothingMaxDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtMundaneMax.Text);
+            var value = Convert.ToInt32(txtClothingMax.Text);
             value--;
 
             if (value < 0)
@@ -1641,12 +2213,1909 @@ namespace LootGoblin.Controls
                 value = 0;
             }
 
-            if (value < Convert.ToInt32(txtMundaneMin.Text))
+            if (value < Convert.ToInt32(txtClothingMin.Text))
             {
-                txtMundaneMin.Text = value.ToString();
+                txtClothingMin.Text = value.ToString();
             }
 
-            txtMundaneMax.Text = value.ToString();
+            txtClothingMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Clothing Accessories
+        //================================================================================
+
+        private void btnClothingAccessoriesAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnClothingAccessoriesAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
+                item.Name = name;
+
+                var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
+                item.Description = desc;
+
+                clothingAccessoriesItems.Add(item);
+                dataClothingAccessoriesItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataClothingAccessoriesItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtClothingAccessoriesName.Text = String.Empty;
+                    txtClothingAccessoriesDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnClothingAccessoriesAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnClothingAccessoriesEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingAccessoriesItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
+            {
+                foreach (Item listItem in clothingAccessoriesItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtClothingAccessoriesName.Text = item.Name;
+                        txtClothingAccessoriesDescription.Text = item.Description;
+
+                        btnClothingAccessoriesAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnClothingAccessoriesDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                clothingAccessoriesItems.Add(newItem);
+            }
+
+            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingAccessoriesItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
+            {
+                foreach (Item listItem in clothingAccessoriesItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        clothingAccessoriesItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataClothingAccessoriesItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            clothingAccessoriesItems.Clear();
+            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnClothingAccessoriesAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtClothingAccessoriesMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtClothingAccessoriesMax != null)
+            {
+                var min = Convert.ToInt32(txtClothingAccessoriesMin.Text);
+                var max = Convert.ToInt32(txtClothingAccessoriesMax.Text);
+
+                if (min > max)
+                {
+                    txtClothingAccessoriesMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtClothingAccessoriesMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtClothingAccessoriesMin.Text);
+            var max = Convert.ToInt32(txtClothingAccessoriesMax.Text);
+
+            if (max < min)
+            {
+                txtClothingAccessoriesMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtClothingAccessoriesMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtClothingAccessoriesMax.Text))
+            {
+                txtClothingAccessoriesMax.Text = value.ToString();
+            }
+
+            txtClothingAccessoriesMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtClothingAccessoriesMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtClothingAccessoriesMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtClothingAccessoriesMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtClothingAccessoriesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtClothingAccessoriesMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtClothingAccessoriesMin.Text))
+            {
+                txtClothingAccessoriesMin.Text = value.ToString();
+            }
+
+            txtClothingAccessoriesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Food Drink
+        //================================================================================
+
+        private void btnFoodDrinkAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnFoodDrinkAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
+                item.Name = name;
+
+                var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
+                item.Description = desc;
+
+                foodDrinksItems.Add(item);
+                dataFoodDrinkItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataFoodDrinkItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtFoodDrinkName.Text = String.Empty;
+                    txtFoodDrinkDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnFoodDrinkAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnFoodDrinkEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataFoodDrinkItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataFoodDrinkItems.SelectedItems)
+            {
+                foreach (Item listItem in foodDrinksItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtFoodDrinkName.Text = item.Name;
+                        txtFoodDrinkDescription.Text = item.Description;
+
+                        btnFoodDrinkAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnFoodDrinkDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataFoodDrinkItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                foodDrinksItems.Add(newItem);
+            }
+
+            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataFoodDrinkItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataFoodDrinkItems.SelectedItems)
+            {
+                foreach (Item listItem in foodDrinksItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        foodDrinksItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataFoodDrinkItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            foodDrinksItems.Clear();
+            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnFoodDrinkAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtFoodDrinkMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtFoodDrinkMax != null)
+            {
+                var min = Convert.ToInt32(txtFoodDrinkMin.Text);
+                var max = Convert.ToInt32(txtFoodDrinkMax.Text);
+
+                if (min > max)
+                {
+                    txtFoodDrinkMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtFoodDrinkMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtFoodDrinkMin.Text);
+            var max = Convert.ToInt32(txtFoodDrinkMax.Text);
+
+            if (max < min)
+            {
+                txtFoodDrinkMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtFoodDrinkMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtFoodDrinkMax.Text))
+            {
+                txtFoodDrinkMax.Text = value.ToString();
+            }
+
+            txtFoodDrinkMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtFoodDrinkMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtFoodDrinkMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtFoodDrinkMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtFoodDrinkMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnFoodDrinkMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtFoodDrinkMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtFoodDrinkMin.Text))
+            {
+                txtFoodDrinkMin.Text = value.ToString();
+            }
+
+            txtFoodDrinkMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Trade Goods
+        //================================================================================
+
+        private void btnTradeGoodsAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnTradeGoodsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
+                item.Name = name;
+
+                var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
+                item.Description = desc;
+
+                tradeGoodsItems.Add(item);
+                dataTradeGoodsItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataTradeGoodsItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtTradeGoodsName.Text = String.Empty;
+                    txtTradeGoodsDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnTradeGoodsAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnTradeGoodsEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataTradeGoodsItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataTradeGoodsItems.SelectedItems)
+            {
+                foreach (Item listItem in tradeGoodsItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtTradeGoodsName.Text = item.Name;
+                        txtTradeGoodsDescription.Text = item.Description;
+
+                        btnTradeGoodsAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnTradeGoodsDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataTradeGoodsItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                tradeGoodsItems.Add(newItem);
+            }
+
+            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataTradeGoodsItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataTradeGoodsItems.SelectedItems)
+            {
+                foreach (Item listItem in tradeGoodsItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        tradeGoodsItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataTradeGoodsItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            tradeGoodsItems.Clear();
+            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnTradeGoodsAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtTradeGoodsMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtTradeGoodsMax != null)
+            {
+                var min = Convert.ToInt32(txtTradeGoodsMin.Text);
+                var max = Convert.ToInt32(txtTradeGoodsMax.Text);
+
+                if (min > max)
+                {
+                    txtTradeGoodsMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtTradeGoodsMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtTradeGoodsMin.Text);
+            var max = Convert.ToInt32(txtTradeGoodsMax.Text);
+
+            if (max < min)
+            {
+                txtTradeGoodsMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTradeGoodsMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtTradeGoodsMax.Text))
+            {
+                txtTradeGoodsMax.Text = value.ToString();
+            }
+
+            txtTradeGoodsMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTradeGoodsMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtTradeGoodsMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTradeGoodsMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtTradeGoodsMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTradeGoodsMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtTradeGoodsMin.Text))
+            {
+                txtTradeGoodsMin.Text = value.ToString();
+            }
+
+            txtTradeGoodsMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Precious Items
+        //================================================================================
+
+        private void btnPreciousItemsAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnPreciousItemsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
+                item.Name = name;
+
+                var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
+                item.Description = desc;
+
+                preciousItems.Add(item);
+                dataPreciousItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataPreciousItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtPreciousItemsName.Text = String.Empty;
+                    txtPreciousItemsDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnPreciousItemsAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnPreciousItemsEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataPreciousItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataPreciousItems.SelectedItems)
+            {
+                foreach (Item listItem in preciousItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtPreciousItemsName.Text = item.Name;
+                        txtPreciousItemsDescription.Text = item.Description;
+
+                        btnPreciousItemsAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnPreciousItemsDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataPreciousItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                preciousItems.Add(newItem);
+            }
+
+            dataPreciousItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataPreciousItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataPreciousItems.SelectedItems)
+            {
+                foreach (Item listItem in preciousItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        preciousItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataPreciousItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataPreciousItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            preciousItems.Clear();
+            dataPreciousItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnPreciousItemsAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtPreciousItemsMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtPreciousItemsMax != null)
+            {
+                var min = Convert.ToInt32(txtPreciousItemsMin.Text);
+                var max = Convert.ToInt32(txtPreciousItemsMax.Text);
+
+                if (min > max)
+                {
+                    txtPreciousItemsMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtPreciousItemsMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtPreciousItemsMin.Text);
+            var max = Convert.ToInt32(txtPreciousItemsMax.Text);
+
+            if (max < min)
+            {
+                txtPreciousItemsMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtPreciousItemsMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtPreciousItemsMax.Text))
+            {
+                txtPreciousItemsMax.Text = value.ToString();
+            }
+
+            txtPreciousItemsMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtPreciousItemsMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtPreciousItemsMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtPreciousItemsMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtPreciousItemsMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnPreciousItemsMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtPreciousItemsMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtPreciousItemsMin.Text))
+            {
+                txtPreciousItemsMin.Text = value.ToString();
+            }
+
+            txtPreciousItemsMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Art Decor
+        //================================================================================
+
+        private void btnArtDecorAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnArtDecorAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
+                item.Name = name;
+
+                var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
+                item.Description = desc;
+
+                artDecorItems.Add(item);
+                dataArtDecorItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataArtDecorItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtArtDecorName.Text = String.Empty;
+                    txtArtDecorDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnArtDecorAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnArtDecorEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArtDecorItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataArtDecorItems.SelectedItems)
+            {
+                foreach (Item listItem in artDecorItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtArtDecorName.Text = item.Name;
+                        txtArtDecorDescription.Text = item.Description;
+
+                        btnArtDecorAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnArtDecorDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataArtDecorItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                artDecorItems.Add(newItem);
+            }
+
+            dataArtDecorItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArtDecorItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataArtDecorItems.SelectedItems)
+            {
+                foreach (Item listItem in artDecorItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        artDecorItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataArtDecorItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataArtDecorItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            artDecorItems.Clear();
+            dataArtDecorItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnArtDecorAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtArtDecorMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtArtDecorMax != null)
+            {
+                var min = Convert.ToInt32(txtArtDecorMin.Text);
+                var max = Convert.ToInt32(txtArtDecorMax.Text);
+
+                if (min > max)
+                {
+                    txtArtDecorMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtArtDecorMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtArtDecorMin.Text);
+            var max = Convert.ToInt32(txtArtDecorMax.Text);
+
+            if (max < min)
+            {
+                txtArtDecorMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArtDecorMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtArtDecorMax.Text))
+            {
+                txtArtDecorMax.Text = value.ToString();
+            }
+
+            txtArtDecorMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArtDecorMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtArtDecorMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArtDecorMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtArtDecorMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtArtDecorMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtArtDecorMin.Text))
+            {
+                txtArtDecorMin.Text = value.ToString();
+            }
+
+            txtArtDecorMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Books Papers
+        //================================================================================
+
+        private void btnBooksPapersAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnBooksPapersAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
+                item.Name = name;
+
+                var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
+                item.Description = desc;
+
+                booksPapersItems.Add(item);
+                dataBooksPapersItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataBooksPapersItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtBooksPapersName.Text = String.Empty;
+                    txtBooksPapersDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnBooksPapersAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnBooksPapersEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataBooksPapersItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataBooksPapersItems.SelectedItems)
+            {
+                foreach (Item listItem in booksPapersItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtBooksPapersName.Text = item.Name;
+                        txtBooksPapersDescription.Text = item.Description;
+
+                        btnBooksPapersAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnBooksPapersDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataBooksPapersItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                booksPapersItems.Add(newItem);
+            }
+
+            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataBooksPapersItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataBooksPapersItems.SelectedItems)
+            {
+                foreach (Item listItem in booksPapersItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        booksPapersItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataBooksPapersItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            booksPapersItems.Clear();
+            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnBooksPapersAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtBooksPapersMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtBooksPapersMax != null)
+            {
+                var min = Convert.ToInt32(txtBooksPapersMin.Text);
+                var max = Convert.ToInt32(txtBooksPapersMax.Text);
+
+                if (min > max)
+                {
+                    txtBooksPapersMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtBooksPapersMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtBooksPapersMin.Text);
+            var max = Convert.ToInt32(txtBooksPapersMax.Text);
+
+            if (max < min)
+            {
+                txtBooksPapersMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtBooksPapersMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtBooksPapersMax.Text))
+            {
+                txtBooksPapersMax.Text = value.ToString();
+            }
+
+            txtBooksPapersMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtBooksPapersMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtBooksPapersMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtBooksPapersMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtBooksPapersMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnBooksPapersMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtBooksPapersMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtBooksPapersMin.Text))
+            {
+                txtBooksPapersMin.Text = value.ToString();
+            }
+
+            txtBooksPapersMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Other Items
+        //================================================================================
+
+        private void btnOtherAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentContainer == null)
+            {
+                return;
+            }
+
+            if (btnOtherAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Item item = new Item();
+
+                var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
+                item.Name = name;
+
+                var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
+                item.Description = desc;
+
+                otherItems.Add(item);
+                dataOtherItems.Items.Refresh();
+
+                ChangeHappened();
+            }
+            else
+            { // Update item
+                if (editedItem != null)
+                {
+                    var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
+                    editedItem.Name = name;
+
+                    var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataOtherItems.Items.Refresh();
+
+                    // Reset inputs
+                    txtOtherName.Text = String.Empty;
+                    txtOtherDescription.Text = String.Empty;
+
+                    ChangeHappened();
+                }
+
+                btnOtherAddText.Text = "Add Item";
+            }
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void btnOtherEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataOtherItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            foreach (Item item in dataOtherItems.SelectedItems)
+            {
+                foreach (Item listItem in otherItems)
+                {
+                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        editedItem = item;
+
+                        txtOtherName.Text = item.Name;
+                        txtOtherDescription.Text = item.Description;
+
+                        btnOtherAddText.Text = "Update Item";
+
+                        return; // Get only first selected item
+                    }
+                }
+            }
+        }
+
+        private void btnOtherDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through each selection, create new Item for each, and add to the item list
+            foreach (Item item in dataOtherItems.SelectedItems)
+            {
+                Item newItem = new Item();
+                newItem.Name = item.Name;
+                newItem.Description = item.Description;
+
+                otherItems.Add(newItem);
+            }
+
+            dataOtherItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnOtherRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataOtherItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Loop through each selection and remove them from the magic item list
+            foreach (Item item in dataOtherItems.SelectedItems)
+            {
+                foreach (Item listItem in otherItems)
+                {
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        otherItems.Remove(item);
+                        break;
+                    }
+                }
+            }
+
+            dataOtherItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            ChangeHappened();
+        }
+
+        private void btnOtherClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataOtherItems.Items.Count < 1)
+            {
+                return;
+            }
+
+            if (!programStorage.Settings.SuppressContainerEditPopups)
+            {
+                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Remove all from the list
+            otherItems.Clear();
+            dataOtherItems.Items.Refresh(); // Refresh the item source
+
+            UpdateTotalItemsAvailable();
+
+            btnOtherAddText.Text = "Add To Item List"; // Failsafe
+
+            ChangeHappened();
+        }
+
+        private void txtOtherMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtOtherMax != null)
+            {
+                var min = Convert.ToInt32(txtOtherMin.Text);
+                var max = Convert.ToInt32(txtOtherMax.Text);
+
+                if (min > max)
+                {
+                    txtOtherMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtOtherMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtOtherMin.Text);
+            var max = Convert.ToInt32(txtOtherMax.Text);
+
+            if (max < min)
+            {
+                txtOtherMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnOtherMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtOtherMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtOtherMax.Text))
+            {
+                txtOtherMax.Text = value.ToString();
+            }
+
+            txtOtherMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnOtherMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtOtherMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtOtherMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnOtherMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtOtherMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtOtherMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnOtherMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtOtherMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtOtherMin.Text))
+            {
+                txtOtherMin.Text = value.ToString();
+            }
+
+            txtOtherMax.Text = value.ToString();
 
             ChangeHappened();
         }
@@ -1779,20 +4248,45 @@ namespace LootGoblin.Controls
             currentContainer.PlatinumMin = Convert.ToInt32(txtPlatinumMin.Text);
             currentContainer.PlatinumMax = Convert.ToInt32(txtPlatinumMax.Text);
 
-            currentContainer.Armor = armorItems;
-            currentContainer.ArmorMin = Convert.ToInt32(txtArmorMin.Text);
-            currentContainer.ArmorMax = Convert.ToInt32(txtArmorMax.Text);
+            currentContainer.MundaneMin = Convert.ToInt32(txtMundaneMin.Text);
+            currentContainer.MundaneMax = Convert.ToInt32(txtMundaneMax.Text);
 
+            currentContainer.ArmorSets = armorSetItems;
+            currentContainer.ArmorSetsMin = Convert.ToInt32(txtArmorSetsMin.Text);
+            currentContainer.ArmorSetsMax = Convert.ToInt32(txtArmorSetsMax.Text);
+            currentContainer.ArmorPieces = armorPieceItems;
+            currentContainer.ArmorPiecesMin = Convert.ToInt32(txtArmorPiecesMin.Text);
+            currentContainer.ArmorPiecesMax = Convert.ToInt32(txtArmorPiecesMax.Text);
             currentContainer.Weapons = weaponItems;
             currentContainer.WeaponsMin = Convert.ToInt32(txtWeaponMin.Text);
             currentContainer.WeaponsMax = Convert.ToInt32(txtWeaponMax.Text);
-
-            currentContainer.Gear = gearItems;
-            currentContainer.GearMin = Convert.ToInt32(txtGearMin.Text);
-            currentContainer.GearMax = Convert.ToInt32(txtGearMax.Text);
-
-            currentContainer.MundaneMin = Convert.ToInt32(txtMundaneMin.Text);
-            currentContainer.MundaneMax = Convert.ToInt32(txtMundaneMax.Text);
+            currentContainer.Ammo = ammoItems;
+            currentContainer.AmmoMin = Convert.ToInt32(txtAmmoMin.Text);
+            currentContainer.AmmoMax = Convert.ToInt32(txtAmmoMax.Text);
+            currentContainer.Clothing = clothingItems;
+            currentContainer.ClothingMin = Convert.ToInt32(txtClothingMin.Text);
+            currentContainer.ClothingMax = Convert.ToInt32(txtClothingMax.Text);
+            currentContainer.ClothingAccessories = clothingAccessoriesItems;
+            currentContainer.ClothingAccessoriesMin = Convert.ToInt32(txtClothingAccessoriesMin.Text);
+            currentContainer.ClothingAccessoriesMax = Convert.ToInt32(txtClothingAccessoriesMax.Text);
+            currentContainer.FoodDrinks = foodDrinksItems;
+            currentContainer.FoodDrinksMin = Convert.ToInt32(txtFoodDrinkMin.Text);
+            currentContainer.FoodDrinksMax = Convert.ToInt32(txtFoodDrinkMax.Text);
+            currentContainer.TradeGoods = tradeGoodsItems;
+            currentContainer.TradeGoodsMin = Convert.ToInt32(txtTradeGoodsMin.Text);
+            currentContainer.TradeGoodsMax = Convert.ToInt32(txtTradeGoodsMax.Text);
+            currentContainer.PreciousItems = preciousItems;
+            currentContainer.PreciousItemsMin = Convert.ToInt32(txtPreciousItemsMin.Text);
+            currentContainer.PreciousItemsMax = Convert.ToInt32(txtPreciousItemsMax.Text);
+            currentContainer.ArtDecor = artDecorItems;
+            currentContainer.ArtDecorMin = Convert.ToInt32(txtArtDecorMin.Text);
+            currentContainer.ArtDecorMax = Convert.ToInt32(txtArtDecorMax.Text);
+            currentContainer.BooksPapers = booksPapersItems;
+            currentContainer.BooksPapersMin = Convert.ToInt32(txtBooksPapersMin.Text);
+            currentContainer.BooksPapersMax = Convert.ToInt32(txtBooksPapersMax.Text);
+            currentContainer.OtherItems = otherItems;
+            currentContainer.OtherItemsMin = Convert.ToInt32(txtOtherMin.Text);
+            currentContainer.OtherItemsMax = Convert.ToInt32(txtOtherMax.Text);
 
             if (!programStorage.LootContainers.Contains(currentContainer))
             {
@@ -1823,16 +4317,19 @@ namespace LootGoblin.Controls
 
         private void UpdateTotalItemsAvailable()
         {
-            var armor = dataArmorItems.Items.Count;
-            var weapons = dataWeaponItems.Items.Count;
-            var gear = dataGearItems.Items.Count;
-            var mundane = programStorage.MundaneItems.Count;
-
-            lblArmorItems.Content = armor;
-            lblWeaponItems.Content = weapons;
-            lblGearItems.Content = gear;
-            lblTotalItems.Content = armor + weapons + gear;
-            lblMundaneItems.Content = mundane;
+            lblMundaneItems.Content = programStorage.MundaneItems.Count;
+            lblArmorSetsItems.Content = dataArmorSetsItems.Items.Count;
+            lblArmorPiecesItems.Content = dataArmorPieces.Items.Count;
+            lblWeaponItems.Content = dataWeaponItems.Items.Count;
+            lblAmmoItems.Content = dataAmmoItems.Items.Count;
+            lblClothingItems.Content = dataClothingItems.Items.Count;
+            lblClothingAccessoriesItems.Content = dataClothingAccessoriesItems.Items.Count;
+            lblFoodDrinkItems.Content = dataFoodDrinkItems.Items.Count;
+            lblTradeGoodsItems.Content = dataTradeGoodsItems.Items.Count;
+            lblPreciousItems.Content = dataPreciousItems.Items.Count;
+            lblArtDecorItems.Content = dataArtDecorItems.Items.Count;
+            lblBooksPapersItems.Content = dataBooksPapersItems.Items.Count;
+            lblOtherItems.Content = dataOtherItems.Items.Count;
         }
 
         private void CopyContainer(LootContainer currentContainer, LootContainer newContainer)
@@ -1852,20 +4349,45 @@ namespace LootGoblin.Controls
             newContainer.PlatinumMin = currentContainer.PlatinumMin;
             newContainer.PlatinumMax = currentContainer.PlatinumMax;
 
-            newContainer.ArmorMin = currentContainer.ArmorMin;
-            newContainer.ArmorMax = currentContainer.ArmorMax;
-            newContainer.Armor = currentContainer.Armor;
+            newContainer.MundaneMin = currentContainer.MundaneMin;
+            newContainer.MundaneMax = currentContainer.MundaneMax;
 
+            newContainer.ArmorSetsMin = currentContainer.ArmorSetsMin;
+            newContainer.ArmorSetsMax = currentContainer.ArmorSetsMax;
+            newContainer.ArmorSets = currentContainer.ArmorSets;
+            newContainer.ArmorPiecesMin = currentContainer.ArmorPiecesMin;
+            newContainer.ArmorPiecesMax = currentContainer.ArmorPiecesMax;
+            newContainer.ArmorPieces = currentContainer.ArmorPieces;
             newContainer.WeaponsMin = currentContainer.WeaponsMin;
             newContainer.WeaponsMax = currentContainer.WeaponsMax;
             newContainer.Weapons = currentContainer.Weapons;
-
-            newContainer.GearMin = currentContainer.GearMin;
-            newContainer.GearMax = currentContainer.GearMax;
-            newContainer.Gear = currentContainer.Gear;
-
-            newContainer.MundaneMin = currentContainer.MundaneMin;
-            newContainer.MundaneMax = currentContainer.MundaneMax;
+            newContainer.AmmoMin = currentContainer.AmmoMin;
+            newContainer.AmmoMax = currentContainer.AmmoMax;
+            newContainer.Ammo = currentContainer.Ammo;
+            newContainer.ClothingMin = currentContainer.ClothingMin;
+            newContainer.ClothingMax = currentContainer.ClothingMax;
+            newContainer.Clothing = currentContainer.Clothing;
+            newContainer.ClothingAccessoriesMin = currentContainer.ClothingAccessoriesMin;
+            newContainer.ClothingAccessoriesMax = currentContainer.ClothingAccessoriesMax;
+            newContainer.ClothingAccessories = currentContainer.ClothingAccessories;
+            newContainer.FoodDrinksMin = currentContainer.FoodDrinksMin;
+            newContainer.FoodDrinksMax = currentContainer.FoodDrinksMax;
+            newContainer.FoodDrinks = currentContainer.FoodDrinks;
+            newContainer.TradeGoodsMin = currentContainer.TradeGoodsMin;
+            newContainer.TradeGoodsMax = currentContainer.TradeGoodsMax;
+            newContainer.TradeGoods = currentContainer.TradeGoods;
+            newContainer.PreciousItemsMin = currentContainer.PreciousItemsMin;
+            newContainer.PreciousItemsMax = currentContainer.PreciousItemsMax;
+            newContainer.PreciousItems = currentContainer.PreciousItems;
+            newContainer.ArtDecorMin = currentContainer.ArtDecorMin;
+            newContainer.ArtDecorMax = currentContainer.ArtDecorMax;
+            newContainer.ArtDecor = currentContainer.ArtDecor;
+            newContainer.BooksPapersMin = currentContainer.BooksPapersMin;
+            newContainer.BooksPapersMax = currentContainer.BooksPapersMax;
+            newContainer.BooksPapers = currentContainer.BooksPapers;
+            newContainer.OtherItemsMin = currentContainer.OtherItemsMin;
+            newContainer.OtherItemsMax = currentContainer.OtherItemsMax;
+            newContainer.OtherItems = currentContainer.OtherItems;
         }
 
         private void ClearControlInputs()
@@ -1888,11 +4410,20 @@ namespace LootGoblin.Controls
             txtPlatinumMin.Text = "0";
             txtPlatinumMax.Text = "0";
 
-            txtArmorMin.Text = "0";
-            txtArmorMax.Text = "0";
-            armorItems = new List<Item>();
-            dataArmorItems.ItemsSource = armorItems;
-            dataArmorItems.Items.Refresh();
+            txtMundaneMin.Text = "0";
+            txtPlatinumMax.Text = "0";
+
+            txtArmorSetsMin.Text = "0";
+            txtArmorSetsMax.Text = "0";
+            armorSetItems = new List<Item>();
+            dataArmorSetsItems.ItemsSource = armorSetItems;
+            dataArmorSetsItems.Items.Refresh();
+
+            txtArmorPiecesMin.Text = "0";
+            txtArmorPiecesMax.Text = "0";
+            armorPieceItems = new List<Item>();
+            dataArmorPieces.ItemsSource = armorPieceItems;
+            dataArmorPieces.Items.Refresh();
 
             txtWeaponMin.Text = "0";
             txtWeaponMax.Text = "0";
@@ -1900,14 +4431,59 @@ namespace LootGoblin.Controls
             dataWeaponItems.ItemsSource = weaponItems;
             dataWeaponItems.Items.Refresh();
 
-            txtGearMin.Text = "0";
-            txtGearMax.Text = "0";
-            gearItems = new List<Item>();
-            dataGearItems.ItemsSource = gearItems;
-            dataGearItems.Items.Refresh();
+            txtAmmoMin.Text = "0";
+            txtAmmoMax.Text = "0";
+            ammoItems = new List<Item>();
+            dataAmmoItems.ItemsSource = ammoItems;
+            dataAmmoItems.Items.Refresh();
 
-            txtMundaneMin.Text = "0";
-            txtPlatinumMax.Text = "0";
+            txtClothingMin.Text = "0";
+            txtClothingMax.Text = "0";
+            clothingItems = new List<Item>();
+            dataClothingItems.ItemsSource = clothingItems;
+            dataClothingItems.Items.Refresh();
+
+            txtClothingAccessoriesMin.Text = "0";
+            txtClothingAccessoriesMax.Text = "0";
+            clothingAccessoriesItems = new List<Item>();
+            dataClothingAccessoriesItems.ItemsSource = clothingAccessoriesItems;
+            dataClothingAccessoriesItems.Items.Refresh();
+
+            txtFoodDrinkMin.Text = "0";
+            txtFoodDrinkMax.Text = "0";
+            foodDrinksItems = new List<Item>();
+            dataFoodDrinkItems.ItemsSource = foodDrinksItems;
+            dataFoodDrinkItems.Items.Refresh();
+
+            txtTradeGoodsMin.Text = "0";
+            txtTradeGoodsMax.Text = "0";
+            tradeGoodsItems = new List<Item>();
+            dataTradeGoodsItems.ItemsSource = tradeGoodsItems;
+            dataTradeGoodsItems.Items.Refresh();
+
+            txtPreciousItemsMin.Text = "0";
+            txtPreciousItemsMax.Text = "0";
+            preciousItems = new List<Item>();
+            dataPreciousItems.ItemsSource = preciousItems;
+            dataPreciousItems.Items.Refresh();
+
+            txtArtDecorMin.Text = "0";
+            txtArtDecorMax.Text = "0";
+            artDecorItems = new List<Item>();
+            dataArtDecorItems.ItemsSource = artDecorItems;
+            dataArtDecorItems.Items.Refresh();
+
+            txtBooksPapersMin.Text = "0";
+            txtBooksPapersMax.Text = "0";
+            booksPapersItems = new List<Item>();
+            dataBooksPapersItems.ItemsSource = booksPapersItems;
+            dataBooksPapersItems.Items.Refresh();
+
+            txtOtherMin.Text = "0";
+            txtOtherMax.Text = "0";
+            otherItems = new List<Item>();
+            dataOtherItems.ItemsSource = otherItems;
+            dataOtherItems.Items.Refresh();
 
             UpdateTotalItemsAvailable();
             currentContainerHasChanged = false;

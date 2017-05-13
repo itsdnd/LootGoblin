@@ -231,12 +231,19 @@
     <Resource Include="Resources\gear.png" />
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\magic.png" />
+    <Resource Include="Resources\painting.png" />
     <Resource Include="Resources\ring.png" />
     <Resource Include="Resources\weapon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\chest.png" />
     <Resource Include="Resources\chest_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\food.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

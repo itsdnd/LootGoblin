@@ -255,21 +255,39 @@ namespace LootGoblin
                 change = true;
             }
 
-            if (container.ArmorMin < 0)
+            if (container.ArmorSetsMin < 0)
             {
-                container.ArmorMin = 0;
+                container.ArmorSetsMin = 0;
                 change = true;
             }
 
-            if (container.ArmorMax < 0)
+            if (container.ArmorSetsMax < 0)
             {
-                container.ArmorMax = 0;
+                container.ArmorSetsMax = 0;
                 change = true;
             }
 
-            if (container.Armor == null)
+            if (container.ArmorSets == null)
             {
-                container.Armor = new List<Item>();
+                container.ArmorSets = new List<Item>();
+                change = true;
+            }
+
+            if (container.ArmorPiecesMin < 0)
+            {
+                container.ArmorPiecesMin = 0;
+                change = true;
+            }
+
+            if (container.ArmorPiecesMax < 0)
+            {
+                container.ArmorPiecesMax = 0;
+                change = true;
+            }
+
+            if (container.ArmorPieces == null)
+            {
+                container.ArmorPieces = new List<Item>();
                 change = true;
             }
 
@@ -291,21 +309,165 @@ namespace LootGoblin
                 change = true;
             }
 
-            if (container.GearMin < 0)
+            if (container.AmmoMin < 0)
             {
-                container.GearMin = 0;
+                container.AmmoMin = 0;
                 change = true;
             }
 
-            if (container.GearMax < 0)
+            if (container.AmmoMax < 0)
             {
-                container.GearMax = 0;
+                container.AmmoMax = 0;
                 change = true;
             }
 
-            if (container.Gear == null)
+            if (container.Ammo == null)
             {
-                container.Gear = new List<Item>();
+                container.Ammo = new List<Item>();
+                change = true;
+            }
+
+            if (container.ClothingMin < 0)
+            {
+                container.ClothingMin = 0;
+                change = true;
+            }
+
+            if (container.ClothingMax < 0)
+            {
+                container.ClothingMax = 0;
+                change = true;
+            }
+
+            if (container.Clothing == null)
+            {
+                container.Clothing = new List<Item>();
+                change = true;
+            }
+
+            if (container.ClothingAccessoriesMin < 0)
+            {
+                container.ClothingAccessoriesMin = 0;
+                change = true;
+            }
+
+            if (container.ClothingAccessoriesMax < 0)
+            {
+                container.ClothingAccessoriesMax = 0;
+                change = true;
+            }
+
+            if (container.ClothingAccessories == null)
+            {
+                container.ClothingAccessories = new List<Item>();
+                change = true;
+            }
+
+            if (container.FoodDrinksMin < 0)
+            {
+                container.FoodDrinksMin = 0;
+                change = true;
+            }
+
+            if (container.FoodDrinksMax < 0)
+            {
+                container.FoodDrinksMax = 0;
+                change = true;
+            }
+
+            if (container.FoodDrinks == null)
+            {
+                container.FoodDrinks = new List<Item>();
+                change = true;
+            }
+
+            if (container.TradeGoodsMin < 0)
+            {
+                container.TradeGoodsMin = 0;
+                change = true;
+            }
+
+            if (container.TradeGoodsMax < 0)
+            {
+                container.TradeGoodsMax = 0;
+                change = true;
+            }
+
+            if (container.TradeGoods == null)
+            {
+                container.TradeGoods = new List<Item>();
+                change = true;
+            }
+
+            if (container.PreciousItemsMin < 0)
+            {
+                container.PreciousItemsMin = 0;
+                change = true;
+            }
+
+            if (container.PreciousItemsMax < 0)
+            {
+                container.PreciousItemsMax = 0;
+                change = true;
+            }
+
+            if (container.PreciousItems == null)
+            {
+                container.PreciousItems = new List<Item>();
+                change = true;
+            }
+
+            if (container.ArtDecorMin < 0)
+            {
+                container.ArtDecorMin = 0;
+                change = true;
+            }
+
+            if (container.ArtDecorMax < 0)
+            {
+                container.ArtDecorMax = 0;
+                change = true;
+            }
+
+            if (container.ArtDecor == null)
+            {
+                container.ArtDecor = new List<Item>();
+                change = true;
+            }
+
+            if (container.BooksPapersMin < 0)
+            {
+                container.BooksPapersMin = 0;
+                change = true;
+            }
+
+            if (container.BooksPapersMax < 0)
+            {
+                container.BooksPapersMax = 0;
+                change = true;
+            }
+
+            if (container.BooksPapers == null)
+            {
+                container.BooksPapers = new List<Item>();
+                change = true;
+            }
+
+            if (container.OtherItemsMin < 0)
+            {
+                container.OtherItemsMin = 0;
+                change = true;
+            }
+
+            if (container.OtherItemsMax < 0)
+            {
+                container.OtherItemsMax = 0;
+                change = true;
+            }
+
+            if (container.OtherItems == null)
+            {
+                container.OtherItems = new List<Item>();
                 change = true;
             }
 
@@ -337,12 +499,12 @@ namespace LootGoblin
 
             if (item.Type == null || item.Type.Trim().Equals(String.Empty))
             {
-                item.Type = "Wondrous";
+                item.Type = "Other";
             }
 
             if (item.Rarity == null || item.Rarity.Trim().Equals(String.Empty))
             {
-                item.Rarity = "Common";
+                item.Rarity = "Uncommon";
             }
 
             if (item.Description == null || item.Description.Trim().Equals(String.Empty))

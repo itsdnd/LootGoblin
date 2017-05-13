@@ -168,7 +168,7 @@
                     <TextBlock Text="Include magic items when saving encounter?" VerticalAlignment="Center" TextWrapping="Wrap" Width="145" FontSize="12" />
                     <Button x:Name="btnGenerateLoot" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnGenerateLoot_Click">
                         <StackPanel Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,4,0" Source="/LootGoblin;component/Resources/coins.png"/>
+                            <Image VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,8,0" Source="/LootGoblin;component/Resources/coins.png"/>
                             <TextBlock Text="Generate Loot" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
