@@ -10,7 +10,7 @@
              TextElement.FontSize="14"
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             Width="1370"
+             Width="1370" Loaded="UserControl_Loaded"
     >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,7 +42,7 @@
             </GroupBox.HeaderTemplate>
             <StackPanel>
                 <TextBlock Text="Gear &amp; Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
-                    <TextBox x:Name="txtIndividualGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" />
+                    <TextBox x:Name="txtIndividualGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" Text="No Gear or Items" />
                     <Button x:Name="btnExportIndividual" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnExportIndividual_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="FileExport" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
@@ -86,7 +86,7 @@
                     </StackPanel>
                     <Separator Margin="0,8" />
                     <TextBlock Text="Gear &amp; Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8"/>
-                    <TextBox x:Name="txtEncounterGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" />
+                    <TextBox x:Name="txtEncounterGear" materialDesign:HintAssist.Hint="Gear &amp; Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,16,0,16" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="615" Text="No Gear or Items" />
                     <Button x:Name="btnExportEncounter" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnExportEncounter_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="FileExport" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />

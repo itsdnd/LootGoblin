@@ -3,9 +3,11 @@ using LootGoblin.Storage.Grids;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace LootGoblin.Controls
 {
@@ -15,6 +17,8 @@ namespace LootGoblin.Controls
     public partial class OutputControl : UserControl
     {
         private ProgramStorage programStorage;
+        private BackgroundWorker backgroundWorker = new BackgroundWorker();
+        Random random;
 
         private int copper = 0;
         private int silver = 0;
@@ -41,24 +45,37 @@ namespace LootGoblin.Controls
         private Dictionary<Item, int> booksPapersListEncounter = new Dictionary<Item, int>();
         private Dictionary<Item, int> otherItemsListEncounter = new Dictionary<Item, int>();
 
+        private bool first = true;
+
         public OutputControl()
         {
             InitializeComponent();
 
             // Initialize needed variables
             programStorage = ProgramStorage.GetInstance();
+            random = new Random();
 
+            backgroundWorker.DoWork += DoWork;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        private void DoWork(object sender, DoWorkEventArgs e)
+        {
             OutputGuaranteedMagicItems();
             GenerateRandomMagicItems();
             GenerateLoot();
-            OutputLoot();
+            OutputEncounterLoot();
         }
 
         private void OutputGuaranteedMagicItems()
         {
             if (programStorage.MagicItemList.Count == 0)
             {
-                txtGuaranteedMagicItems.Text = "No Guaranteed Magic Items";
+                AppendText(txtGuaranteedMagicItems, "No Guaranteed Magic Items");
                 return;
             }
 
@@ -77,8 +94,8 @@ namespace LootGoblin.Controls
             foreach (KeyValuePair<MagicItem, int> pair in guaranteedMagicItemList)
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
-                var itemString = String.Format("- {0}{1} ({2} | {3}) - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
-                txtGuaranteedMagicItems.AppendText(itemString);
+                var itemString = String.Format("- {0}{1} [{2} | {3}] - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
+                AppendText(txtGuaranteedMagicItems, itemString);
             }
         }
 
@@ -152,21 +169,21 @@ namespace LootGoblin.Controls
 
             if (randomMagicItemList.Count == 0)
             {
-                txtRandomMagicItems.Text = "No Random Magic Items";
+                AppendText(txtRandomMagicItems, "No Random Magic Items");
                 return;
             }
 
             foreach (KeyValuePair<MagicItem, int> pair in randomMagicItemList)
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
-                var itemString = String.Format("- {0}{1} ({2} | {3}) - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
-                txtRandomMagicItems.AppendText(itemString);
+                var itemString = String.Format("- {0}{1} [{2} | {3}] - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
+                
+                AppendText(txtRandomMagicItems, itemString);
             }
         }
 
         private void GenerateLoot()
         {
-            Random random = new Random();
             foreach (EncounterContainer encounterContainer in programStorage.EncounterList)
             {
                 LootContainer container = null;
@@ -183,776 +200,247 @@ namespace LootGoblin.Controls
                 {
                     for (int i = 1; i <= encounterContainer.Quantity; i++)
                     {
-                        Loot loot = new Loot();
-                        loot.Name = container.Name;
-
-                        if (container.CopperMax > 0)
+                        if (first)
                         {
-                            loot.Copper = (container.CopperMin < container.CopperMax) ? random.Next(container.CopperMin, container.CopperMax + 1) : container.CopperMax;
-                            copper += loot.Copper;
+                            ClearGearBoxes();
+                            first = false;
                         }
 
-                        if (container.SilverMax > 0)
-                        {
-                            loot.Silver = (container.SilverMin < container.SilverMax) ? random.Next(container.SilverMin, container.SilverMax + 1) : container.SilverMax;
-                            silver += loot.Silver;
-                        }
-
-                        if (container.ElectrumMax > 0)
-                        {
-                            loot.Electrum = (container.ElectrumMin < container.ElectrumMax) ? random.Next(container.ElectrumMin, container.ElectrumMax + 1) : container.ElectrumMax;
-                            electrum += loot.Electrum;
-                        }
-
-                        if (container.GoldMax > 0)
-                        {
-                            loot.Gold = (container.GoldMin < container.GoldMax) ? random.Next(container.GoldMin, container.GoldMax + 1) : container.GoldMax;
-                            gold += loot.Gold;
-                        }
-
-                        if (container.PlatinumMax > 0)
-                        {
-                            loot.Platinum = (container.PlatinumMin < container.PlatinumMax) ? random.Next(container.PlatinumMin, container.PlatinumMax + 1) : container.PlatinumMax;
-                            platinum += loot.Platinum;
-                        }
-
-                        if (programStorage.MundaneItems.Count > 0)
-                        {
-                            if (container.MundaneMax > 0)
-                            {
-                                var mundaneCount = (container.MundaneMin < container.MundaneMax) ? random.Next(container.MundaneMin, container.MundaneMax + 1) : container.MundaneMax;
-                                Dictionary<string, int> temp = new Dictionary<string, int>();
-
-                                for (int j = 1; j <= mundaneCount; j++)
-                                {
-                                    var selection = programStorage.MundaneItems[random.Next(0, programStorage.MundaneItems.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-                                    
-                                    if (mundaneListEncounter.ContainsKey(selection))
-                                    {
-                                        mundaneListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        mundaneListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.MundaneItems = temp;
-                            }
-                        }
-
-                        if (container.ArmorSets.Count > 0)
-                        {
-                            if (container.ArmorSetsMax > 0)
-                            {
-                                var count = (container.ArmorSetsMin < container.ArmorSetsMax) ? random.Next(container.ArmorSetsMin, container.ArmorSetsMax + 1) : container.ArmorSetsMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.ArmorSets[random.Next(0, container.ArmorSets.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (armorSetListEncounter.ContainsKey(selection))
-                                    {
-                                        armorSetListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        armorSetListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.ArmorSets = temp;
-                            }
-                        }
-
-                        if (container.ArmorPieces.Count > 0)
-                        {
-                            if (container.ArmorPiecesMax > 0)
-                            {
-                                var count = (container.ArmorPiecesMin < container.ArmorPiecesMax) ? random.Next(container.ArmorPiecesMin, container.ArmorPiecesMax + 1) : container.ArmorPiecesMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.ArmorPieces[random.Next(0, container.ArmorPieces.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (armorPiecesListEncounter.ContainsKey(selection))
-                                    {
-                                        armorPiecesListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        armorPiecesListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.ArmorPieces = temp;
-                            }
-                        }
-
-                        if (container.Weapons.Count > 0)
-                        {
-                            if (container.WeaponsMax > 0)
-                            {
-                                var count = (container.WeaponsMin < container.WeaponsMax) ? random.Next(container.WeaponsMin, container.WeaponsMax + 1) : container.WeaponsMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.Weapons[random.Next(0, container.Weapons.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (weaponListEncounter.ContainsKey(selection))
-                                    {
-                                        weaponListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        weaponListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.Weapons = temp;
-                            }
-                        }
-
-                        if (container.Ammo.Count > 0)
-                        {
-                            if (container.AmmoMax > 0)
-                            {
-                                var count = (container.AmmoMin < container.AmmoMax) ? random.Next(container.AmmoMin, container.AmmoMax + 1) : container.AmmoMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.Ammo[random.Next(0, container.Ammo.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (ammoListEncounter.ContainsKey(selection))
-                                    {
-                                        ammoListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        ammoListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.Ammo = temp;
-                            }
-                        }
-
-                        if (container.Clothing.Count > 0)
-                        {
-                            if (container.ClothingMax > 0)
-                            {
-                                var count = (container.ClothingMin < container.ClothingMax) ? random.Next(container.ClothingMin, container.ClothingMax + 1) : container.ClothingMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.Clothing[random.Next(0, container.Clothing.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (clothingListEncounter.ContainsKey(selection))
-                                    {
-                                        clothingListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        clothingListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.Clothing = temp;
-                            }
-                        }
-
-                        if (container.ClothingAccessories.Count > 0)
-                        {
-                            if (container.ClothingAccessoriesMax > 0)
-                            {
-                                var count = (container.ClothingAccessoriesMin < container.ClothingAccessoriesMax) ? random.Next(container.ClothingAccessoriesMin, container.ClothingAccessoriesMax + 1) : container.ClothingAccessoriesMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.ClothingAccessories[random.Next(0, container.ClothingAccessories.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (clothingAccessoriesListEncounter.ContainsKey(selection))
-                                    {
-                                        clothingAccessoriesListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        clothingAccessoriesListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.ClothingAccessories = temp;
-                            }
-                        }
-
-                        if (container.FoodDrinks.Count > 0)
-                        {
-                            if (container.FoodDrinksMax > 0)
-                            {
-                                var count = (container.FoodDrinksMin < container.FoodDrinksMax) ? random.Next(container.FoodDrinksMin, container.FoodDrinksMax + 1) : container.FoodDrinksMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.FoodDrinks[random.Next(0, container.FoodDrinks.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (foodDrinksListEncounter.ContainsKey(selection))
-                                    {
-                                        foodDrinksListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        foodDrinksListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.FoodDrinks = temp;
-                            }
-                        }
-
-                        if (container.TradeGoods.Count > 0)
-                        {
-                            if (container.TradeGoodsMax > 0)
-                            {
-                                var count = (container.TradeGoodsMin < container.TradeGoodsMax) ? random.Next(container.TradeGoodsMin, container.TradeGoodsMax + 1) : container.TradeGoodsMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.TradeGoods[random.Next(0, container.TradeGoods.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (tradeGoodsListEncounter.ContainsKey(selection))
-                                    {
-                                        tradeGoodsListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        tradeGoodsListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.TradeGoods = temp;
-                            }
-                        }
-
-                        if (container.PreciousItems.Count > 0)
-                        {
-                            if (container.PreciousItemsMax > 0)
-                            {
-                                var count = (container.PreciousItemsMin < container.PreciousItemsMax) ? random.Next(container.PreciousItemsMin, container.PreciousItemsMax + 1) : container.PreciousItemsMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.PreciousItems[random.Next(0, container.PreciousItems.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-                                    
-                                    if (preciousItemsListEncounter.ContainsKey(selection))
-                                    {
-                                        preciousItemsListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        preciousItemsListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.PreciousItems = temp;
-                            }
-                        }
-
-                        if (container.ArtDecor.Count > 0)
-                        {
-                            if (container.ArtDecorMax > 0)
-                            {
-                                var count = (container.ArtDecorMin < container.ArtDecorMax) ? random.Next(container.ArtDecorMin, container.ArtDecorMax + 1) : container.ArtDecorMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.ArtDecor[random.Next(0, container.ArtDecor.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (artDecorListEncounter.ContainsKey(selection))
-                                    {
-                                        artDecorListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        artDecorListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.ArtDecor = temp;
-                            }
-                        }
-
-                        if (container.BooksPapers.Count > 0)
-                        {
-                            if (container.BooksPapersMax > 0)
-                            {
-                                var count = (container.BooksPapersMin < container.BooksPapersMax) ? random.Next(container.BooksPapersMin, container.BooksPapersMax + 1) : container.BooksPapersMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.BooksPapers[random.Next(0, container.BooksPapers.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (booksPapersListEncounter.ContainsKey(selection))
-                                    {
-                                        booksPapersListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        booksPapersListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.BooksPapers = temp;
-                            }
-                        }
-
-                        if (container.OtherItems.Count > 0)
-                        {
-                            if (container.OtherItemsMax > 0)
-                            {
-                                var count = (container.OtherItemsMin < container.OtherItemsMax) ? random.Next(container.OtherItemsMin, container.OtherItemsMax + 1) : container.OtherItemsMax;
-                                Dictionary<Item, int> temp = new Dictionary<Item, int>();
-
-                                for (int j = 1; j <= count; j++)
-                                {
-                                    var selection = container.OtherItems[random.Next(0, container.OtherItems.Count)];
-                                    if (temp.ContainsKey(selection))
-                                    {
-                                        temp[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        temp.Add(selection, 1);
-                                    }
-
-                                    if (otherItemsListEncounter.ContainsKey(selection))
-                                    {
-                                        otherItemsListEncounter[selection] += 1;
-                                    }
-                                    else
-                                    {
-                                        otherItemsListEncounter.Add(selection, 1);
-                                    }
-                                }
-
-                                loot.OtherItems = temp;
-                            }
-
-                        }
-
-                        lootList.Add(loot);
+                        GenerateContainerLoot(container);
                     }
                 }
             }
         }
-        
-        private void OutputLoot()
+
+        private void ClearGearBoxes()
         {
-            if (lootList.Count == 0)
+            this.Dispatcher.BeginInvoke((Action)delegate () {
+                txtIndividualGear.Text = String.Empty;
+                txtEncounterGear.Text = String.Empty;
+            }, DispatcherPriority.Background);
+        }
+
+        private void GenerateContainerLoot(LootContainer container)
+        {
+            Loot loot = new Loot();
+            loot.Name = container.Name;
+
+            if (container.CopperMax > 0)
             {
-                txtIndividualGear.Text = "No gear or items";
-                txtEncounterGear.Text = "No gear or items";
-                return;
+                loot.Copper = (container.CopperMin < container.CopperMax) ? random.Next(container.CopperMin, container.CopperMax + 1) : container.CopperMax;
+                copper += loot.Copper;
             }
 
-            //================================================================================
-            // Individual Loot Output
-            //================================================================================
-            foreach (Loot loot in lootList)
+            if (container.SilverMax > 0)
             {
-                txtIndividualGear.AppendText(String.Format("{0}:{1}", loot.Name, Environment.NewLine));
-                txtIndividualGear.AppendText(String.Format("Copper: {0} | Silver: {1} | Electrum: {2} | Gold: {3} | Platinum: {4} {5}", loot.Copper, loot.Silver, loot.Electrum, loot.Gold, loot.Platinum, Environment.NewLine));
-
-                if (loot.ArmorSets != null && loot.ArmorSets.Count > 0)
-                {
-                    txtIndividualGear.AppendText("Armor Sets:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.ArmorSets)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.ArmorPieces != null && loot.ArmorPieces.Count > 0)
-                {
-                    txtIndividualGear.AppendText("Armor Pieces:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.ArmorPieces)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.Weapons != null && loot.Weapons.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Weapons:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.Weapons)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.Ammo != null && loot.Ammo.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Ammo:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.Ammo)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.Clothing != null && loot.Clothing.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Clothing:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.Clothing)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.ClothingAccessories != null && loot.ClothingAccessories.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Clothing Accessories:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.ClothingAccessories)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.FoodDrinks != null && loot.FoodDrinks.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Food Drinks:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.FoodDrinks)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.TradeGoods != null && loot.TradeGoods.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Trade Goods:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.TradeGoods)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.PreciousItems != null && loot.PreciousItems.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Precious Items:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.PreciousItems)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.ArtDecor != null && loot.ArtDecor.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Art Decor:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.ArtDecor)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.BooksPapers != null && loot.BooksPapers.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Books Papers:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.BooksPapers)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.OtherItems != null && loot.OtherItems.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Other Items:" + Environment.NewLine);
-                    foreach (KeyValuePair<Item, int> pair in loot.OtherItems)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                    }
-                }
-
-                if (loot.MundaneItems != null && loot.MundaneItems.Count > 0)
-                {
-                    txtIndividualGear.AppendText(Environment.NewLine + "Mundane Items:" + Environment.NewLine);
-                    foreach (KeyValuePair<string, int> pair in loot.MundaneItems)
-                    {
-                        var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                        txtIndividualGear.AppendText(String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
-                    }
-                }
-
-                txtIndividualGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
+                loot.Silver = (container.SilverMin < container.SilverMax) ? random.Next(container.SilverMin, container.SilverMax + 1) : container.SilverMax;
+                silver += loot.Silver;
             }
 
-            //================================================================================
-            // Encounter Loot Output
-            //================================================================================
-            txtCopper.Text = copper.ToString();
-            txtSilver.Text = silver.ToString();
-            txtElectrum.Text = electrum.ToString();
-            txtGold.Text = gold.ToString();
-            txtPlatinum.Text = platinum.ToString();
-
-            if (armorSetListEncounter.Count > 0)
+            if (container.ElectrumMax > 0)
             {
-                txtEncounterGear.AppendText("Armor Sets:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in armorSetListEncounter)
+                loot.Electrum = (container.ElectrumMin < container.ElectrumMax) ? random.Next(container.ElectrumMin, container.ElectrumMax + 1) : container.ElectrumMax;
+                electrum += loot.Electrum;
+            }
+
+            if (container.GoldMax > 0)
+            {
+                loot.Gold = (container.GoldMin < container.GoldMax) ? random.Next(container.GoldMin, container.GoldMax + 1) : container.GoldMax;
+                gold += loot.Gold;
+            }
+
+            if (container.PlatinumMax > 0)
+            {
+                loot.Platinum = (container.PlatinumMin < container.PlatinumMax) ? random.Next(container.PlatinumMin, container.PlatinumMax + 1) : container.PlatinumMax;
+                platinum += loot.Platinum;
+            }
+
+            if (programStorage.MundaneItems.Count > 0)
+            {
+                if (container.MundaneMax > 0)
+                {
+                    var mundaneCount = (container.MundaneMin < container.MundaneMax) ? random.Next(container.MundaneMin, container.MundaneMax + 1) : container.MundaneMax;
+                    Dictionary<string, int> temp = new Dictionary<string, int>();
+
+                    for (int j = 1; j <= mundaneCount; j++)
+                    {
+                        var selection = programStorage.MundaneItems[random.Next(0, programStorage.MundaneItems.Count)];
+                        if (temp.ContainsKey(selection))
+                        {
+                            temp[selection] += 1;
+                        }
+                        else
+                        {
+                            temp.Add(selection, 1);
+                        }
+
+                        if (mundaneListEncounter.ContainsKey(selection))
+                        {
+                            mundaneListEncounter[selection] += 1;
+                        }
+                        else
+                        {
+                            mundaneListEncounter.Add(selection, 1);
+                        }
+                    }
+
+                    loot.MundaneItems = temp;
+                }
+            }
+            
+            loot.ArmorSets = GenerateContainerLoot(container.ArmorSets, container.ArmorSetsMin, container.ArmorSetsMax, armorSetListEncounter);
+            loot.ArmorPieces = GenerateContainerLoot(container.ArmorPieces, container.ArmorPiecesMin, container.ArmorPiecesMax, armorPiecesListEncounter);
+            loot.Weapons = GenerateContainerLoot(container.Weapons, container.WeaponsMin, container.WeaponsMax, weaponListEncounter);
+            loot.Ammo = GenerateContainerLoot(container.Ammo, container.AmmoMin, container.AmmoMax, ammoListEncounter);
+            loot.Clothing = GenerateContainerLoot(container.Clothing, container.ClothingMin, container.ClothingMax, clothingListEncounter);
+            loot.ClothingAccessories = GenerateContainerLoot(container.ClothingAccessories, container.ClothingAccessoriesMin, container.ClothingAccessoriesMax, clothingAccessoriesListEncounter);
+            loot.FoodDrinks = GenerateContainerLoot(container.FoodDrinks, container.FoodDrinksMin, container.FoodDrinksMax, foodDrinksListEncounter);
+            loot.TradeGoods = GenerateContainerLoot(container.TradeGoods, container.TradeGoodsMin, container.TradeGoodsMax, tradeGoodsListEncounter);
+            loot.PreciousItems = GenerateContainerLoot(container.PreciousItems, container.PreciousItemsMin, container.PreciousItemsMax, preciousItemsListEncounter);
+            loot.ArtDecor = GenerateContainerLoot(container.ArtDecor, container.ArtDecorMin, container.ArtDecorMax, artDecorListEncounter);
+            loot.BooksPapers = GenerateContainerLoot(container.BooksPapers, container.BooksPapersMin, container.BooksPapersMax, booksPapersListEncounter);
+            loot.OtherItems = GenerateContainerLoot(container.OtherItems, container.OtherItemsMin, container.OtherItemsMax, otherItemsListEncounter);
+
+            OutputLoot(loot);
+        }
+
+        private Dictionary<Item, int> GenerateContainerLoot(List<Item> list, int min, int max, Dictionary<Item, int> encounterList)
+        {
+            Dictionary<Item, int> temp = new Dictionary<Item, int>();
+            
+            if (list.Count > 0)
+            {
+                if (max > 0)
+                {
+                    var count = (min < max) ? random.Next(min, max + 1) : max;
+                    for (int i = 1; i <= count; i++)
+                    {
+                        var selection = list[random.Next(0, list.Count)];
+                        if (temp.ContainsKey(selection))
+                        {
+                            temp[selection] += 1;
+                        }
+                        else
+                        {
+                            temp.Add(selection, 1);
+                        }
+
+                        if (encounterList.ContainsKey(selection))
+                        {
+                            encounterList[selection] += 1;
+                        }
+                        else
+                        {
+                            encounterList.Add(selection, 1);
+                        }
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        private void OutputLoot(Loot loot)
+        {
+            AppendText(txtIndividualGear, String.Format("{0}:{1}", loot.Name, Environment.NewLine));
+            AppendText(txtIndividualGear, String.Format("Copper: {0} | Silver: {1} | Electrum: {2} | Gold: {3} | Platinum: {4} {5}", loot.Copper, loot.Silver, loot.Electrum, loot.Gold, loot.Platinum, Environment.NewLine));
+
+            OutputItems("Armor Sets", loot.ArmorSets);
+            OutputItems("Armor Pieces", loot.ArmorPieces);
+            OutputItems("Weapons", loot.Weapons);
+            OutputItems("Ammmo", loot.Ammo);
+            OutputItems("Clothing", loot.Clothing);
+            OutputItems("Clothing Accessories", loot.ClothingAccessories);
+            OutputItems("Food & Drinks", loot.FoodDrinks);
+            OutputItems("Trade Goods", loot.TradeGoods);
+            OutputItems("Precious Items", loot.PreciousItems);
+            OutputItems("Art & Decor", loot.ArtDecor);
+            OutputItems("Books & Papers", loot.BooksPapers);
+            OutputItems("Other Items", loot.OtherItems);
+
+            if (loot.MundaneItems != null && loot.MundaneItems.Count > 0)
+            {
+                AppendText(txtIndividualGear, Environment.NewLine + "Mundane Items:" + Environment.NewLine);
+                foreach (KeyValuePair<string, int> pair in loot.MundaneItems)
                 {
                     var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
+                    AppendText(txtIndividualGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
                 }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
             }
 
-            if (armorPiecesListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Armor Pieces:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in armorPiecesListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
+            string dashes = "------------------------------------------------------------------------------------------------------------------------------";
+            AppendText(txtIndividualGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
+        }
 
-            if (weaponListEncounter.Count > 0)
+        private void OutputItems(string header, Dictionary<Item, int> dictionary)
+        {
+            if (dictionary != null && dictionary.Count > 0)
             {
-                txtEncounterGear.AppendText("Weapons:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in weaponListEncounter)
+                AppendText(txtIndividualGear, String.Format("{0}{1}:{2}", Environment.NewLine, header, Environment.NewLine));
+                foreach (KeyValuePair<Item, int> pair in dictionary)
                 {
                     var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
+                    AppendText(txtIndividualGear, String.Format(" - {0}{1} ({2} ea.) - {3}{4}", amount, pair.Key.Name, pair.Key.Value, pair.Key.Description, Environment.NewLine));
                 }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
             }
+        }
 
-            if (ammoListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Ammo:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in ammoListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
+        private void OutputEncounterLoot()
+        {
+            this.Dispatcher.BeginInvoke((Action)delegate () {
+                txtCopper.Text = copper.ToString();
+                txtSilver.Text = silver.ToString();
+                txtElectrum.Text = electrum.ToString();
+                txtGold.Text = gold.ToString();
+                txtPlatinum.Text = platinum.ToString();
+            }, DispatcherPriority.Background);
 
-            if (clothingListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Clothing:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in clothingListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (clothingAccessoriesListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Clothing Accessories:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in clothingAccessoriesListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (foodDrinksListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Food & Drinks:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in foodDrinksListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (tradeGoodsListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Trade Goods:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in tradeGoodsListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (preciousItemsListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Precious Items:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in preciousItemsListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (artDecorListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Art & Decor:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in artDecorListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (booksPapersListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Books & Papers:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in booksPapersListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
-
-            if (otherItemsListEncounter.Count > 0)
-            {
-                txtEncounterGear.AppendText("Other Items:" + Environment.NewLine);
-                foreach (KeyValuePair<Item, int> pair in otherItemsListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1} - {2}{3}", amount, pair.Key.Name, pair.Key.Description, Environment.NewLine));
-                }
-                txtEncounterGear.AppendText(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine + Environment.NewLine);
-            }
+            OutputEncounterItems("Armor Sets", armorSetListEncounter);
+            OutputEncounterItems("Armor Pieces", armorPiecesListEncounter);
+            OutputEncounterItems("Weapons", weaponListEncounter);
+            OutputEncounterItems("Ammmo", ammoListEncounter);
+            OutputEncounterItems("Clothing", clothingListEncounter);
+            OutputEncounterItems("Clothing Accessories", clothingAccessoriesListEncounter);
+            OutputEncounterItems("Food & Drinks", foodDrinksListEncounter);
+            OutputEncounterItems("Trade Goods", tradeGoodsListEncounter);
+            OutputEncounterItems("Precious Items", preciousItemsListEncounter);
+            OutputEncounterItems("Art & Decor", artDecorListEncounter);
+            OutputEncounterItems("Books & Papers", booksPapersListEncounter);
+            OutputEncounterItems("Other Items", otherItemsListEncounter);
 
             if (mundaneListEncounter.Count > 0)
             {
 
-                txtEncounterGear.AppendText("Mundane Items:" + Environment.NewLine);
+                AppendText(txtEncounterGear, "Mundane Items:" + Environment.NewLine);
                 foreach (KeyValuePair<string, int> pair in mundaneListEncounter)
                 {
                     var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    txtEncounterGear.AppendText(String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
                 }
             }
+        }
+
+        private void OutputEncounterItems(string header, Dictionary<Item, int> dictionary)
+        {
+            if (dictionary.Count > 0)
+            {
+                AppendText(txtEncounterGear, String.Format("{0}:{1}", header, Environment.NewLine));
+                foreach (KeyValuePair<Item, int> pair in dictionary)
+                {
+                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1} ({2} ea.) - {3}{4}", amount, pair.Key.Name, pair.Key.Value, pair.Key.Description, Environment.NewLine));
+                }
+
+                string dashes = "------------------------------------------------------------------------------------------------------------------------------";
+                AppendText(txtEncounterGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
+            }
+        }
+
+        private void AppendText(TextBox textbox, string line)
+        {
+            this.Dispatcher.BeginInvoke((Action)delegate () {
+                textbox.AppendText(line);
+            }, DispatcherPriority.Background);
         }
 
         private void btnExportIndividual_Click(object sender, RoutedEventArgs e)
