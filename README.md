@@ -1,4 +1,4 @@
-![Loot Goblin Image](http://i.imgur.com/DTw0qmx.png)
+![Loot Goblin Image](http://i.imgur.com/zx4gWdO.png)
 
 A D&D 5e loot creation and generation application for Windows. 
 
