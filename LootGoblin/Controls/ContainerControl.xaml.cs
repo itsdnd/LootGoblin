@@ -36,6 +36,8 @@ namespace LootGoblin.Controls
         private List<Item> booksPapersItems;
         private List<Item> otherItems;
 
+        private List<string> containerNames;
+
         private const int Number_Maximum = 1000000;
 
         public ContainerControl()
@@ -52,6 +54,25 @@ namespace LootGoblin.Controls
 
             // Set item sources
             comboContainerType.ItemsSource = programStorage.ContainerTypes;
+
+            containerNames = new List<string>();
+            foreach (LootContainer container in programStorage.LootContainers)
+            {
+                containerNames.Add(container.Name);
+            }
+
+            comboArmorSetsImport.ItemsSource = containerNames;
+            comboArmorPiecesImport.ItemsSource = containerNames;
+            comboWeaponImport.ItemsSource = containerNames;
+            comboAmmoImport.ItemsSource = containerNames;
+            comboClothingImport.ItemsSource = containerNames;
+            comboClothingAccessoriesImport.ItemsSource = containerNames;
+            comboFoodDrinkImport.ItemsSource = containerNames;
+            comboTradeGoodsImport.ItemsSource = containerNames;
+            comboPreciousItemsImport.ItemsSource = containerNames;
+            comboArtDecorImport.ItemsSource = containerNames;
+            comboBooksPapersImport.ItemsSource = containerNames;
+            comboOtherImport.ItemsSource = containerNames;
 
             // Generate list of Loot Containers
             PopulateContainerTree();
@@ -1146,6 +1167,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnArmorSetsImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboArmorSetsImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.ArmorSets)
+            {
+                armorSetItems.Add(item);
+            }
+
+            dataArmorSetsItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Armor Pieces
         //================================================================================
@@ -1420,6 +1476,41 @@ namespace LootGoblin.Controls
             }
 
             txtArmorPiecesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArmorPiecesImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboArmorPiecesImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.ArmorPieces)
+            {
+                armorPieceItems.Add(item);
+            }
+
+            dataArmorPieces.Items.Refresh();
 
             ChangeHappened();
         }
@@ -1702,6 +1793,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnWeaponsImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboWeaponImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.Weapons)
+            {
+                weaponItems.Add(item);
+            }
+
+            dataWeaponItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Ammo
         //================================================================================
@@ -1976,6 +2102,41 @@ namespace LootGoblin.Controls
             }
 
             txtAmmoMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnAmmoImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboAmmoImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.Ammo)
+            {
+                ammoItems.Add(item);
+            }
+
+            dataAmmoItems.Items.Refresh();
 
             ChangeHappened();
         }
@@ -2258,6 +2419,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnClothingImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboClothingImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.Clothing)
+            {
+                clothingItems.Add(item);
+            }
+
+            dataClothingItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Clothing Accessories
         //================================================================================
@@ -2532,6 +2728,41 @@ namespace LootGoblin.Controls
             }
 
             txtClothingAccessoriesMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnClothingAccessoriesImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboClothingAccessoriesImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.ClothingAccessories)
+            {
+                clothingAccessoriesItems.Add(item);
+            }
+
+            dataClothingAccessoriesItems.Items.Refresh();
 
             ChangeHappened();
         }
@@ -2814,6 +3045,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnFoodDrinkImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboFoodDrinkImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.FoodDrinks)
+            {
+                foodDrinksItems.Add(item);
+            }
+
+            dataFoodDrinkItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Trade Goods
         //================================================================================
@@ -3088,6 +3354,41 @@ namespace LootGoblin.Controls
             }
 
             txtTradeGoodsMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTradeGoodsImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboTradeGoodsImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.TradeGoods)
+            {
+                tradeGoodsItems.Add(item);
+            }
+
+            dataTradeGoodsItems.Items.Refresh();
 
             ChangeHappened();
         }
@@ -3370,6 +3671,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnPreciousItemsImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboPreciousItemsImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.PreciousItems)
+            {
+                preciousItems.Add(item);
+            }
+
+            dataPreciousItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Art Decor
         //================================================================================
@@ -3644,6 +3980,41 @@ namespace LootGoblin.Controls
             }
 
             txtArtDecorMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnArtDecorImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboArtDecorImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.ArtDecor)
+            {
+                artDecorItems.Add(item);
+            }
+
+            dataArtDecorItems.Items.Refresh();
 
             ChangeHappened();
         }
@@ -3926,6 +4297,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnBooksPapersImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboBooksPapersImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.BooksPapers)
+            {
+                booksPapersItems.Add(item);
+            }
+
+            dataBooksPapersItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Other Items
         //================================================================================
@@ -4204,6 +4610,41 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
+        private void btnOtherItemsImport_Click(object sender, RoutedEventArgs e)
+        {
+            var text = comboOtherImport.Text;
+
+            if (text.Equals(String.Empty))
+            {
+                return;
+            }
+
+            // Search for matching container
+            LootContainer container = null;
+            foreach (LootContainer lootcontainer in programStorage.LootContainers)
+            {
+                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    container = lootcontainer;
+                    break;
+                }
+            }
+
+            if (container == null)
+            {
+                return; // Selection is not valid container
+            }
+
+            foreach (Item item in container.OtherItems)
+            {
+                otherItems.Add(item);
+            }
+
+            dataOtherItems.Items.Refresh();
+
+            ChangeHappened();
+        }
+
         //================================================================================
         // Options
         //================================================================================
@@ -4267,6 +4708,11 @@ namespace LootGoblin.Controls
                 Directory.CreateDirectory(endPath);
 
                 string endFile = Path.Combine(endPath, String.Format("{0}.json", currentContainer.Name));
+                if (File.Exists(endFile))
+                {
+                    File.Delete(endFile);
+                }
+
                 File.Move(startFile, endFile);
 
                 programStorage.LootContainers.Remove(currentContainer);
@@ -4574,6 +5020,60 @@ namespace LootGoblin.Controls
 
             comboContainerType.ItemsSource = null;
             comboContainerType.ItemsSource = programStorage.ContainerTypes;
+
+            containerNames = new List<string>();
+            foreach (LootContainer container in programStorage.LootContainers)
+            {
+                containerNames.Add(container.Name);
+            }
+
+            comboArmorSetsImport.ItemsSource = null;
+            comboArmorSetsImport.ItemsSource = containerNames;
+            comboArmorSetsImport.Text = String.Empty;
+
+            comboArmorPiecesImport.ItemsSource = null;
+            comboArmorPiecesImport.ItemsSource = containerNames;
+            comboArmorPiecesImport.Text = String.Empty;
+
+            comboWeaponImport.ItemsSource = null;
+            comboWeaponImport.ItemsSource = containerNames;
+            comboWeaponImport.Text = String.Empty;
+
+            comboAmmoImport.ItemsSource = null;
+            comboAmmoImport.ItemsSource = containerNames;
+            comboAmmoImport.Text = String.Empty;
+
+            comboClothingImport.ItemsSource = null;
+            comboClothingImport.ItemsSource = containerNames;
+            comboClothingImport.Text = String.Empty;
+
+            comboClothingAccessoriesImport.ItemsSource = null;
+            comboClothingAccessoriesImport.ItemsSource = containerNames;
+            comboClothingAccessoriesImport.Text = String.Empty;
+
+            comboFoodDrinkImport.ItemsSource = null;
+            comboFoodDrinkImport.ItemsSource = containerNames;
+            comboFoodDrinkImport.Text = String.Empty;
+
+            comboTradeGoodsImport.ItemsSource = null;
+            comboTradeGoodsImport.ItemsSource = containerNames;
+            comboTradeGoodsImport.Text = String.Empty;
+
+            comboPreciousItemsImport.ItemsSource = null;
+            comboPreciousItemsImport.ItemsSource = containerNames;
+            comboPreciousItemsImport.Text = String.Empty;
+
+            comboArtDecorImport.ItemsSource = null;
+            comboArtDecorImport.ItemsSource = containerNames;
+            comboArtDecorImport.Text = String.Empty;
+
+            comboBooksPapersImport.ItemsSource = null;
+            comboBooksPapersImport.ItemsSource = containerNames;
+            comboBooksPapersImport.Text = String.Empty;
+
+            comboOtherImport.ItemsSource = null;
+            comboOtherImport.ItemsSource = containerNames;
+            comboOtherImport.Text = String.Empty;
         }
 
         private void txtBoxNumber_TextChanged(object sender, TextChangedEventArgs e)
