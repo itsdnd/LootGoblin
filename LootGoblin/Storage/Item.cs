@@ -2,8 +2,8 @@
 {
     public class Item
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = "Default Item Name";
+        public string Value { get; set; } = "0gp";
+        public string Description { get; set; } = "Default Item Description";
     }
 }

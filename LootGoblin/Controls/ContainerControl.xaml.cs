@@ -912,7 +912,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArmorSetsName.Text = String.Empty;
-                    txtArmorSetsValue.Text = "0";
+                    txtArmorSetsValue.Text = "0gp";
                     txtArmorSetsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1190,7 +1190,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArmorPiecesName.Text = String.Empty;
-                    txtArmorPiecesValue.Text = "0";
+                    txtArmorPiecesValue.Text = "0gp";
                     txtArmorPiecesDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1468,7 +1468,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtWeaponName.Text = String.Empty;
-                    txtWeaponValue.Text = "0";
+                    txtWeaponValue.Text = "0gp";
                     txtWeaponDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -1746,7 +1746,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtAmmoName.Text = String.Empty;
-                    txtAmmoValue.Text = "0";
+                    txtAmmoValue.Text = "0gp";
                     txtAmmoDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2024,7 +2024,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtClothingName.Text = String.Empty;
-                    txtClothingValue.Text = "0";
+                    txtClothingValue.Text = "0gp";
                     txtClothingDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2302,7 +2302,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtClothingAccessoriesName.Text = String.Empty;
-                    txtClothingAccessoriesValue.Text = "0";
+                    txtClothingAccessoriesValue.Text = "0gp";
                     txtClothingAccessoriesDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2580,7 +2580,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtFoodDrinkName.Text = String.Empty;
-                    txtFoodDrinkValue.Text = "0";
+                    txtFoodDrinkValue.Text = "0gp";
                     txtFoodDrinkDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -2858,7 +2858,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtTradeGoodsName.Text = String.Empty;
-                    txtTradeGoodsValue.Text = "0";
+                    txtTradeGoodsValue.Text = "0gp";
                     txtTradeGoodsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3136,7 +3136,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtPreciousItemsName.Text = String.Empty;
-                    txtPreciousItemsValue.Text = "0";
+                    txtPreciousItemsValue.Text = "0gp";
                     txtPreciousItemsDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3414,7 +3414,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtArtDecorName.Text = String.Empty;
-                    txtArtDecorValue.Text = "0";
+                    txtArtDecorValue.Text = "0gp";
                     txtArtDecorDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3692,7 +3692,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtBooksPapersName.Text = String.Empty;
-                    txtBooksPapersValue.Text = "0";
+                    txtBooksPapersValue.Text = "0gp";
                     txtBooksPapersDescription.Text = String.Empty;
 
                     ChangeHappened();
@@ -3970,7 +3970,7 @@ namespace LootGoblin.Controls
 
                     // Reset inputs
                     txtOtherName.Text = String.Empty;
-                    txtOtherValue.Text = "0";
+                    txtOtherValue.Text = "0gp";
                     txtOtherDescription.Text = String.Empty;
 
                     ChangeHappened();
