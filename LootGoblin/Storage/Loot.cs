@@ -11,6 +11,7 @@ namespace LootGoblin.Storage
         public int Gold { get; set; }
         public int Platinum { get; set; }
         public Dictionary<string, int> MundaneItems { get; set; }
+        public Dictionary<string, int> Trinkets { get; set; }
         public Dictionary<Item, int> ArmorSets { get; set; }
         public Dictionary<Item, int> ArmorPieces { get; set; }
         public Dictionary<Item, int> Weapons { get; set; }

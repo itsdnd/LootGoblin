@@ -13,11 +13,6 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              Width="1370"
 >
-
-    <UserControl.Resources>
-        <System:String x:Key="Armor">"Armor Sets"</System:String>
-    </UserControl.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
@@ -86,7 +81,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
 
-            <StackPanel VerticalAlignment="Top"  >
+            <StackPanel VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto"  >
                 <!--                                                                                                                    BASIC INFORMATION & CURRENCY -->
                 <Expander HorizontalAlignment="Stretch" IsExpanded="True" >
                     <Expander.HeaderTemplate>
@@ -267,14 +262,14 @@
                         <DataTemplate>
                             <DockPanel Height="32">
                                 <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/dice.png"/>
-                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Mundane Items"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Mundane"/>
                             </DockPanel>
                         </DataTemplate>
                     </Expander.HeaderTemplate>
                     <Border Padding="10" BorderThickness="0,1,0,0" BorderBrush="{StaticResource PrimaryHueMidBrush}">
                         <StackPanel Margin="16,0,16,16">
                             <TextBlock Text="Mundane Items:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="24,8,24,16" Padding="0,0,16,0" HorizontalAlignment="Left" Text="Mundane items are typically the common, ordinary, or simple items that are often present in any environment. They are so simple that they often only need very little description or no description at all, and are usually listed with their values. The mundane items list is the same for each container, but you may specify individual minimum and maximum values for each container. To edit the mundane item list, click the &quot;Edit Mundane Items&quot; button below. Please note that each item should be on its own line." />
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="24,8,24,16" Padding="0,0,16,0" HorizontalAlignment="Left" Text="Mundane items are typically the common, ordinary, or simple items that are often present in any environment. They are so simple that they often only need very little description or no description at all. Some mundane items can be great ideas for adventure hooks. The mundane items list is the same for each container, but you may specify individual minimum and maximum values for each container. To edit the mundane item list, click the &quot;Edit Mundane Items&quot; button below. Please note that each item should be on its own line." />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0">
                                 <StackPanel Margin="0,0,8,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -290,44 +285,94 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Left">
-                                    <StackPanel>
-                                        <DockPanel Margin="0">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="Mundane Items (Min):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBox x:Name="txtMundaneMin" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtMundaneMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" />
-                                                        <StackPanel Margin="0">
-                                                            <RepeatButton x:Name="a4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinUp_Click" >
-                                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
-                                                            </RepeatButton>
-                                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
-                                                            <RepeatButton x:Name="b4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinDown_Click" >
-                                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
-                                                            </RepeatButton>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="txtMundaneMin" materialDesign:HintAssist.Hint="Mundane Items (Min)" VerticalAlignment="Center" TextAlignment="Center" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="150" TextBoxBase.TextChanged="txtMundaneMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" Text="0" />
+                                        <StackPanel Margin="0">
+                                            <RepeatButton x:Name="btnMundaneMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinUp_Click" >
+                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
+                                            <RepeatButton x:Name="btnMundaneMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMinDown_Click" >
+                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="txtMundaneMax" materialDesign:HintAssist.Hint="Mundane Items (Max)" VerticalAlignment="Center" TextAlignment="Center" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="150" TextBoxBase.TextChanged="txtMundaneMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" Text="0" />
+                                        <StackPanel Margin="0">
+                                            <RepeatButton x:Name="btnMundaneMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxUp_Click" >
+                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
+                                            <RepeatButton x:Name="btnMundaneMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxDown_Click" >
+                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Expander>
+                <Separator Margin="0,16" />
+                <!--                                                                                                                    TRINKETS -->
+                <Expander HorizontalAlignment="Stretch" IsExpanded="False">
+                    <Expander.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="32">
+                                <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/ring.png"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Trinkets"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <Border Padding="10" BorderThickness="0,1,0,0" BorderBrush="{StaticResource PrimaryHueMidBrush}">
+                        <StackPanel Margin="16,0,16,16">
+                            <TextBlock Text="Trinkets:" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="24,8,0,16" Padding="0,0,16,0" HorizontalAlignment="Left" Text="Trinkets are described as simple items that have been touched by mystery. These items are often unusual, mysterious, or perhaps slightly magical in nature. Trinkets are unique and often found in the pockets (or remains) of adventurers near and far. They often provide great hooks or ideas for other adventures. The trinket list is the same for each container, but you may specify individual minimum and maximum values for each container. To edit the trinket list, click the &quot;Edit Trinkets&quot; button below. Please note that each item should be on its own line." />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="24,0">
+                                <StackPanel Margin="0,0,8,0">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button x:Name="btnTrinketEdit" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0,16,8,16" Width="175" Click="btnTrinketEdit_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-4" Width="24" Height="24" />
+                                                <TextBlock Text="Edit Trinkets" VerticalAlignment="Center" FontSize="12" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="Mundane Items (Max):" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="0,0,8,8" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" />
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBox x:Name="txtMundaneMax" Text="0" VerticalAlignment="Center" TextAlignment="Center" Width="150"  TextBoxBase.TextChanged="txtMundaneMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" />
-                                                        <StackPanel Margin="0">
-                                                            <RepeatButton x:Name="c4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxUp_Click" >
-                                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
-                                                            </RepeatButton>
-                                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
-                                                            <RepeatButton x:Name="d4" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnMundaneMaxDown_Click" >
-                                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
-                                                            </RepeatButton>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </DockPanel>
+                                        </Button>
+                                        <StackPanel Width="99" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Trinkets:" Margin="8,0,-8,8" FontSize="10" Padding="0,0,16,0" FontWeight="Bold" />
+                                            <Label x:Name="lblTrinketItems" DockPanel.Dock="Right" Content="0" BorderBrush="{StaticResource PrimaryHueMidBrush}" Margin="0,0,0,8" FontSize="14" Padding="16,8" BorderThickness="1" Height="35" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="txtTrinketMin" materialDesign:HintAssist.Hint="Trinkets (Min)" VerticalAlignment="Center" TextAlignment="Center" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="150" TextBoxBase.TextChanged="txtTrinketMin_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" Text="0" />
+                                        <StackPanel Margin="0">
+                                            <RepeatButton x:Name="btnTrinketMinUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnTrinketMinUp_Click" >
+                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
+                                            <RepeatButton x:Name="btnTrinketMinDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnTrinketMinDown_Click" >
+                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="txtTrinketMax" materialDesign:HintAssist.Hint="Trinkets (Max)" VerticalAlignment="Center" TextAlignment="Center" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" Width="150" TextBoxBase.TextChanged="txtTrinketMax_TextChanged" PreviewTextInput="txtBoxNumber_PreviewTextInput" PreviewKeyDown="txtBoxNumber_PreviewKeyDown" Margin="0,0,4,0" Text="0" />
+                                        <StackPanel Margin="0">
+                                            <RepeatButton x:Name="btnTrinketMaxUp" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnTrinketMaxUp_Click" >
+                                                <materialDesign:PackIcon Kind="MenuUp" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                            <Separator Margin="4,0" Background="{StaticResource PrimaryHueMidBrush}" />
+                                            <RepeatButton x:Name="btnTrinketMaxDown" Style="{StaticResource MaterialDesignRaisedDarkButton}" Background="{x:Null}" Padding="0" Height="Auto" Click="btnTrinketMaxDown_Click" >
+                                                <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20"/>
+                                            </RepeatButton>
+                                        </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>

@@ -31,6 +31,7 @@ namespace LootGoblin.Controls
         private Dictionary<MagicItem, int> randomMagicItemList = new Dictionary<MagicItem, int>();
         private Dictionary<MagicItem, int> guaranteedMagicItemList = new Dictionary<MagicItem, int>();
         private Dictionary<string, int> mundaneListEncounter = new Dictionary<string, int>();
+        private Dictionary<string, int> trinketListEncounter = new Dictionary<string, int>();
 
         private Dictionary<Item, int> armorSetListEncounter = new Dictionary<Item, int>();
         private Dictionary<Item, int> armorPiecesListEncounter = new Dictionary<Item, int>();
@@ -287,7 +288,40 @@ namespace LootGoblin.Controls
                     loot.MundaneItems = temp;
                 }
             }
-            
+
+            if (programStorage.Trinkets.Count > 0)
+            {
+                if (container.TrinketMax > 0)
+                {
+                    var count = (container.TrinketMin < container.TrinketMax) ? random.Next(container.TrinketMin, container.TrinketMax + 1) : container.TrinketMax;
+                    Dictionary<string, int> temp = new Dictionary<string, int>();
+
+                    for (int j = 1; j <= count; j++)
+                    {
+                        var selection = programStorage.Trinkets[random.Next(0, programStorage.Trinkets.Count)];
+                        if (temp.ContainsKey(selection))
+                        {
+                            temp[selection] += 1;
+                        }
+                        else
+                        {
+                            temp.Add(selection, 1);
+                        }
+
+                        if (trinketListEncounter.ContainsKey(selection))
+                        {
+                            trinketListEncounter[selection] += 1;
+                        }
+                        else
+                        {
+                            trinketListEncounter.Add(selection, 1);
+                        }
+                    }
+
+                    loot.Trinkets = temp;
+                }
+            }
+
             loot.ArmorSets = GenerateContainerLoot(container.ArmorSets, container.ArmorSetsMin, container.ArmorSetsMax, armorSetListEncounter);
             loot.ArmorPieces = GenerateContainerLoot(container.ArmorPieces, container.ArmorPiecesMin, container.ArmorPiecesMax, armorPiecesListEncounter);
             loot.Weapons = GenerateContainerLoot(container.Weapons, container.WeaponsMin, container.WeaponsMax, weaponListEncounter);
@@ -358,6 +392,16 @@ namespace LootGoblin.Controls
             OutputItems("Books & Papers", loot.BooksPapers);
             OutputItems("Other Items", loot.OtherItems);
 
+            if (loot.Trinkets != null && loot.Trinkets.Count > 0)
+            {
+                AppendText(txtIndividualGear, Environment.NewLine + "Trinkets:" + Environment.NewLine);
+                foreach (KeyValuePair<string, int> pair in loot.Trinkets)
+                {
+                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
+                    AppendText(txtIndividualGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
+                }
+            }
+
             if (loot.MundaneItems != null && loot.MundaneItems.Count > 0)
             {
                 AppendText(txtIndividualGear, Environment.NewLine + "Mundane Items:" + Environment.NewLine);
@@ -407,6 +451,17 @@ namespace LootGoblin.Controls
             OutputEncounterItems("Art & Decor", artDecorListEncounter);
             OutputEncounterItems("Books & Papers", booksPapersListEncounter);
             OutputEncounterItems("Other Items", otherItemsListEncounter);
+
+            if (trinketListEncounter.Count > 0)
+            {
+
+                AppendText(txtEncounterGear, "Trinkets:" + Environment.NewLine);
+                foreach (KeyValuePair<string, int> pair in trinketListEncounter)
+                {
+                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
+                }
+            }
 
             if (mundaneListEncounter.Count > 0)
             {

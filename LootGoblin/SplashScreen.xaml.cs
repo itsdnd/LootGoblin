@@ -100,7 +100,7 @@ namespace LootGoblin
                 var progressString = String.Format("Loading '{0}'...", Path.GetFileNameWithoutExtension(Path.Combine(dataPath, files[i])));
                 var progress = ((i / (double)totalFiles) * 100);
                 progress = (progress < 5) ? 5 : progress;
-                progress = (progress > 90) ? 90 : progress;
+                progress = (progress > 75) ? 75 : progress;
 
                 this.Dispatcher.BeginInvoke((Action)delegate () {
                     txtStatus.Text = progressString;
@@ -118,7 +118,7 @@ namespace LootGoblin
 
             this.Dispatcher.BeginInvoke((Action)delegate () {
                 txtStatus.Text = "Loading Magic Items...";
-                progressBar.Value = 95;
+                progressBar.Value = 80;
             });
             
             var magicFile = Path.Combine(configPath, "magicitems.json");
@@ -146,7 +146,7 @@ namespace LootGoblin
 
             this.Dispatcher.BeginInvoke((Action)delegate () {
                 txtStatus.Text = "Loading Mundane Items...";
-                progressBar.Value = 100;
+                progressBar.Value = 90;
             });
 
             var mundaneFile = Path.Combine(configPath, "mundaneitems.txt");
@@ -163,6 +163,33 @@ namespace LootGoblin
                 }
 
                 File.WriteAllLines(mundaneFile, programStorage.MundaneItems);
+            }
+
+            Thread.Sleep(500);
+
+            //================================================================================
+            // Trinkets
+            //================================================================================
+
+            this.Dispatcher.BeginInvoke((Action)delegate () {
+                txtStatus.Text = "Loading Trinkets...";
+                progressBar.Value = 95;
+            });
+
+            var trinketFile = Path.Combine(configPath, "trinkets.txt");
+            if (File.Exists(trinketFile))
+            {
+                var input = File.ReadAllLines(trinketFile);
+                foreach (var item in input)
+                {
+                    if (item.Trim().Equals(String.Empty))
+                    {
+                        continue; // Skip if blank line
+                    }
+                    programStorage.Trinkets.Add(item.Trim());
+                }
+
+                File.WriteAllLines(trinketFile, programStorage.Trinkets);
             }
 
             Thread.Sleep(500); 

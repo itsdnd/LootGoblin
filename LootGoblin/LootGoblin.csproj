@@ -121,6 +121,9 @@
     <Compile Include="Storage\Trees\MagicItemTreeName.cs" />
     <Compile Include="Storage\Trees\MagicItemTreeRarity.cs" />
     <Compile Include="Storage\Trees\MagicItemTreeType.cs" />
+    <Compile Include="TrinketsWindow.xaml.cs">
+      <DependentUpon>TrinketsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WarningPopup.xaml.cs">
       <DependentUpon>WarningPopup.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrinketsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

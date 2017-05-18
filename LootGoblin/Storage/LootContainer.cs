@@ -5,7 +5,7 @@ namespace LootGoblin.Storage
     public class LootContainer
     {
         public string Name { get; set; } = "New Loot Container";
-        public string Type { get; set; } = "NoType";
+        public string Type { get; set; } = "No Type";
         public string Description { get; set; } = "Placeholder container description";
         public int CopperMin { get; set; } = 0;
         public int CopperMax { get; set; } = 0;
@@ -19,6 +19,8 @@ namespace LootGoblin.Storage
         public int PlatinumMax { get; set; } = 0;
         public int MundaneMin { get; set; } = 0;
         public int MundaneMax { get; set; } = 0;
+        public int TrinketMin { get; set; } = 0;
+        public int TrinketMax { get; set; } = 0;
         public int ArmorSetsMin { get; set; } = 0;
         public int ArmorSetsMax { get; set; } = 0;
         public List<Item> ArmorSets { get; set; } = new List<Item>();

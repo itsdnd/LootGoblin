@@ -223,6 +223,9 @@ namespace LootGoblin.Controls
 
             txtMundaneMin.Text = container.MundaneMin.ToString();
             txtMundaneMax.Text = container.MundaneMax.ToString();
+
+            txtTrinketMin.Text = container.TrinketMin.ToString();
+            txtTrinketMax.Text = container.TrinketMax.ToString();
         }
 
         //================================================================================
@@ -885,6 +888,121 @@ namespace LootGoblin.Controls
             }
 
             txtMundaneMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        //================================================================================
+        // Trinkets
+        //================================================================================
+
+        private void btnTrinketEdit_Click(object sender, RoutedEventArgs e)
+        {
+            TrinketsWindow trinket = new TrinketsWindow();
+            trinket.ShowDialog();
+
+            UpdateTotalItemsAvailable();
+        }
+
+        private void txtTrinketMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            if (txtTrinketMax != null)
+            {
+                var min = Convert.ToInt32(txtTrinketMin.Text);
+                var max = Convert.ToInt32(txtTrinketMax.Text);
+
+                if (min > max)
+                {
+                    txtTrinketMax.Text = min.ToString();
+                }
+            }
+
+            ChangeHappened();
+        }
+
+        private void txtTrinketMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBoxNumber_TextChanged(sender, e);
+
+            var min = Convert.ToInt32(txtTrinketMin.Text);
+            var max = Convert.ToInt32(txtTrinketMax.Text);
+
+            if (max < min)
+            {
+                txtTrinketMin.Text = max.ToString();
+            }
+
+            ChangeHappened();
+        }
+
+        private void btnTrinketMinUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTrinketMin.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            if (value > Convert.ToInt32(txtTrinketMax.Text))
+            {
+                txtTrinketMax.Text = value.ToString();
+            }
+
+            txtTrinketMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTrinketMinDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTrinketMin.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            txtTrinketMin.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTrinketMaxUp_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTrinketMax.Text);
+            value++;
+
+            if (value > Number_Maximum)
+            {
+                value = Number_Maximum;
+            }
+
+            txtTrinketMax.Text = value.ToString();
+
+            ChangeHappened();
+        }
+
+        private void btnTrinketMaxDown_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToInt32(txtTrinketMax.Text);
+            value--;
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value < Convert.ToInt32(txtTrinketMin.Text))
+            {
+                txtTrinketMin.Text = value.ToString();
+            }
+
+            txtTrinketMax.Text = value.ToString();
 
             ChangeHappened();
         }
@@ -4781,6 +4899,9 @@ namespace LootGoblin.Controls
             currentContainer.MundaneMin = Convert.ToInt32(txtMundaneMin.Text);
             currentContainer.MundaneMax = Convert.ToInt32(txtMundaneMax.Text);
 
+            currentContainer.TrinketMin = Convert.ToInt32(txtTrinketMin.Text);
+            currentContainer.TrinketMax = Convert.ToInt32(txtTrinketMax.Text);
+
             currentContainer.ArmorSets = armorSetItems;
             currentContainer.ArmorSetsMin = Convert.ToInt32(txtArmorSetsMin.Text);
             currentContainer.ArmorSetsMax = Convert.ToInt32(txtArmorSetsMax.Text);
@@ -4847,6 +4968,7 @@ namespace LootGoblin.Controls
 
         private void UpdateTotalItemsAvailable()
         {
+            lblTrinketItems.Content = programStorage.Trinkets.Count;
             lblMundaneItems.Content = programStorage.MundaneItems.Count;
             lblArmorSetsItems.Content = dataArmorSetsItems.Items.Count;
             lblArmorPiecesItems.Content = dataArmorPieces.Items.Count;
@@ -4881,6 +5003,9 @@ namespace LootGoblin.Controls
 
             newContainer.MundaneMin = currentContainer.MundaneMin;
             newContainer.MundaneMax = currentContainer.MundaneMax;
+
+            newContainer.TrinketMin = currentContainer.TrinketMin;
+            newContainer.TrinketMax = currentContainer.TrinketMax;
 
             newContainer.ArmorSetsMin = currentContainer.ArmorSetsMin;
             newContainer.ArmorSetsMax = currentContainer.ArmorSetsMax;
@@ -4941,7 +5066,10 @@ namespace LootGoblin.Controls
             txtPlatinumMax.Text = "0";
 
             txtMundaneMin.Text = "0";
-            txtPlatinumMax.Text = "0";
+            txtMundaneMax.Text = "0";
+
+            txtTrinketMin.Text = "0";
+            txtTrinketMax.Text = "0";
 
             txtArmorSetsMin.Text = "0";
             txtArmorSetsMax.Text = "0";

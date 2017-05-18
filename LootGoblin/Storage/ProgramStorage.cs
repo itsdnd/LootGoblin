@@ -14,6 +14,7 @@ namespace LootGoblin
             LootContainers = new List<LootContainer>();
             MagicItems = new List<MagicItem>();
             MundaneItems = new List<string>();
+            Trinkets = new List<string>();
 
             EncounterList = new ObservableCollection<EncounterContainer>();
             MagicItemList = new ObservableCollection<MagicItem>();
@@ -47,6 +48,8 @@ namespace LootGoblin
         public List<string> MagicItemRarities { get; set; }
 
         public List<string> MundaneItems { get; set; }
+
+        public List<string> Trinkets { get; set; }
 
         public string[] BasicContainerTypes
         {
