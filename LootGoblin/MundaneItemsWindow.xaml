@@ -13,19 +13,24 @@
         Title="Mundane Items"
         WindowStartupLocation="CenterScreen"
         Icon="chest.ico"
-        Width="750" 
-        Height="750" 
-        ResizeMode="NoResize">
+        Width="500"
+        Height="500" 
+        MinWidth="350" 
+        MinHeight="350" 
+        Loaded="Window_Loaded"
+>
     <Grid>
-        <StackPanel>
-            <TextBox x:Name="txtMundaneItems" materialDesign:HintAssist.Hint="Mundane Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26"  TextWrapping="NoWrap" Margin="16,16,16,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Center" VerticalAlignment="Top" MaxHeight="620" HorizontalScrollBarVisibility="Auto" />
-            <Separator Margin="0,16" />
-            <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,0,16,16" Click="btnSave_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                    <TextBlock Text="Save / Update Mundane Items" VerticalAlignment="Center" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox x:Name="txtMundaneItems" materialDesign:HintAssist.Hint="Mundane Items" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" TextWrapping="NoWrap" Margin="16,16,16,0" AcceptsReturn="True" VerticalContentAlignment="Center" VerticalAlignment="Top" />
+                <Separator Margin="16" />
+                <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,0,16,16" Click="btnSave_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
+                        <TextBlock Text="Save / Update Mundane Items" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

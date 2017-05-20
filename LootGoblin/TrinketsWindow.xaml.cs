@@ -20,6 +20,18 @@ namespace LootGoblin
             loadItems();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var currentWindowWidth = SystemParameters.PrimaryScreenWidth;
+            var currentWindowHeight = SystemParameters.PrimaryScreenHeight;
+
+            this.Width = (currentWindowWidth * 0.60);
+            this.Height = (currentWindowHeight * 0.55);
+
+            this.Left = (currentWindowWidth / 2) - (this.Width / 2);
+            this.Top = (currentWindowHeight / 2) - (this.Height / 2) - 20;
+        }
+
         private void loadItems()
         {
             txtTrinkets.Text = String.Empty;
@@ -53,7 +65,7 @@ namespace LootGoblin
             WarningPopup.Show("Save Successful", "The trinkets list has been updated successfully.");
 
             // Write to file
-            File.WriteAllLines(Path.Combine(path, "trinkets.txt"), programStorage.MundaneItems);
+            File.WriteAllLines(Path.Combine(path, "trinkets.txt"), programStorage.Trinkets);
         }
     }
 }

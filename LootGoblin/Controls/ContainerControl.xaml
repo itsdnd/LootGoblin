@@ -2099,7 +2099,7 @@
                         <DataTemplate>
                             <DockPanel Height="32">
                                 <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/map.png"/>
-                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding Source={StaticResource CategoryName}, StringFormat='{}{0} (Books, Tomes, Scrolls, Papers, Maps, Etc)'}"/>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding Source={StaticResource CategoryName}, StringFormat='{}{0} (Books, Tomes, Papers, Maps, Etc)'}"/>
                             </DockPanel>
                         </DataTemplate>
                     </Expander.HeaderTemplate>
