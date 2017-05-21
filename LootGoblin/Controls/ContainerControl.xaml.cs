@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace LootGoblin.Controls
@@ -23,18 +25,18 @@ namespace LootGoblin.Controls
         private string originalFileName = String.Empty;
         private Item editedItem = null;
 
-        private List<Item> armorSetItems;
-        private List<Item> armorPieceItems;
-        private List<Item> weaponItems;
-        private List<Item> ammoItems;
-        private List<Item> clothingItems;
-        private List<Item> clothingAccessoriesItems;
-        private List<Item> foodDrinksItems;
-        private List<Item> tradeGoodsItems;
-        private List<Item> preciousItems;
-        private List<Item> artDecorItems;
-        private List<Item> booksPapersItems;
-        private List<Item> otherItems;
+        private List<Item> ArmorSetsList;
+        private List<Item> ArmorPiecesList;
+        private List<Item> WeaponsList;
+        private List<Item> AmmoList;
+        private List<Item> ClothingList;
+        private List<Item> ClothingAccessoriesList;
+        private List<Item> FoodDrinksList;
+        private List<Item> TradeGoodsList;
+        private List<Item> PreciousItemsList;
+        private List<Item> ArtDecorList;
+        private List<Item> BooksPapersList;
+        private List<Item> OtherItemsList;
 
         private List<string> containerNames;
 
@@ -63,16 +65,16 @@ namespace LootGoblin.Controls
 
             comboArmorSetsImport.ItemsSource = containerNames;
             comboArmorPiecesImport.ItemsSource = containerNames;
-            comboWeaponImport.ItemsSource = containerNames;
+            comboWeaponsImport.ItemsSource = containerNames;
             comboAmmoImport.ItemsSource = containerNames;
             comboClothingImport.ItemsSource = containerNames;
             comboClothingAccessoriesImport.ItemsSource = containerNames;
-            comboFoodDrinkImport.ItemsSource = containerNames;
+            comboFoodDrinksImport.ItemsSource = containerNames;
             comboTradeGoodsImport.ItemsSource = containerNames;
             comboPreciousItemsImport.ItemsSource = containerNames;
             comboArtDecorImport.ItemsSource = containerNames;
             comboBooksPapersImport.ItemsSource = containerNames;
-            comboOtherImport.ItemsSource = containerNames;
+            comboOtherItemsImport.ItemsSource = containerNames;
 
             // Generate list of Loot Containers
             PopulateContainerTree();
@@ -169,47 +171,47 @@ namespace LootGoblin.Controls
             txtPlatinumMin.Text = container.PlatinumMin.ToString();
             txtPlatinumMax.Text = container.PlatinumMax.ToString();
 
-            armorSetItems = new List<Item>(container.ArmorSets);
-            dataArmorSetsItems.ItemsSource = armorSetItems;
-            armorPieceItems = new List<Item>(container.ArmorPieces);
-            dataArmorPieces.ItemsSource = armorPieceItems;
-            weaponItems = new List<Item>(container.Weapons);
-            dataWeaponItems.ItemsSource = weaponItems;
-            ammoItems = new List<Item>(container.Ammo);
-            dataAmmoItems.ItemsSource = ammoItems;
-            clothingItems = new List<Item>(container.Clothing);
-            dataClothingItems.ItemsSource = clothingItems;
-            clothingAccessoriesItems = new List<Item>(container.ClothingAccessories);
-            dataClothingAccessoriesItems.ItemsSource = clothingAccessoriesItems;
-            foodDrinksItems = new List<Item>(container.FoodDrinks);
-            dataFoodDrinkItems.ItemsSource = foodDrinksItems;
-            tradeGoodsItems = new List<Item>(container.TradeGoods);
-            dataTradeGoodsItems.ItemsSource = tradeGoodsItems;
-            preciousItems = new List<Item>(container.PreciousItems);
-            dataPreciousItems.ItemsSource = preciousItems;
-            artDecorItems = new List<Item>(container.ArtDecor);
-            dataArtDecorItems.ItemsSource = artDecorItems;
-            booksPapersItems = new List<Item>(container.BooksPapers);
-            dataBooksPapersItems.ItemsSource = booksPapersItems;     
-            otherItems = new List<Item>(container.OtherItems);
-            dataOtherItems.ItemsSource = otherItems;
+            ArmorSetsList = new List<Item>(container.ArmorSets);
+            dataArmorSets.ItemsSource = ArmorSetsList;
+            ArmorPiecesList = new List<Item>(container.ArmorPieces);
+            dataArmorPieces.ItemsSource = ArmorPiecesList;
+            WeaponsList = new List<Item>(container.Weapons);
+            dataWeapons.ItemsSource = WeaponsList;
+            AmmoList = new List<Item>(container.Ammo);
+            dataAmmo.ItemsSource = AmmoList;
+            ClothingList = new List<Item>(container.Clothing);
+            dataClothing.ItemsSource = ClothingList;
+            ClothingAccessoriesList = new List<Item>(container.ClothingAccessories);
+            dataClothingAccessories.ItemsSource = ClothingAccessoriesList;
+            FoodDrinksList = new List<Item>(container.FoodDrinks);
+            dataFoodDrinks.ItemsSource = FoodDrinksList;
+            TradeGoodsList = new List<Item>(container.TradeGoods);
+            dataTradeGoods.ItemsSource = TradeGoodsList;
+            PreciousItemsList = new List<Item>(container.PreciousItems);
+            dataPreciousItems.ItemsSource = PreciousItemsList;
+            ArtDecorList = new List<Item>(container.ArtDecor);
+            dataArtDecor.ItemsSource = ArtDecorList;
+            BooksPapersList = new List<Item>(container.BooksPapers);
+            dataBooksPapers.ItemsSource = BooksPapersList;     
+            OtherItemsList = new List<Item>(container.OtherItems);
+            dataOtherItems.ItemsSource = OtherItemsList;
 
-            UpdateTotalItemsAvailable(); // Update mins/maxes before setting values
+            UpdateAvailableCategoryItemAmounts();
 
             txtArmorSetsMin.Text = container.ArmorSetsMin.ToString();
             txtArmorSetsMax.Text = container.ArmorSetsMax.ToString();
             txtArmorPiecesMin.Text = container.ArmorPiecesMin.ToString();
             txtArmorPiecesMax.Text = container.ArmorPiecesMax.ToString();
-            txtWeaponMin.Text = container.WeaponsMin.ToString();
-            txtWeaponMax.Text = container.WeaponsMax.ToString();
+            txtWeaponsMin.Text = container.WeaponsMin.ToString();
+            txtWeaponsMax.Text = container.WeaponsMax.ToString();
             txtAmmoMin.Text = container.AmmoMin.ToString();
             txtAmmoMax.Text = container.AmmoMax.ToString();
             txtClothingMin.Text = container.ClothingMin.ToString();
             txtClothingMax.Text = container.ClothingMax.ToString();
             txtClothingAccessoriesMin.Text = container.ClothingAccessoriesMin.ToString();
             txtClothingAccessoriesMax.Text = container.ClothingAccessoriesMax.ToString();
-            txtFoodDrinkMin.Text = container.FoodDrinksMin.ToString();
-            txtFoodDrinkMax.Text = container.FoodDrinksMax.ToString();
+            txtFoodDrinksMin.Text = container.FoodDrinksMin.ToString();
+            txtFoodDrinksMax.Text = container.FoodDrinksMax.ToString();
             txtTradeGoodsMin.Text = container.TradeGoodsMin.ToString();
             txtTradeGoodsMax.Text = container.TradeGoodsMax.ToString();
             txtPreciousItemsMin.Text = container.PreciousItemsMin.ToString();
@@ -218,14 +220,14 @@ namespace LootGoblin.Controls
             txtArtDecorMax.Text = container.ArtDecorMax.ToString();
             txtBooksPapersMin.Text = container.BooksPapersMin.ToString();
             txtBooksPapersMax.Text = container.BooksPapersMax.ToString();
-            txtOtherMin.Text = container.OtherItemsMin.ToString();
-            txtOtherMax.Text = container.OtherItemsMax.ToString();
+            txtOtherItemsMin.Text = container.OtherItemsMin.ToString();
+            txtOtherItemsMax.Text = container.OtherItemsMax.ToString();
 
-            txtMundaneMin.Text = container.MundaneMin.ToString();
-            txtMundaneMax.Text = container.MundaneMax.ToString();
+            txtMundaneItemsMin.Text = container.MundaneMin.ToString();
+            txtMundaneItemsMax.Text = container.MundaneMax.ToString();
 
-            txtTrinketMin.Text = container.TrinketMin.ToString();
-            txtTrinketMax.Text = container.TrinketMax.ToString();
+            txtTrinketsMin.Text = container.TrinketMin.ToString();
+            txtTrinketsMax.Text = container.TrinketMax.ToString();
         }
 
         //================================================================================
@@ -304,481 +306,7 @@ namespace LootGoblin.Controls
         }
 
         //================================================================================
-        // Currency
-        //================================================================================
-
-        private void txtCopperMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtCopperMax != null && (Convert.ToInt32(txtCopperMin.Text) > Convert.ToInt32(txtCopperMax.Text)))
-            {
-                txtCopperMax.Text = txtCopperMin.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtCopperMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (Convert.ToInt32(txtCopperMax.Text) < Convert.ToInt32(txtCopperMin.Text))
-            {
-                txtCopperMin.Text = txtCopperMax.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnCopperMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtCopperMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtCopperMax.Text))
-            {
-                txtCopperMax.Text = value.ToString();
-            }
-
-            txtCopperMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnCopperMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtCopperMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtCopperMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnCopperMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtCopperMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtCopperMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnCopperMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtCopperMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtCopperMin.Text))
-            {
-                txtCopperMin.Text = value.ToString();
-            }
-
-            txtCopperMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void txtSilverMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtSilverMax != null && (Convert.ToInt32(txtSilverMin.Text) > Convert.ToInt32(txtSilverMax.Text)))
-            {
-                txtSilverMax.Text = txtSilverMin.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtSilverMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (Convert.ToInt32(txtSilverMax.Text) < Convert.ToInt32(txtSilverMin.Text))
-            {
-                txtSilverMin.Text = txtSilverMax.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnSilverMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtSilverMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtSilverMax.Text))
-            {
-                txtSilverMax.Text = value.ToString();
-            }
-
-            txtSilverMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnSilverMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtSilverMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtSilverMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnSilverMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtSilverMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtSilverMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnSilverMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtSilverMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtSilverMin.Text))
-            {
-                txtSilverMin.Text = value.ToString();
-            }
-
-            txtSilverMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void txtElectrumMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtElectrumMax != null && (Convert.ToInt32(txtElectrumMin.Text) > Convert.ToInt32(txtElectrumMax.Text)))
-            {
-                txtElectrumMax.Text = txtElectrumMin.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtElectrumMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (Convert.ToInt32(txtElectrumMax.Text) < Convert.ToInt32(txtElectrumMin.Text))
-            {
-                txtElectrumMin.Text = txtElectrumMax.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnElectrumMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtElectrumMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtElectrumMax.Text))
-            {
-                txtElectrumMax.Text = value.ToString();
-            }
-
-            txtElectrumMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnElectrumMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtElectrumMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtElectrumMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnElectrumMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtElectrumMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtElectrumMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnElectrumMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtElectrumMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtElectrumMin.Text))
-            {
-                txtElectrumMin.Text = value.ToString();
-            }
-
-            txtElectrumMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void txtGoldMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtGoldMax != null && (Convert.ToInt32(txtGoldMin.Text) > Convert.ToInt32(txtGoldMax.Text)))
-            {
-                txtGoldMax.Text = txtGoldMin.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtGoldMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (Convert.ToInt32(txtGoldMax.Text) < Convert.ToInt32(txtGoldMin.Text))
-            {
-                txtGoldMin.Text = txtGoldMax.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnGoldMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtGoldMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtGoldMax.Text))
-            {
-                txtGoldMax.Text = value.ToString();
-            }
-
-            txtGoldMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnGoldMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtGoldMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtGoldMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnGoldMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtGoldMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtGoldMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnGoldMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtGoldMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtGoldMin.Text))
-            {
-                txtGoldMin.Text = value.ToString();
-            }
-
-            txtGoldMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void txtPlatinumMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtPlatinumMax != null && (Convert.ToInt32(txtPlatinumMin.Text) > Convert.ToInt32(txtPlatinumMax.Text)))
-            {
-                txtPlatinumMax.Text = txtPlatinumMin.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtPlatinumMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (Convert.ToInt32(txtPlatinumMax.Text) < Convert.ToInt32(txtPlatinumMin.Text))
-            {
-                txtPlatinumMin.Text = txtPlatinumMax.Text;
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnPlatinumMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPlatinumMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtPlatinumMax.Text))
-            {
-                txtPlatinumMax.Text = value.ToString();
-            }
-
-            txtPlatinumMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPlatinumMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPlatinumMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtPlatinumMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPlatinumMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPlatinumMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtPlatinumMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPlatinumMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPlatinumMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtPlatinumMin.Text))
-            {
-                txtPlatinumMin.Text = value.ToString();
-            }
-
-            txtPlatinumMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Mundane Items
+        // Mundane Items & Trinkets
         //================================================================================
 
         private void btnMundaneEdit_Click(object sender, RoutedEventArgs e)
@@ -786,508 +314,521 @@ namespace LootGoblin.Controls
             MundaneItemsWindow mundane = new MundaneItemsWindow();
             mundane.ShowDialog();
 
-            UpdateTotalItemsAvailable();
+            UpdateAvailableCategoryItemAmounts();
         }
 
-        private void txtMundaneMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtMundaneMax != null)
-            {
-                var min = Convert.ToInt32(txtMundaneMin.Text);
-                var max = Convert.ToInt32(txtMundaneMax.Text);
-
-                if (min > max)
-                {
-                    txtMundaneMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtMundaneMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtMundaneMin.Text);
-            var max = Convert.ToInt32(txtMundaneMax.Text);
-
-            if (max < min)
-            {
-                txtMundaneMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnMundaneMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtMundaneMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtMundaneMax.Text))
-            {
-                txtMundaneMax.Text = value.ToString();
-            }
-
-            txtMundaneMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnMundaneMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtMundaneMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtMundaneMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnMundaneMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtMundaneMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtMundaneMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnMundaneMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtMundaneMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtMundaneMin.Text))
-            {
-                txtMundaneMin.Text = value.ToString();
-            }
-
-            txtMundaneMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Trinkets
-        //================================================================================
 
         private void btnTrinketEdit_Click(object sender, RoutedEventArgs e)
         {
             TrinketsWindow trinket = new TrinketsWindow();
             trinket.ShowDialog();
 
-            UpdateTotalItemsAvailable();
+            UpdateAvailableCategoryItemAmounts();
         }
 
-        private void txtTrinketMin_TextChanged(object sender, TextChangedEventArgs e)
+        //================================================================================
+        //  Min/Max Manipulation
+        //================================================================================
+
+        private void txtMin_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            if (txtTrinketMax != null)
-            {
-                var min = Convert.ToInt32(txtTrinketMin.Text);
-                var max = Convert.ToInt32(txtTrinketMax.Text);
+            // Get the name of the textbox that sent the textchanged event and determine what "category" it is.
+            var category = (sender as TextBox).Name.Replace("txt", "").Replace("Max", "").Replace("Min", "");
 
-                if (min > max)
-                {
-                    txtTrinketMax.Text = min.ToString();
-                }
+            // Get controls/fields relevant to the category
+            var minTextBox = (TextBox)this.FindName(String.Format("txt{0}Min", category));
+            var maxTextBox = (TextBox)this.FindName(String.Format("txt{0}Max", category));
+
+            // Check for null/not found controls/fields
+            if (minTextBox == null || maxTextBox == null)
+            {
+                return;
+            }
+
+            var min = Convert.ToInt32(minTextBox.Text);
+            var max = Convert.ToInt32(maxTextBox.Text);
+
+            if (min > max)
+            {
+                maxTextBox.Text = min.ToString();
             }
 
             ChangeHappened();
         }
 
-        private void txtTrinketMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtMax_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtBoxNumber_TextChanged(sender, e);
 
-            var min = Convert.ToInt32(txtTrinketMin.Text);
-            var max = Convert.ToInt32(txtTrinketMax.Text);
+            // Get the name of the textbox that sent the textchanged event and determine what "category" it is.
+            var category = (sender as TextBox).Name.Replace("txt", "").Replace("Max", "").Replace("Min", "");
+
+            // Get controls/fields relevant to the category
+            var minTextBox = (TextBox)this.FindName(String.Format("txt{0}Min", category));
+            var maxTextBox = (TextBox)this.FindName(String.Format("txt{0}Max", category));
+
+            // Check for null/not found controls/fields
+            if (minTextBox == null || maxTextBox == null)
+            {
+                return;
+            }
+
+            var min = Convert.ToInt32(minTextBox.Text);
+            var max = Convert.ToInt32(maxTextBox.Text);
 
             if (max < min)
             {
-                txtTrinketMin.Text = max.ToString();
+                minTextBox.Text = max.ToString();
             }
 
             ChangeHappened();
         }
 
-        private void btnTrinketMinUp_Click(object sender, RoutedEventArgs e)
+        private void btnMinUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtTrinketMin.Text);
-            value++;
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as RepeatButton).Name.Replace("btn", "").Replace("MinUp", "");
+
+            // Get controls/fields relevant to the category
+            var minTextBox = (TextBox)this.FindName(String.Format("txt{0}Min", category));
+            var maxTextBox = (TextBox)this.FindName(String.Format("txt{0}Max", category));
+
+            // Check for null/not found controls/fields
+            if (minTextBox == null || maxTextBox == null)
+            {
+                return;
+            }
+
+            var value = Convert.ToInt32(minTextBox.Text);
+            value++; // Add 1 to value
 
             if (value > Number_Maximum)
             {
                 value = Number_Maximum;
             }
 
-            if (value > Convert.ToInt32(txtTrinketMax.Text))
+            // Make sure if min is greater than max to update max 
+            if (value > Convert.ToInt32(maxTextBox.Text))
             {
-                txtTrinketMax.Text = value.ToString();
+                maxTextBox.Text = value.ToString();
             }
 
-            txtTrinketMin.Text = value.ToString();
+            // Update min
+            minTextBox.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnTrinketMinDown_Click(object sender, RoutedEventArgs e)
+        private void btnMinDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtTrinketMin.Text);
-            value--;
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as RepeatButton).Name.Replace("btn", "").Replace("MinDown", "");
+
+            // Get controls/fields relevant to the category
+            var minTextBox = (TextBox)this.FindName(String.Format("txt{0}Min", category));
+
+            // Check for null/not found controls/fields
+            if (minTextBox == null)
+            {
+                return;
+            }
+
+            var value = Convert.ToInt32(minTextBox.Text);
+            value--; // Remove 1 from value
 
             if (value < 0)
             {
                 value = 0;
             }
 
-            txtTrinketMin.Text = value.ToString();
+            // Update min
+            minTextBox.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnTrinketMaxUp_Click(object sender, RoutedEventArgs e)
+        private void btnMaxUp_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtTrinketMax.Text);
-            value++;
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as RepeatButton).Name.Replace("btn", "").Replace("MaxUp", "");
+
+            // Get controls/fields relevant to the category
+            var maxTextBox = (TextBox)this.FindName(String.Format("txt{0}Max", category));
+
+            // Check for null/not found controls/fields
+            if (maxTextBox == null)
+            {
+                return;
+            }
+
+            var value = Convert.ToInt32(maxTextBox.Text);
+            value++; // Add 1 to value
 
             if (value > Number_Maximum)
             {
                 value = Number_Maximum;
             }
 
-            txtTrinketMax.Text = value.ToString();
+            // Update max
+            maxTextBox.Text = value.ToString();
 
             ChangeHappened();
         }
 
-        private void btnTrinketMaxDown_Click(object sender, RoutedEventArgs e)
+        private void btnMaxDown_Click(object sender, RoutedEventArgs e)
         {
-            var value = Convert.ToInt32(txtTrinketMax.Text);
-            value--;
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as RepeatButton).Name.Replace("btn", "").Replace("MaxDown", "");
+
+            // Get controls/fields relevant to the category
+            var minTextBox = (TextBox)this.FindName(String.Format("txt{0}Min", category));
+            var maxTextBox = (TextBox)this.FindName(String.Format("txt{0}Max", category));
+
+            // Check for null/not found controls/fields
+            if (minTextBox == null || maxTextBox == null)
+            {
+                return;
+            }
+
+            var value = Convert.ToInt32(maxTextBox.Text);
+            value--; // Remove 1 from value
 
             if (value < 0)
             {
                 value = 0;
             }
 
-            if (value < Convert.ToInt32(txtTrinketMin.Text))
+            // Make sure if max is less than min to update min
+            if (value < Convert.ToInt32(minTextBox.Text))
             {
-                txtTrinketMin.Text = value.ToString();
+                minTextBox.Text = value.ToString();
             }
 
-            txtTrinketMax.Text = value.ToString();
+            // Update max
+            maxTextBox.Text = value.ToString();
 
             ChangeHappened();
         }
 
         //================================================================================
-        // Armor Sets
+        // Category Item Manipulation
         //================================================================================
 
-        private void btnArmorSetsAdd_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (currentContainer == null)
             {
                 return;
             }
 
-            if (btnArmorSetsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Add", "");
 
-                var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
-                item.Name = name;
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+            var button = String.Format("btn{0}AddText", category); // Format = btn"Category"AddText
 
-                item.Value = txtArmorSetsValue.Text;
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var addTextButton = (TextBlock)this.FindName(button);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
-                var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
-                item.Description = desc;
+            // Find the Name, Value, and Description textboxes for updating data
+            var txtName = (TextBox)this.FindName(String.Format("txt{0}Name", category));
+            var txtValue = (TextBox)this.FindName(String.Format("txt{0}Value", category));
+            var txtDescription = (TextBox)this.FindName(String.Format("txt{0}Description", category));
 
-                armorSetItems.Add(item);
-                dataArmorSetsItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtArmorSetsName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorSetsName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtArmorSetsValue.Text;
-
-                    var desc = (txtArmorSetsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorSetsDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataArmorSetsItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtArmorSetsName.Text = String.Empty;
-                    txtArmorSetsValue.Text = "0gp";
-                    txtArmorSetsDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnArmorSetsAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnArmorSetsEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArmorSetsItems.Items.Count < 1)
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null || addTextButton == null || txtName == null && txtValue == null && txtDescription == null)
             {
                 return;
             }
 
-            if (!programStorage.Settings.SuppressContainerEditPopups)
+            // Check if we're adding or updating items
+            if (addTextButton.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
             {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
+                AddItem(txtName, txtValue, txtDescription, itemList, dataGrid);
+            }
+            else
+            { // Update item
+                EditItem(txtName, txtValue, txtDescription, itemList, dataGrid, addTextButton);
             }
 
-            foreach (Item item in dataArmorSetsItems.SelectedItems)
+            UpdateAvailableCategoryItemAmounts();
+        }
+
+        private void AddItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, List<Item> itemList, DataGrid dataGrid)
+        {
+            Item item = new Item();
+
+            var name = (txtName.Text.Equals(String.Empty)) ? "No name provided" : txtName.Text;
+            item.Name = name;
+
+            item.Value = txtValue.Text;
+
+            var desc = (txtDescription.Text.Equals(String.Empty)) ? "No description provided" : txtDescription.Text;
+            item.Description = desc;
+
+            itemList.Add(item);
+            dataGrid.Items.Refresh();
+
+            ChangeHappened();
+        }
+
+        private void EditItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, List<Item> itemList, DataGrid dataGrid, TextBlock addTextButton)
+        {
+            // First make sure we are editing a item
+            if (editedItem != null)
             {
-                foreach (Item listItem in armorSetItems)
+                // Make sure the "editedItem" still exists in the list, if not add it instead of updating it.
+                if (!itemList.Contains(editedItem))
                 {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                    AddItem(txtName, txtValue, txtDescription, itemList, dataGrid);
+                }
+                else
+                {
+                    var name = (txtName.Text.Equals(String.Empty)) ? "No name provided" : txtName.Text;
+                    editedItem.Name = name;
+
+                    editedItem.Value = txtValue.Text;
+
+                    var desc = (txtDescription.Text.Equals(String.Empty)) ? "No description provided" : txtDescription.Text;
+                    editedItem.Description = desc;
+
+                    dataGrid.Items.Refresh();
+                }
+
+                // Reset inputs
+                txtName.Text = String.Empty;
+                txtValue.Text = "0gp";
+                txtDescription.Text = String.Empty;
+
+                ChangeHappened();
+            }
+
+            addTextButton.Text = "Add Item";
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Edit", "");
+
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null)
+            {
+                return;
+            }
+
+            // Make sure we have at least one item selected before continuing 
+            if (dataGrid.Items.Count > 0)
+            {
+                // Check if popups are suppressed for container editing
+                if (!programStorage.Settings.SuppressContainerEditPopups)
+                {
+                    var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
+                    if (proceed != MessageBoxResult.Yes)
                     {
-                        editedItem = item;
+                        return;
+                    }
+                }
 
-                        txtArmorSetsName.Text = item.Name;
-                        txtArmorSetsValue.Text = item.Value;
-                        txtArmorSetsDescription.Text = item.Description;
+                foreach (Item item in dataGrid.SelectedItems)
+                {
+                    foreach (Item listItem in itemList)
+                    {
+                        if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            editedItem = item;
 
-                        btnArmorSetsAddText.Text = "Update Item";
 
-                        return; // Get only first selected item
+                            // Find the Name, Value, and Description textboxes for updating data
+                            var txtName = (TextBox)this.FindName(String.Format("txt{0}Name", category));
+                            var txtValue = (TextBox)this.FindName(String.Format("txt{0}Value", category));
+                            var txtDescription = (TextBox)this.FindName(String.Format("txt{0}Description", category));
+                            var btnAddText = (TextBlock)this.FindName(String.Format("btn{0}AddText", category));
+
+                            if (txtName != null && txtValue != null && txtDescription != null && btnAddText != null)
+                            {
+                                txtName.Text = item.Name;
+                                txtValue.Text = item.Value;
+                                txtDescription.Text = item.Description;
+
+                                btnAddText.Text = "Update Item";
+
+                                return; // Get only first selected item
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private void btnArmorSetsDuplicate_Click(object sender, RoutedEventArgs e)
+        private void btnDuplicate_Click(object sender, RoutedEventArgs e)
         {
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Duplicate", "");
+
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null)
+            {
+                return;
+            }
+
             // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataArmorSetsItems.SelectedItems)
+            foreach (Item item in dataGrid.SelectedItems)
             {
                 Item newItem = new Item();
                 newItem.Name = item.Name;
                 newItem.Value = item.Value;
                 newItem.Description = item.Description;
 
-                armorSetItems.Add(newItem);
+                itemList.Add(newItem);
             }
 
-            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
+            dataGrid.Items.Refresh(); // Refresh the datagrid items
+            UpdateAvailableCategoryItemAmounts();
 
             ChangeHappened();
         }
 
-        private void btnArmorSetsRemove_Click(object sender, RoutedEventArgs e)
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (dataArmorSetsItems.Items.Count < 1)
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Remove", "");
+
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null)
             {
                 return;
             }
 
-            if (!programStorage.Settings.SuppressContainerEditPopups)
+            // Make sure we have at least one item selected before continuing 
+            if (dataGrid.Items.Count > 0)
             {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
+                // Check if popups are suppressed for container editing
+                if (!programStorage.Settings.SuppressContainerEditPopups)
                 {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataArmorSetsItems.SelectedItems)
-            {
-                foreach (Item listItem in armorSetItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
+                    if (proceed != MessageBoxResult.Yes)
                     {
-                        armorSetItems.Remove(item);
-                        break;
+                        return;
                     }
                 }
+
+                // Loop through each selection and remove them from the itemlist
+                foreach (Item item in dataGrid.SelectedItems)
+                {
+                    foreach (Item listItem in itemList)
+                    {
+                        if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            itemList.Remove(item);
+                            break;
+                        }
+                    }
+                }
+
+                dataGrid.Items.Refresh(); // Refresh the datagrid items
+
+                UpdateAvailableCategoryItemAmounts();
+                ChangeHappened();
             }
-
-            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
         }
 
-        private void btnArmorSetsClear_Click(object sender, RoutedEventArgs e)
+        private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            if (dataArmorSetsItems.Items.Count < 1)
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Clear", "");
+
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null)
             {
                 return;
             }
 
-            if (!programStorage.Settings.SuppressContainerEditPopups)
+            // Make sure we have at least one item selected before continuing 
+            if (dataGrid.Items.Count > 0)
             {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
+                // Check if popups are suppressed for container editing
+                if (!programStorage.Settings.SuppressContainerEditPopups)
                 {
-                    return;
+                    var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
+                    if (proceed != MessageBoxResult.Yes)
+                    {
+                        return;
+                    }
                 }
-            }
 
-            // Remove all from the list
-            armorSetItems.Clear();
-            dataArmorSetsItems.Items.Refresh(); // Refresh the item source
+                // Remove all from the list
+                itemList.Clear();
+                dataGrid.Items.Refresh(); // Refresh the datagrid items
 
-            UpdateTotalItemsAvailable();
+                UpdateAvailableCategoryItemAmounts();
 
-            btnArmorSetsAddText.Text = "Add To Item List"; // Failsafe
+                // Find and update the "Add Item" button text as a failsafe for when editing.
+                var buttonText = String.Format("btn{0}AddText", category);
+                var addItemButton = (TextBlock)this.FindName(buttonText);
 
-            ChangeHappened();
-        }
-
-        private void txtArmorSetsMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtArmorSetsMax != null)
-            {
-                var min = Convert.ToInt32(txtArmorSetsMin.Text);
-                var max = Convert.ToInt32(txtArmorSetsMax.Text);
-
-                if (min > max)
+                if (addItemButton != null)
                 {
-                    txtArmorSetsMax.Text = min.ToString();
+                    addItemButton.Text = "Add Item"; // Failsafe
                 }
-            }
 
-            ChangeHappened();
+                ChangeHappened();
+            }
         }
 
-        private void txtArmorSetsMax_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnImport_Click(object sender, RoutedEventArgs e)
         {
-            txtBoxNumber_TextChanged(sender, e);
+            // Get the name of the button that sent the click event and determine what "category" it is.
+            var category = (sender as Button).Name.Replace("btn", "").Replace("Import", "");
 
-            var min = Convert.ToInt32(txtArmorSetsMin.Text);
-            var max = Convert.ToInt32(txtArmorSetsMax.Text);
-          
-            if (max < min)
+            var grid = String.Format("data{0}", category); // Format = data"Category"
+            var list = String.Format("{0}List", category); // Format = "Category"List
+
+            // Get controls/fields relevant to the category
+            var dataGrid = (DataGrid)this.FindName(grid);
+            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var comboBox = (ComboBox)this.FindName(String.Format("combo{0}Import", category));
+
+            // Check for null/not found controls/fields
+            if (dataGrid == null || itemList == null || comboBox == null)
             {
-                txtArmorSetsMin.Text = max.ToString();
+                return;
             }
 
-            ChangeHappened();
-        }
-
-        private void btnArmorSetsMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorSetsMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtArmorSetsMax.Text))
-            {
-                txtArmorSetsMax.Text = value.ToString();
-            }
-
-            txtArmorSetsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorSetsMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorSetsMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtArmorSetsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorSetsMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorSetsMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtArmorSetsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorSetsMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorSetsMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtArmorSetsMin.Text))
-            {
-                txtArmorSetsMin.Text = value.ToString();
-            }
-
-            txtArmorSetsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorSetsImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboArmorSetsImport.Text;
+            var text = comboBox.Text;
 
             if (text.Equals(String.Empty))
             {
@@ -1310,3455 +851,20 @@ namespace LootGoblin.Controls
                 return; // Selection is not valid container
             }
 
-            foreach (Item item in container.ArmorSets)
+            List<Item> containerSet = (List<Item>)container.GetType().GetProperty(category).GetValue(container);
+            if (containerSet == null)
             {
-                armorSetItems.Add(item);
+                Console.WriteLine("containerset emptyu");
+                return;  // containerSet for "Category" not found
             }
 
-            dataArmorSetsItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Armor Pieces
-        //================================================================================
-
-        private void btnArmorPiecesAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnArmorPiecesAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
-                item.Name = name;
-
-                item.Value = txtArmorPiecesValue.Text;
-
-                var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
-                item.Description = desc;
-
-                armorPieceItems.Add(item);
-                dataArmorPieces.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtArmorPiecesName.Text.Equals(String.Empty)) ? "No name provided" : txtArmorPiecesName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtArmorPiecesValue.Text;
-
-                    var desc = (txtArmorPiecesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArmorPiecesDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataArmorPieces.Items.Refresh();
-
-                    // Reset inputs
-                    txtArmorPiecesName.Text = String.Empty;
-                    txtArmorPiecesValue.Text = "0gp";
-                    txtArmorPiecesDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnArmorPiecesAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnArmorPiecesEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArmorPieces.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataArmorPieces.SelectedItems)
-            {
-                foreach (Item listItem in armorPieceItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtArmorPiecesName.Text = item.Name;
-                        txtArmorPiecesValue.Text = item.Value;
-                        txtArmorPiecesDescription.Text = item.Description;
-
-                        btnArmorPiecesAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnArmorPiecesDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataArmorPieces.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                armorPieceItems.Add(newItem);
-            }
-
-            dataArmorPieces.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArmorPieces.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataArmorPieces.SelectedItems)
-            {
-                foreach (Item listItem in armorPieceItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        armorPieceItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataArmorPieces.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArmorPieces.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            armorPieceItems.Clear();
-            dataArmorPieces.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnArmorPiecesAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtArmorPiecesMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtArmorPiecesMax != null)
-            {
-                var min = Convert.ToInt32(txtArmorPiecesMin.Text);
-                var max = Convert.ToInt32(txtArmorPiecesMax.Text);
-
-                if (min > max)
-                {
-                    txtArmorPiecesMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtArmorPiecesMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtArmorPiecesMin.Text);
-            var max = Convert.ToInt32(txtArmorPiecesMax.Text);
-
-            if (max < min)
-            {
-                txtArmorPiecesMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorPiecesMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtArmorPiecesMax.Text))
-            {
-                txtArmorPiecesMax.Text = value.ToString();
-            }
-
-            txtArmorPiecesMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorPiecesMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtArmorPiecesMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorPiecesMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtArmorPiecesMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArmorPiecesMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtArmorPiecesMin.Text))
-            {
-                txtArmorPiecesMin.Text = value.ToString();
-            }
-
-            txtArmorPiecesMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArmorPiecesImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboArmorPiecesImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.ArmorPieces)
-            {
-                armorPieceItems.Add(item);
-            }
-
-            dataArmorPieces.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Weapons
-        //================================================================================
-
-        private void btnWeaponAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnWeaponAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtWeaponName.Text.Equals(String.Empty)) ? "No name provided" : txtWeaponName.Text;
-                item.Name = name;
-
-                item.Value = txtWeaponValue.Text;
-
-                var desc = (txtWeaponDescription.Text.Equals(String.Empty)) ? "No description provided" : txtWeaponDescription.Text;
-                item.Description = desc;
-
-                weaponItems.Add(item);
-                dataWeaponItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtWeaponName.Text.Equals(String.Empty)) ? "No name provided" : txtWeaponName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtWeaponValue.Text;
-
-                    var desc = (txtWeaponDescription.Text.Equals(String.Empty)) ? "No description provided" : txtWeaponDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataWeaponItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtWeaponName.Text = String.Empty;
-                    txtWeaponValue.Text = "0gp";
-                    txtWeaponDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnWeaponAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnWeaponEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataWeaponItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataWeaponItems.SelectedItems)
-            {
-                foreach (Item listItem in weaponItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtWeaponName.Text = item.Name;
-                        txtWeaponValue.Text = item.Value;
-                        txtWeaponDescription.Text = item.Description;
-
-                        btnWeaponAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnWeaponDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataWeaponItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                weaponItems.Add(newItem);
-            }
-
-            dataWeaponItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataWeaponItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataWeaponItems.SelectedItems)
-            {
-                foreach (Item listItem in weaponItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        weaponItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataWeaponItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataWeaponItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            weaponItems.Clear();
-            dataWeaponItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnWeaponAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtWeaponMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtWeaponMax != null)
-            {
-                var min = Convert.ToInt32(txtWeaponMin.Text);
-                var max = Convert.ToInt32(txtWeaponMax.Text);
-
-                if (min > max)
-                {
-                    txtWeaponMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtWeaponMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtWeaponMin.Text);
-            var max = Convert.ToInt32(txtWeaponMax.Text);
-
-            if (max < min)
-            {
-                txtWeaponMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtWeaponMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtWeaponMax.Text))
-            {
-                txtWeaponMax.Text = value.ToString();
-            }
-
-            txtWeaponMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtWeaponMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtWeaponMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtWeaponMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtWeaponMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtWeaponMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtWeaponMin.Text))
-            {
-                txtWeaponMin.Text = value.ToString();
-            }
-
-            txtWeaponMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnWeaponsImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboWeaponImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.Weapons)
-            {
-                weaponItems.Add(item);
-            }
-
-            dataWeaponItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Ammo
-        //================================================================================
-
-        private void btnAmmoAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnAmmoAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
-                item.Name = name;
-
-                item.Value = txtAmmoValue.Text;
-
-                var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
-                item.Description = desc;
-
-                ammoItems.Add(item);
-                dataAmmoItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtAmmoName.Text.Equals(String.Empty)) ? "No name provided" : txtAmmoName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtAmmoValue.Text;
-
-                    var desc = (txtAmmoDescription.Text.Equals(String.Empty)) ? "No description provided" : txtAmmoDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataAmmoItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtAmmoName.Text = String.Empty;
-                    txtAmmoValue.Text = "0gp";
-                    txtAmmoDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnAmmoAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnAmmoEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataAmmoItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataAmmoItems.SelectedItems)
-            {
-                foreach (Item listItem in ammoItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtAmmoName.Text = item.Name;
-                        txtAmmoValue.Text = item.Value;
-                        txtAmmoDescription.Text = item.Description;
-
-                        btnAmmoAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnAmmoDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataAmmoItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                ammoItems.Add(newItem);
-            }
-
-            dataAmmoItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataAmmoItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataAmmoItems.SelectedItems)
-            {
-                foreach (Item listItem in ammoItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        ammoItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataAmmoItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataAmmoItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            ammoItems.Clear();
-            dataAmmoItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnAmmoAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtAmmoMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtAmmoMax != null)
-            {
-                var min = Convert.ToInt32(txtAmmoMin.Text);
-                var max = Convert.ToInt32(txtAmmoMax.Text);
-
-                if (min > max)
-                {
-                    txtAmmoMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtAmmoMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtAmmoMin.Text);
-            var max = Convert.ToInt32(txtAmmoMax.Text);
-
-            if (max < min)
-            {
-                txtAmmoMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtAmmoMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtAmmoMax.Text))
-            {
-                txtAmmoMax.Text = value.ToString();
-            }
-
-            txtAmmoMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtAmmoMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtAmmoMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtAmmoMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtAmmoMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtAmmoMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtAmmoMin.Text))
-            {
-                txtAmmoMin.Text = value.ToString();
-            }
-
-            txtAmmoMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnAmmoImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboAmmoImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.Ammo)
-            {
-                ammoItems.Add(item);
-            }
-
-            dataAmmoItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Clothing
-        //================================================================================
-
-        private void btnClothingAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnClothingAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
-                item.Name = name;
-
-                item.Value = txtClothingValue.Text;
-
-                var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
-                item.Description = desc;
-
-                clothingItems.Add(item);
-                dataClothingItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtClothingName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtClothingValue.Text;
-
-                    var desc = (txtClothingDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataClothingItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtClothingName.Text = String.Empty;
-                    txtClothingValue.Text = "0gp";
-                    txtClothingDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnClothingAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnClothingEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataClothingItems.SelectedItems)
-            {
-                foreach (Item listItem in clothingItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtClothingName.Text = item.Name;
-                        txtClothingValue.Text = item.Value;
-                        txtClothingDescription.Text = item.Description;
-
-                        btnClothingAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnClothingDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataClothingItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                clothingItems.Add(newItem);
-            }
-
-            dataClothingItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataClothingItems.SelectedItems)
-            {
-                foreach (Item listItem in clothingItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        clothingItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataClothingItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            clothingItems.Clear();
-            dataClothingItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnClothingAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtClothingMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtClothingMax != null)
-            {
-                var min = Convert.ToInt32(txtClothingMin.Text);
-                var max = Convert.ToInt32(txtClothingMax.Text);
-
-                if (min > max)
-                {
-                    txtClothingMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtClothingMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtClothingMin.Text);
-            var max = Convert.ToInt32(txtClothingMax.Text);
-
-            if (max < min)
-            {
-                txtClothingMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnClothingMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtClothingMax.Text))
-            {
-                txtClothingMax.Text = value.ToString();
-            }
-
-            txtClothingMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtClothingMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtClothingMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtClothingMin.Text))
-            {
-                txtClothingMin.Text = value.ToString();
-            }
-
-            txtClothingMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboClothingImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.Clothing)
-            {
-                clothingItems.Add(item);
-            }
-
-            dataClothingItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Clothing Accessories
-        //================================================================================
-
-        private void btnClothingAccessoriesAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnClothingAccessoriesAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
-                item.Name = name;
-
-                item.Value = txtClothingAccessoriesValue.Text;
-
-                var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
-                item.Description = desc;
-
-                clothingAccessoriesItems.Add(item);
-                dataClothingAccessoriesItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtClothingAccessoriesName.Text.Equals(String.Empty)) ? "No name provided" : txtClothingAccessoriesName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtClothingAccessoriesValue.Text;
-
-                    var desc = (txtClothingAccessoriesDescription.Text.Equals(String.Empty)) ? "No description provided" : txtClothingAccessoriesDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataClothingAccessoriesItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtClothingAccessoriesName.Text = String.Empty;
-                    txtClothingAccessoriesValue.Text = "0gp";
-                    txtClothingAccessoriesDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnClothingAccessoriesAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnClothingAccessoriesEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingAccessoriesItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
-            {
-                foreach (Item listItem in clothingAccessoriesItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtClothingAccessoriesName.Text = item.Name;
-                        txtClothingAccessoriesValue.Text = item.Value;
-                        txtClothingAccessoriesDescription.Text = item.Description;
-
-                        btnClothingAccessoriesAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnClothingAccessoriesDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                clothingAccessoriesItems.Add(newItem);
-            }
-
-            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingAccessoriesItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataClothingAccessoriesItems.SelectedItems)
-            {
-                foreach (Item listItem in clothingAccessoriesItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        clothingAccessoriesItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataClothingAccessoriesItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            clothingAccessoriesItems.Clear();
-            dataClothingAccessoriesItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnClothingAccessoriesAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtClothingAccessoriesMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtClothingAccessoriesMax != null)
-            {
-                var min = Convert.ToInt32(txtClothingAccessoriesMin.Text);
-                var max = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-
-                if (min > max)
-                {
-                    txtClothingAccessoriesMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtClothingAccessoriesMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtClothingAccessoriesMin.Text);
-            var max = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-
-            if (max < min)
-            {
-                txtClothingAccessoriesMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingAccessoriesMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtClothingAccessoriesMax.Text))
-            {
-                txtClothingAccessoriesMax.Text = value.ToString();
-            }
-
-            txtClothingAccessoriesMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingAccessoriesMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtClothingAccessoriesMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtClothingAccessoriesMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtClothingAccessoriesMin.Text))
-            {
-                txtClothingAccessoriesMin.Text = value.ToString();
-            }
-
-            txtClothingAccessoriesMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnClothingAccessoriesImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboClothingAccessoriesImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.ClothingAccessories)
-            {
-                clothingAccessoriesItems.Add(item);
-            }
-
-            dataClothingAccessoriesItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Food Drink
-        //================================================================================
-
-        private void btnFoodDrinkAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnFoodDrinkAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
-                item.Name = name;
-
-                item.Value = txtFoodDrinkValue.Text;
-
-                var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
-                item.Description = desc;
-
-                foodDrinksItems.Add(item);
-                dataFoodDrinkItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtFoodDrinkName.Text.Equals(String.Empty)) ? "No name provided" : txtFoodDrinkName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtFoodDrinkValue.Text;
-
-                    var desc = (txtFoodDrinkDescription.Text.Equals(String.Empty)) ? "No description provided" : txtFoodDrinkDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataFoodDrinkItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtFoodDrinkName.Text = String.Empty;
-                    txtFoodDrinkValue.Text = "0gp";
-                    txtFoodDrinkDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnFoodDrinkAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnFoodDrinkEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataFoodDrinkItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataFoodDrinkItems.SelectedItems)
-            {
-                foreach (Item listItem in foodDrinksItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtFoodDrinkName.Text = item.Name;
-                        txtFoodDrinkValue.Text = item.Value;
-                        txtFoodDrinkDescription.Text = item.Description;
-
-                        btnFoodDrinkAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnFoodDrinkDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataFoodDrinkItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                foodDrinksItems.Add(newItem);
-            }
-
-            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataFoodDrinkItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataFoodDrinkItems.SelectedItems)
-            {
-                foreach (Item listItem in foodDrinksItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        foodDrinksItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataFoodDrinkItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            foodDrinksItems.Clear();
-            dataFoodDrinkItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnFoodDrinkAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtFoodDrinkMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtFoodDrinkMax != null)
-            {
-                var min = Convert.ToInt32(txtFoodDrinkMin.Text);
-                var max = Convert.ToInt32(txtFoodDrinkMax.Text);
-
-                if (min > max)
-                {
-                    txtFoodDrinkMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtFoodDrinkMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtFoodDrinkMin.Text);
-            var max = Convert.ToInt32(txtFoodDrinkMax.Text);
-
-            if (max < min)
-            {
-                txtFoodDrinkMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtFoodDrinkMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtFoodDrinkMax.Text))
-            {
-                txtFoodDrinkMax.Text = value.ToString();
-            }
-
-            txtFoodDrinkMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtFoodDrinkMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtFoodDrinkMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtFoodDrinkMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtFoodDrinkMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtFoodDrinkMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtFoodDrinkMin.Text))
-            {
-                txtFoodDrinkMin.Text = value.ToString();
-            }
-
-            txtFoodDrinkMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnFoodDrinkImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboFoodDrinkImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.FoodDrinks)
-            {
-                foodDrinksItems.Add(item);
-            }
-
-            dataFoodDrinkItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Trade Goods
-        //================================================================================
-
-        private void btnTradeGoodsAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnTradeGoodsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
-                item.Name = name;
-
-                item.Value = txtTradeGoodsValue.Text;
-
-                var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
-                item.Description = desc;
-
-                tradeGoodsItems.Add(item);
-                dataTradeGoodsItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtTradeGoodsName.Text.Equals(String.Empty)) ? "No name provided" : txtTradeGoodsName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtTradeGoodsValue.Text;
-
-                    var desc = (txtTradeGoodsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtTradeGoodsDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataTradeGoodsItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtTradeGoodsName.Text = String.Empty;
-                    txtTradeGoodsValue.Text = "0gp";
-                    txtTradeGoodsDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnTradeGoodsAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnTradeGoodsEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataTradeGoodsItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataTradeGoodsItems.SelectedItems)
-            {
-                foreach (Item listItem in tradeGoodsItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtTradeGoodsName.Text = item.Name;
-                        txtTradeGoodsValue.Text = item.Value;
-                        txtTradeGoodsDescription.Text = item.Description;
-
-                        btnTradeGoodsAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnTradeGoodsDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataTradeGoodsItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                tradeGoodsItems.Add(newItem);
-            }
-
-            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataTradeGoodsItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataTradeGoodsItems.SelectedItems)
-            {
-                foreach (Item listItem in tradeGoodsItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        tradeGoodsItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataTradeGoodsItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            tradeGoodsItems.Clear();
-            dataTradeGoodsItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnTradeGoodsAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtTradeGoodsMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtTradeGoodsMax != null)
-            {
-                var min = Convert.ToInt32(txtTradeGoodsMin.Text);
-                var max = Convert.ToInt32(txtTradeGoodsMax.Text);
-
-                if (min > max)
-                {
-                    txtTradeGoodsMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtTradeGoodsMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtTradeGoodsMin.Text);
-            var max = Convert.ToInt32(txtTradeGoodsMax.Text);
-
-            if (max < min)
-            {
-                txtTradeGoodsMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtTradeGoodsMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtTradeGoodsMax.Text))
-            {
-                txtTradeGoodsMax.Text = value.ToString();
-            }
-
-            txtTradeGoodsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtTradeGoodsMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtTradeGoodsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtTradeGoodsMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtTradeGoodsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtTradeGoodsMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtTradeGoodsMin.Text))
-            {
-                txtTradeGoodsMin.Text = value.ToString();
-            }
-
-            txtTradeGoodsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnTradeGoodsImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboTradeGoodsImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.TradeGoods)
-            {
-                tradeGoodsItems.Add(item);
-            }
-
-            dataTradeGoodsItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Precious Items
-        //================================================================================
-
-        private void btnPreciousItemsAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnPreciousItemsAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
-                item.Name = name;
-
-                item.Value = txtPreciousItemsValue.Text;
-
-                var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
-                item.Description = desc;
-
-                preciousItems.Add(item);
-                dataPreciousItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtPreciousItemsName.Text.Equals(String.Empty)) ? "No name provided" : txtPreciousItemsName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtPreciousItemsValue.Text;
-
-                    var desc = (txtPreciousItemsDescription.Text.Equals(String.Empty)) ? "No description provided" : txtPreciousItemsDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataPreciousItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtPreciousItemsName.Text = String.Empty;
-                    txtPreciousItemsValue.Text = "0gp";
-                    txtPreciousItemsDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnPreciousItemsAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnPreciousItemsEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataPreciousItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataPreciousItems.SelectedItems)
-            {
-                foreach (Item listItem in preciousItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtPreciousItemsName.Text = item.Name;
-                        txtPreciousItemsValue.Text = item.Value;
-                        txtPreciousItemsDescription.Text = item.Description;
-
-                        btnPreciousItemsAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnPreciousItemsDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataPreciousItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                preciousItems.Add(newItem);
-            }
-
-            dataPreciousItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataPreciousItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataPreciousItems.SelectedItems)
-            {
-                foreach (Item listItem in preciousItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        preciousItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataPreciousItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataPreciousItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            preciousItems.Clear();
-            dataPreciousItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnPreciousItemsAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtPreciousItemsMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtPreciousItemsMax != null)
-            {
-                var min = Convert.ToInt32(txtPreciousItemsMin.Text);
-                var max = Convert.ToInt32(txtPreciousItemsMax.Text);
-
-                if (min > max)
-                {
-                    txtPreciousItemsMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtPreciousItemsMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtPreciousItemsMin.Text);
-            var max = Convert.ToInt32(txtPreciousItemsMax.Text);
-
-            if (max < min)
-            {
-                txtPreciousItemsMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPreciousItemsMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtPreciousItemsMax.Text))
-            {
-                txtPreciousItemsMax.Text = value.ToString();
-            }
-
-            txtPreciousItemsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPreciousItemsMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtPreciousItemsMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPreciousItemsMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtPreciousItemsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtPreciousItemsMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtPreciousItemsMin.Text))
-            {
-                txtPreciousItemsMin.Text = value.ToString();
-            }
-
-            txtPreciousItemsMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnPreciousItemsImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboPreciousItemsImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.PreciousItems)
-            {
-                preciousItems.Add(item);
-            }
-
-            dataPreciousItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Art Decor
-        //================================================================================
-
-        private void btnArtDecorAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnArtDecorAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
-                item.Name = name;
-
-                item.Value = txtArtDecorValue.Text;
-
-                var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
-                item.Description = desc;
-
-                artDecorItems.Add(item);
-                dataArtDecorItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtArtDecorName.Text.Equals(String.Empty)) ? "No name provided" : txtArtDecorName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtArtDecorValue.Text;
-
-                    var desc = (txtArtDecorDescription.Text.Equals(String.Empty)) ? "No description provided" : txtArtDecorDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataArtDecorItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtArtDecorName.Text = String.Empty;
-                    txtArtDecorValue.Text = "0gp";
-                    txtArtDecorDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnArtDecorAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnArtDecorEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArtDecorItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataArtDecorItems.SelectedItems)
-            {
-                foreach (Item listItem in artDecorItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtArtDecorName.Text = item.Name;
-                        txtArtDecorValue.Text = item.Value;
-                        txtArtDecorDescription.Text = item.Description;
-
-                        btnArtDecorAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnArtDecorDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataArtDecorItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                artDecorItems.Add(newItem);
-            }
-
-            dataArtDecorItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArtDecorItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataArtDecorItems.SelectedItems)
-            {
-                foreach (Item listItem in artDecorItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        artDecorItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataArtDecorItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataArtDecorItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            artDecorItems.Clear();
-            dataArtDecorItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnArtDecorAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtArtDecorMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtArtDecorMax != null)
-            {
-                var min = Convert.ToInt32(txtArtDecorMin.Text);
-                var max = Convert.ToInt32(txtArtDecorMax.Text);
-
-                if (min > max)
-                {
-                    txtArtDecorMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtArtDecorMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtArtDecorMin.Text);
-            var max = Convert.ToInt32(txtArtDecorMax.Text);
-
-            if (max < min)
-            {
-                txtArtDecorMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArtDecorMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtArtDecorMax.Text))
-            {
-                txtArtDecorMax.Text = value.ToString();
-            }
-
-            txtArtDecorMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArtDecorMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtArtDecorMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArtDecorMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtArtDecorMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtArtDecorMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtArtDecorMin.Text))
-            {
-                txtArtDecorMin.Text = value.ToString();
-            }
-
-            txtArtDecorMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnArtDecorImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboArtDecorImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.ArtDecor)
-            {
-                artDecorItems.Add(item);
-            }
-
-            dataArtDecorItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Books Papers
-        //================================================================================
-
-        private void btnBooksPapersAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnBooksPapersAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
-                item.Name = name;
-
-                item.Value = txtBooksPapersValue.Text;
-
-                var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
-                item.Description = desc;
-
-                booksPapersItems.Add(item);
-                dataBooksPapersItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtBooksPapersName.Text.Equals(String.Empty)) ? "No name provided" : txtBooksPapersName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtBooksPapersValue.Text;
-
-                    var desc = (txtBooksPapersDescription.Text.Equals(String.Empty)) ? "No description provided" : txtBooksPapersDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataBooksPapersItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtBooksPapersName.Text = String.Empty;
-                    txtBooksPapersValue.Text = "0gp";
-                    txtBooksPapersDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnBooksPapersAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnBooksPapersEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataBooksPapersItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataBooksPapersItems.SelectedItems)
-            {
-                foreach (Item listItem in booksPapersItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtBooksPapersName.Text = item.Name;
-                        txtBooksPapersValue.Text = item.Value;
-                        txtBooksPapersDescription.Text = item.Description;
-
-                        btnBooksPapersAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnBooksPapersDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataBooksPapersItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                booksPapersItems.Add(newItem);
-            }
-
-            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataBooksPapersItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataBooksPapersItems.SelectedItems)
-            {
-                foreach (Item listItem in booksPapersItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        booksPapersItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataBooksPapersItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            booksPapersItems.Clear();
-            dataBooksPapersItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnBooksPapersAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtBooksPapersMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtBooksPapersMax != null)
-            {
-                var min = Convert.ToInt32(txtBooksPapersMin.Text);
-                var max = Convert.ToInt32(txtBooksPapersMax.Text);
-
-                if (min > max)
-                {
-                    txtBooksPapersMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtBooksPapersMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtBooksPapersMin.Text);
-            var max = Convert.ToInt32(txtBooksPapersMax.Text);
-
-            if (max < min)
-            {
-                txtBooksPapersMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtBooksPapersMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtBooksPapersMax.Text))
-            {
-                txtBooksPapersMax.Text = value.ToString();
-            }
-
-            txtBooksPapersMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtBooksPapersMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtBooksPapersMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtBooksPapersMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtBooksPapersMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtBooksPapersMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtBooksPapersMin.Text))
-            {
-                txtBooksPapersMin.Text = value.ToString();
-            }
-
-            txtBooksPapersMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnBooksPapersImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboBooksPapersImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.BooksPapers)
-            {
-                booksPapersItems.Add(item);
-            }
-
-            dataBooksPapersItems.Items.Refresh();
-
-            ChangeHappened();
-        }
-
-        //================================================================================
-        // Other Items
-        //================================================================================
-
-        private void btnOtherAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentContainer == null)
-            {
-                return;
-            }
-
-            if (btnOtherAddText.Text.Equals("Add Item", StringComparison.CurrentCultureIgnoreCase))
-            {
-                Item item = new Item();
-
-                var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
-                item.Name = name;
-
-                item.Value = txtOtherValue.Text;
-
-                var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
-                item.Description = desc;
-
-                otherItems.Add(item);
-                dataOtherItems.Items.Refresh();
-
-                ChangeHappened();
-            }
-            else
-            { // Update item
-                if (editedItem != null)
-                {
-                    var name = (txtOtherName.Text.Equals(String.Empty)) ? "No name provided" : txtOtherName.Text;
-                    editedItem.Name = name;
-
-                    editedItem.Value = txtOtherValue.Text;
-
-                    var desc = (txtOtherDescription.Text.Equals(String.Empty)) ? "No description provided" : txtOtherDescription.Text;
-                    editedItem.Description = desc;
-
-                    dataOtherItems.Items.Refresh();
-
-                    // Reset inputs
-                    txtOtherName.Text = String.Empty;
-                    txtOtherValue.Text = "0gp";
-                    txtOtherDescription.Text = String.Empty;
-
-                    ChangeHappened();
-                }
-
-                btnOtherAddText.Text = "Add Item";
-            }
-
-            UpdateTotalItemsAvailable();
-        }
-
-        private void btnOtherEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataOtherItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Edit Item?", "Editing the selected item will clear the existing input data.\n\nThe input cannot be recovered. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            foreach (Item item in dataOtherItems.SelectedItems)
-            {
-                foreach (Item listItem in otherItems)
-                {
-                    if (item.Name.Equals(listItem.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        editedItem = item;
-
-                        txtOtherName.Text = item.Name;
-                        txtOtherValue.Text = item.Value;
-                        txtOtherDescription.Text = item.Description;
-
-                        btnOtherAddText.Text = "Update Item";
-
-                        return; // Get only first selected item
-                    }
-                }
-            }
-        }
-
-        private void btnOtherDuplicate_Click(object sender, RoutedEventArgs e)
-        {
-            // Loop through each selection, create new Item for each, and add to the item list
-            foreach (Item item in dataOtherItems.SelectedItems)
-            {
-                Item newItem = new Item();
-                newItem.Name = item.Name;
-                newItem.Value = item.Value;
-                newItem.Description = item.Description;
-
-                otherItems.Add(newItem);
-            }
-
-            dataOtherItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataOtherItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Remove Selection?", "Are you sure you want to remove the selected item(s)?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Loop through each selection and remove them from the magic item list
-            foreach (Item item in dataOtherItems.SelectedItems)
-            {
-                foreach (Item listItem in otherItems)
-                {
-                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        otherItems.Remove(item);
-                        break;
-                    }
-                }
-            }
-
-            dataOtherItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataOtherItems.Items.Count < 1)
-            {
-                return;
-            }
-
-            if (!programStorage.Settings.SuppressContainerEditPopups)
-            {
-                var proceed = WarningPopup.Show("Clear Items?", "Are you sure you want to clear the item list?\n\nThe changes cannot be reverted. Proceed?");
-                if (proceed != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            // Remove all from the list
-            otherItems.Clear();
-            dataOtherItems.Items.Refresh(); // Refresh the item source
-
-            UpdateTotalItemsAvailable();
-
-            btnOtherAddText.Text = "Add To Item List"; // Failsafe
-
-            ChangeHappened();
-        }
-
-        private void txtOtherMin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            if (txtOtherMax != null)
-            {
-                var min = Convert.ToInt32(txtOtherMin.Text);
-                var max = Convert.ToInt32(txtOtherMax.Text);
-
-                if (min > max)
-                {
-                    txtOtherMax.Text = min.ToString();
-                }
-            }
-
-            ChangeHappened();
-        }
-
-        private void txtOtherMax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBoxNumber_TextChanged(sender, e);
-
-            var min = Convert.ToInt32(txtOtherMin.Text);
-            var max = Convert.ToInt32(txtOtherMax.Text);
-
-            if (max < min)
-            {
-                txtOtherMin.Text = max.ToString();
-            }
-
-            ChangeHappened();
-        }
-
-        private void btnOtherMinUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtOtherMin.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            if (value > Convert.ToInt32(txtOtherMax.Text))
-            {
-                txtOtherMax.Text = value.ToString();
-            }
-
-            txtOtherMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherMinDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtOtherMin.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            txtOtherMin.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherMaxUp_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtOtherMax.Text);
-            value++;
-
-            if (value > Number_Maximum)
-            {
-                value = Number_Maximum;
-            }
-
-            txtOtherMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherMaxDown_Click(object sender, RoutedEventArgs e)
-        {
-            var value = Convert.ToInt32(txtOtherMax.Text);
-            value--;
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            if (value < Convert.ToInt32(txtOtherMin.Text))
-            {
-                txtOtherMin.Text = value.ToString();
-            }
-
-            txtOtherMax.Text = value.ToString();
-
-            ChangeHappened();
-        }
-
-        private void btnOtherItemsImport_Click(object sender, RoutedEventArgs e)
-        {
-            var text = comboOtherImport.Text;
-
-            if (text.Equals(String.Empty))
-            {
-                return;
-            }
-
-            // Search for matching container
-            LootContainer container = null;
-            foreach (LootContainer lootcontainer in programStorage.LootContainers)
-            {
-                if (lootcontainer.Name.Equals(text, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    container = lootcontainer;
-                    break;
-                }
-            }
-
-            if (container == null)
-            {
-                return; // Selection is not valid container
-            }
-
-            foreach (Item item in container.OtherItems)
+            // Copy all items from the "Category" from the selected container
+            foreach (Item item in containerSet)
             {
-                otherItems.Add(item);
+                itemList.Add(item);
             }
 
-            dataOtherItems.Items.Refresh();
+            dataGrid.Items.Refresh(); // Refresh the datagrid items
 
             ChangeHappened();
         }
@@ -4782,7 +888,7 @@ namespace LootGoblin.Controls
             currentContainerHasChanged = false;
         }
 
-        private void btnDuplicate_Click(object sender, RoutedEventArgs e)
+        private void btnDuplicateContainer_Click(object sender, RoutedEventArgs e)
         {
             if (currentContainer == null)
             {
@@ -4896,48 +1002,48 @@ namespace LootGoblin.Controls
             currentContainer.PlatinumMin = Convert.ToInt32(txtPlatinumMin.Text);
             currentContainer.PlatinumMax = Convert.ToInt32(txtPlatinumMax.Text);
 
-            currentContainer.MundaneMin = Convert.ToInt32(txtMundaneMin.Text);
-            currentContainer.MundaneMax = Convert.ToInt32(txtMundaneMax.Text);
+            currentContainer.MundaneMin = Convert.ToInt32(txtMundaneItemsMin.Text);
+            currentContainer.MundaneMax = Convert.ToInt32(txtMundaneItemsMax.Text);
 
-            currentContainer.TrinketMin = Convert.ToInt32(txtTrinketMin.Text);
-            currentContainer.TrinketMax = Convert.ToInt32(txtTrinketMax.Text);
+            currentContainer.TrinketMin = Convert.ToInt32(txtTrinketsMin.Text);
+            currentContainer.TrinketMax = Convert.ToInt32(txtTrinketsMax.Text);
 
-            currentContainer.ArmorSets = armorSetItems;
+            currentContainer.ArmorSets = ArmorSetsList;
             currentContainer.ArmorSetsMin = Convert.ToInt32(txtArmorSetsMin.Text);
             currentContainer.ArmorSetsMax = Convert.ToInt32(txtArmorSetsMax.Text);
-            currentContainer.ArmorPieces = armorPieceItems;
+            currentContainer.ArmorPieces = ArmorPiecesList;
             currentContainer.ArmorPiecesMin = Convert.ToInt32(txtArmorPiecesMin.Text);
             currentContainer.ArmorPiecesMax = Convert.ToInt32(txtArmorPiecesMax.Text);
-            currentContainer.Weapons = weaponItems;
-            currentContainer.WeaponsMin = Convert.ToInt32(txtWeaponMin.Text);
-            currentContainer.WeaponsMax = Convert.ToInt32(txtWeaponMax.Text);
-            currentContainer.Ammo = ammoItems;
+            currentContainer.Weapons = WeaponsList;
+            currentContainer.WeaponsMin = Convert.ToInt32(txtWeaponsMin.Text);
+            currentContainer.WeaponsMax = Convert.ToInt32(txtWeaponsMax.Text);
+            currentContainer.Ammo = AmmoList;
             currentContainer.AmmoMin = Convert.ToInt32(txtAmmoMin.Text);
             currentContainer.AmmoMax = Convert.ToInt32(txtAmmoMax.Text);
-            currentContainer.Clothing = clothingItems;
+            currentContainer.Clothing = ClothingList;
             currentContainer.ClothingMin = Convert.ToInt32(txtClothingMin.Text);
             currentContainer.ClothingMax = Convert.ToInt32(txtClothingMax.Text);
-            currentContainer.ClothingAccessories = clothingAccessoriesItems;
+            currentContainer.ClothingAccessories = ClothingAccessoriesList;
             currentContainer.ClothingAccessoriesMin = Convert.ToInt32(txtClothingAccessoriesMin.Text);
             currentContainer.ClothingAccessoriesMax = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-            currentContainer.FoodDrinks = foodDrinksItems;
-            currentContainer.FoodDrinksMin = Convert.ToInt32(txtFoodDrinkMin.Text);
-            currentContainer.FoodDrinksMax = Convert.ToInt32(txtFoodDrinkMax.Text);
-            currentContainer.TradeGoods = tradeGoodsItems;
+            currentContainer.FoodDrinks = FoodDrinksList;
+            currentContainer.FoodDrinksMin = Convert.ToInt32(txtFoodDrinksMin.Text);
+            currentContainer.FoodDrinksMax = Convert.ToInt32(txtFoodDrinksMax.Text);
+            currentContainer.TradeGoods = TradeGoodsList;
             currentContainer.TradeGoodsMin = Convert.ToInt32(txtTradeGoodsMin.Text);
             currentContainer.TradeGoodsMax = Convert.ToInt32(txtTradeGoodsMax.Text);
-            currentContainer.PreciousItems = preciousItems;
+            currentContainer.PreciousItems = PreciousItemsList;
             currentContainer.PreciousItemsMin = Convert.ToInt32(txtPreciousItemsMin.Text);
             currentContainer.PreciousItemsMax = Convert.ToInt32(txtPreciousItemsMax.Text);
-            currentContainer.ArtDecor = artDecorItems;
+            currentContainer.ArtDecor = ArtDecorList;
             currentContainer.ArtDecorMin = Convert.ToInt32(txtArtDecorMin.Text);
             currentContainer.ArtDecorMax = Convert.ToInt32(txtArtDecorMax.Text);
-            currentContainer.BooksPapers = booksPapersItems;
+            currentContainer.BooksPapers = BooksPapersList;
             currentContainer.BooksPapersMin = Convert.ToInt32(txtBooksPapersMin.Text);
             currentContainer.BooksPapersMax = Convert.ToInt32(txtBooksPapersMax.Text);
-            currentContainer.OtherItems = otherItems;
-            currentContainer.OtherItemsMin = Convert.ToInt32(txtOtherMin.Text);
-            currentContainer.OtherItemsMax = Convert.ToInt32(txtOtherMax.Text);
+            currentContainer.OtherItems = OtherItemsList;
+            currentContainer.OtherItemsMin = Convert.ToInt32(txtOtherItemsMin.Text);
+            currentContainer.OtherItemsMax = Convert.ToInt32(txtOtherItemsMax.Text);
 
             if (!programStorage.LootContainers.Contains(currentContainer))
             {
@@ -4966,21 +1072,21 @@ namespace LootGoblin.Controls
             originalFileName = currentContainer.Name;
         }
 
-        private void UpdateTotalItemsAvailable()
+        private void UpdateAvailableCategoryItemAmounts()
         {
             lblTrinketItems.Content = programStorage.Trinkets.Count;
             lblMundaneItems.Content = programStorage.MundaneItems.Count;
-            lblArmorSetsItems.Content = dataArmorSetsItems.Items.Count;
+            lblArmorSetsItems.Content = dataArmorSets.Items.Count;
             lblArmorPiecesItems.Content = dataArmorPieces.Items.Count;
-            lblWeaponItems.Content = dataWeaponItems.Items.Count;
-            lblAmmoItems.Content = dataAmmoItems.Items.Count;
-            lblClothingItems.Content = dataClothingItems.Items.Count;
-            lblClothingAccessoriesItems.Content = dataClothingAccessoriesItems.Items.Count;
-            lblFoodDrinkItems.Content = dataFoodDrinkItems.Items.Count;
-            lblTradeGoodsItems.Content = dataTradeGoodsItems.Items.Count;
+            lblWeaponItems.Content = dataWeapons.Items.Count;
+            lblAmmoItems.Content = dataAmmo.Items.Count;
+            lblClothingItems.Content = dataClothing.Items.Count;
+            lblClothingAccessoriesItems.Content = dataClothingAccessories.Items.Count;
+            lblFoodDrinkItems.Content = dataFoodDrinks.Items.Count;
+            lblTradeGoodsItems.Content = dataTradeGoods.Items.Count;
             lblPreciousItems.Content = dataPreciousItems.Items.Count;
-            lblArtDecorItems.Content = dataArtDecorItems.Items.Count;
-            lblBooksPapersItems.Content = dataBooksPapersItems.Items.Count;
+            lblArtDecorItems.Content = dataArtDecor.Items.Count;
+            lblBooksPapersItems.Content = dataBooksPapers.Items.Count;
             lblOtherItems.Content = dataOtherItems.Items.Count;
         }
 
@@ -5065,85 +1171,85 @@ namespace LootGoblin.Controls
             txtPlatinumMin.Text = "0";
             txtPlatinumMax.Text = "0";
 
-            txtMundaneMin.Text = "0";
-            txtMundaneMax.Text = "0";
+            txtMundaneItemsMin.Text = "0";
+            txtMundaneItemsMax.Text = "0";
 
-            txtTrinketMin.Text = "0";
-            txtTrinketMax.Text = "0";
+            txtTrinketsMin.Text = "0";
+            txtTrinketsMax.Text = "0";
 
             txtArmorSetsMin.Text = "0";
             txtArmorSetsMax.Text = "0";
-            armorSetItems = new List<Item>();
-            dataArmorSetsItems.ItemsSource = armorSetItems;
-            dataArmorSetsItems.Items.Refresh();
+            ArmorSetsList = new List<Item>();
+            dataArmorSets.ItemsSource = ArmorSetsList;
+            dataArmorSets.Items.Refresh();
 
             txtArmorPiecesMin.Text = "0";
             txtArmorPiecesMax.Text = "0";
-            armorPieceItems = new List<Item>();
-            dataArmorPieces.ItemsSource = armorPieceItems;
+            ArmorPiecesList = new List<Item>();
+            dataArmorPieces.ItemsSource = ArmorPiecesList;
             dataArmorPieces.Items.Refresh();
 
-            txtWeaponMin.Text = "0";
-            txtWeaponMax.Text = "0";
-            weaponItems = new List<Item>();
-            dataWeaponItems.ItemsSource = weaponItems;
-            dataWeaponItems.Items.Refresh();
+            txtWeaponsMin.Text = "0";
+            txtWeaponsMax.Text = "0";
+            WeaponsList = new List<Item>();
+            dataWeapons.ItemsSource = WeaponsList;
+            dataWeapons.Items.Refresh();
 
             txtAmmoMin.Text = "0";
             txtAmmoMax.Text = "0";
-            ammoItems = new List<Item>();
-            dataAmmoItems.ItemsSource = ammoItems;
-            dataAmmoItems.Items.Refresh();
+            AmmoList = new List<Item>();
+            dataAmmo.ItemsSource = AmmoList;
+            dataAmmo.Items.Refresh();
 
             txtClothingMin.Text = "0";
             txtClothingMax.Text = "0";
-            clothingItems = new List<Item>();
-            dataClothingItems.ItemsSource = clothingItems;
-            dataClothingItems.Items.Refresh();
+            ClothingList = new List<Item>();
+            dataClothing.ItemsSource = ClothingList;
+            dataClothing.Items.Refresh();
 
             txtClothingAccessoriesMin.Text = "0";
             txtClothingAccessoriesMax.Text = "0";
-            clothingAccessoriesItems = new List<Item>();
-            dataClothingAccessoriesItems.ItemsSource = clothingAccessoriesItems;
-            dataClothingAccessoriesItems.Items.Refresh();
+            ClothingAccessoriesList = new List<Item>();
+            dataClothingAccessories.ItemsSource = ClothingAccessoriesList;
+            dataClothingAccessories.Items.Refresh();
 
-            txtFoodDrinkMin.Text = "0";
-            txtFoodDrinkMax.Text = "0";
-            foodDrinksItems = new List<Item>();
-            dataFoodDrinkItems.ItemsSource = foodDrinksItems;
-            dataFoodDrinkItems.Items.Refresh();
+            txtFoodDrinksMin.Text = "0";
+            txtFoodDrinksMax.Text = "0";
+            FoodDrinksList = new List<Item>();
+            dataFoodDrinks.ItemsSource = FoodDrinksList;
+            dataFoodDrinks.Items.Refresh();
 
             txtTradeGoodsMin.Text = "0";
             txtTradeGoodsMax.Text = "0";
-            tradeGoodsItems = new List<Item>();
-            dataTradeGoodsItems.ItemsSource = tradeGoodsItems;
-            dataTradeGoodsItems.Items.Refresh();
+            TradeGoodsList = new List<Item>();
+            dataTradeGoods.ItemsSource = TradeGoodsList;
+            dataTradeGoods.Items.Refresh();
 
             txtPreciousItemsMin.Text = "0";
             txtPreciousItemsMax.Text = "0";
-            preciousItems = new List<Item>();
-            dataPreciousItems.ItemsSource = preciousItems;
+            PreciousItemsList = new List<Item>();
+            dataPreciousItems.ItemsSource = PreciousItemsList;
             dataPreciousItems.Items.Refresh();
 
             txtArtDecorMin.Text = "0";
             txtArtDecorMax.Text = "0";
-            artDecorItems = new List<Item>();
-            dataArtDecorItems.ItemsSource = artDecorItems;
-            dataArtDecorItems.Items.Refresh();
+            ArtDecorList = new List<Item>();
+            dataArtDecor.ItemsSource = ArtDecorList;
+            dataArtDecor.Items.Refresh();
 
             txtBooksPapersMin.Text = "0";
             txtBooksPapersMax.Text = "0";
-            booksPapersItems = new List<Item>();
-            dataBooksPapersItems.ItemsSource = booksPapersItems;
-            dataBooksPapersItems.Items.Refresh();
+            BooksPapersList = new List<Item>();
+            dataBooksPapers.ItemsSource = BooksPapersList;
+            dataBooksPapers.Items.Refresh();
 
-            txtOtherMin.Text = "0";
-            txtOtherMax.Text = "0";
-            otherItems = new List<Item>();
-            dataOtherItems.ItemsSource = otherItems;
+            txtOtherItemsMin.Text = "0";
+            txtOtherItemsMax.Text = "0";
+            OtherItemsList = new List<Item>();
+            dataOtherItems.ItemsSource = OtherItemsList;
             dataOtherItems.Items.Refresh();
 
-            UpdateTotalItemsAvailable();
+            UpdateAvailableCategoryItemAmounts();
             currentContainerHasChanged = false;
 
             comboContainerType.ItemsSource = null;
@@ -5163,9 +1269,9 @@ namespace LootGoblin.Controls
             comboArmorPiecesImport.ItemsSource = containerNames;
             comboArmorPiecesImport.Text = String.Empty;
 
-            comboWeaponImport.ItemsSource = null;
-            comboWeaponImport.ItemsSource = containerNames;
-            comboWeaponImport.Text = String.Empty;
+            comboWeaponsImport.ItemsSource = null;
+            comboWeaponsImport.ItemsSource = containerNames;
+            comboWeaponsImport.Text = String.Empty;
 
             comboAmmoImport.ItemsSource = null;
             comboAmmoImport.ItemsSource = containerNames;
@@ -5179,9 +1285,9 @@ namespace LootGoblin.Controls
             comboClothingAccessoriesImport.ItemsSource = containerNames;
             comboClothingAccessoriesImport.Text = String.Empty;
 
-            comboFoodDrinkImport.ItemsSource = null;
-            comboFoodDrinkImport.ItemsSource = containerNames;
-            comboFoodDrinkImport.Text = String.Empty;
+            comboFoodDrinksImport.ItemsSource = null;
+            comboFoodDrinksImport.ItemsSource = containerNames;
+            comboFoodDrinksImport.Text = String.Empty;
 
             comboTradeGoodsImport.ItemsSource = null;
             comboTradeGoodsImport.ItemsSource = containerNames;
@@ -5199,9 +1305,9 @@ namespace LootGoblin.Controls
             comboBooksPapersImport.ItemsSource = containerNames;
             comboBooksPapersImport.Text = String.Empty;
 
-            comboOtherImport.ItemsSource = null;
-            comboOtherImport.ItemsSource = containerNames;
-            comboOtherImport.Text = String.Empty;
+            comboOtherItemsImport.ItemsSource = null;
+            comboOtherItemsImport.ItemsSource = containerNames;
+            comboOtherItemsImport.Text = String.Empty;
         }
 
         private void txtBoxNumber_TextChanged(object sender, TextChangedEventArgs e)
