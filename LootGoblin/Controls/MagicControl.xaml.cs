@@ -28,9 +28,6 @@ namespace LootGoblin.Controls
             currentItemHasChanged = false;
             currentItem = null;
 
-            // Process settings
-            SuppressMagicItemEditPopups.IsChecked = programStorage.Settings.SuppressMagicItemEditPopups;
-
             // Set item sources
             comboItemType.ItemsSource = programStorage.MagicItemTypes;
             comboItemRarity.ItemsSource = programStorage.MagicItemRarities;
@@ -198,13 +195,6 @@ namespace LootGoblin.Controls
             }
         }
 
-        private void SuppressMagicItemEditPopups_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var suppress = SuppressMagicItemEditPopups.IsChecked.Value;
-            programStorage.Settings.SuppressMagicItemEditPopups = suppress;
-            programStorage.Settings.Save();
-        }
-
         private void txtItemName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var name = txtItemName.Text;
@@ -349,6 +339,12 @@ namespace LootGoblin.Controls
             comboItemType.ItemsSource = programStorage.MagicItemTypes;
             comboItemRarity.ItemsSource = null;
             comboItemRarity.ItemsSource = programStorage.MagicItemRarities;
+        }
+
+        private void btnOptions_Click(object sender, RoutedEventArgs e)
+        {
+            OptionsWindow options = new OptionsWindow();
+            options.ShowDialog();
         }
     }
 }

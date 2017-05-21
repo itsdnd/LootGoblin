@@ -51,11 +51,6 @@ namespace LootGoblin.Controls
             dataMagicItems.ItemsSource = programStorage.MagicItemList;
             dataRandomMagicItems.ItemsSource = programStorage.RandomMagicItemList;
 
-            // Process settings
-            SuppressEncounterListPopups.IsChecked = programStorage.Settings.SuppressEncounterListPopups;
-            SuppressMagicItemListPopups.IsChecked = programStorage.Settings.SuppressMagicItemListPopups;
-            SuppressRandomMagicItemListPopups.IsChecked = programStorage.Settings.SuppressRandomMagicItemListPopups;
-
             // Show Window
             Application.Current.MainWindow.Visibility = Visibility.Visible;
         }
@@ -222,13 +217,6 @@ namespace LootGoblin.Controls
             {
                 programStorage.EncounterList.Remove(removeContainer);
             }
-        }
-
-        private void SuppressEncounterListPopups_Checked(object sender, RoutedEventArgs e)
-        {
-            var suppress = SuppressEncounterListPopups.IsChecked.Value;
-            programStorage.Settings.SuppressEncounterListPopups = suppress;
-            programStorage.Settings.Save();
         }
 
         //================================================================================
@@ -566,13 +554,6 @@ namespace LootGoblin.Controls
             dataMagicItems.Items.Refresh();
         }
 
-        private void SuppressMagicItemListPopups_Checked(object sender, RoutedEventArgs e)
-        {
-            var suppress = SuppressMagicItemListPopups.IsChecked.Value;
-            programStorage.Settings.SuppressMagicItemListPopups = suppress;
-            programStorage.Settings.Save();
-        }
-
         //================================================================================
         // Encounter - Random Magic Items
         //================================================================================
@@ -732,13 +713,6 @@ namespace LootGoblin.Controls
             dataRandomMagicItems.Items.Refresh();
         }
 
-        private void SuppressRandomMagicItemListPopups_Checked(object sender, RoutedEventArgs e)
-        {
-            var suppress = SuppressRandomMagicItemListPopups.IsChecked.Value;
-            programStorage.Settings.SuppressRandomMagicItemListPopups = suppress;
-            programStorage.Settings.Save();
-        }
-
         private void comboRandomMagicItemType_DropDownClosed(object sender, EventArgs e)
         {
             DetermineRandomMagicItemRarities();
@@ -747,6 +721,12 @@ namespace LootGoblin.Controls
         private void comboRandomMagicItemType_TextChanged(object sender, TextChangedEventArgs e)
         {
             DetermineRandomMagicItemRarities();
+        }
+
+        private void btnOptions_Click(object sender, RoutedEventArgs e)
+        {
+            OptionsWindow options = new OptionsWindow();
+            options.ShowDialog();
         }
     }
 }

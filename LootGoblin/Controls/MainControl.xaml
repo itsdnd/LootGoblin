@@ -28,16 +28,14 @@
                     <DockPanel Height="32">
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Container List"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                            <StackPanel>
-                                <Button Click="btnEditContainers_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="Edit Containers" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                            <Button Click="btnEditContainers_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Containers" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                    <TextBlock Text="Edit Containers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
@@ -70,7 +68,7 @@
                             <materialDesign:PackIcon Kind="MenuDown" VerticalAlignment="Center" Width="20" Height="20" Foreground="{StaticResource PrimaryHueMidBrush}" />
                         </RepeatButton>
                     </StackPanel>
-                    <Button x:Name="btnAddToEncounter" Style="{StaticResource MaterialDesignRaisedDarkButton}"  VerticalAlignment="Center" Margin="30,0,0,0" Click="btnAddToEncounter_Click" Width="215" >
+                    <Button x:Name="btnAddToEncounter" Style="{StaticResource MaterialDesignRaisedDarkButton}"  VerticalAlignment="Center" Margin="25,0,0,0" Click="btnAddToEncounter_Click" Width="215" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,8,0" Width="24" Height="24" />
                             <TextBlock Text="Add To Encounter" VerticalAlignment="Center" />
@@ -85,26 +83,23 @@
                     <DockPanel Height="32">
                         <Image Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Container List"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                            <StackPanel>
-                                <Button Click="btnEditContainers_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="Edit Containers" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Separator />
-                                <StackPanel Margin="18,10,20,10">
-                                    <CheckBox Content="Suppress Popups?" IsChecked="{Binding IsChecked, ElementName=SuppressEncounterListPopups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="SuppressEncounterListPopups_Checked" Unchecked="SuppressEncounterListPopups_Checked" />
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                            <Button Click="btnEditContainers_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Containers" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                    <TextBlock Text="Edit Containers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
                                 </StackPanel>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                            </Button>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
+                                <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                            </Button>
+                        </StackPanel>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <CheckBox x:Name="SuppressEncounterListPopups" Visibility="Hidden"/>
                     <Button x:Name="btnEncounterDuplicate" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="182" Click="btnEncounterDuplicate_Click">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ContentDuplicate" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
@@ -181,16 +176,14 @@
                     <DockPanel Height="32">
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/ring.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Magic Item List"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                            <StackPanel>
-                                <Button Click="btnEditMagicItems_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                            <Button Click="btnEditMagicItems_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Magic Items" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                    <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
@@ -232,26 +225,23 @@
                         <DockPanel Height="32">
                             <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/magic.png"/>
                             <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Guaranteed Magic Items"/>
-                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                                <StackPanel>
-                                    <Button Click="btnEditMagicItems_Click" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                            <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </Button>
-                                    <Separator />
-                                    <StackPanel Margin="18,10,20,10">
-                                        <CheckBox Content="Suppress Popups?" IsChecked="{Binding IsChecked, ElementName=SuppressMagicItemListPopups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="SuppressMagicItemListPopups_Checked" Unchecked="SuppressMagicItemListPopups_Checked" />
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                                <Button Click="btnEditMagicItems_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Magic Items" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                        <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
                                     </StackPanel>
-                                </StackPanel>
-                            </materialDesign:PopupBox>
+                                </Button>
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                                <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
+                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                </Button>
+                            </StackPanel>
                         </DockPanel>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <CheckBox x:Name="SuppressMagicItemListPopups" Visibility="Hidden"/>
                         <Button x:Name="btnMagicItemDuplicate" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,16" Width="180" Click="btnMagicItemDuplicate_Click">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ContentDuplicate" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
@@ -305,20 +295,18 @@
                         <DockPanel Height="32">
                             <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/dice.png"/>
                             <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Random Magic Items"/>
-                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                                <StackPanel>
-                                    <Button Click="btnEditMagicItems_Click" >
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                            <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </Button>
-                                    <Separator />
-                                    <StackPanel Margin="18,10,20,10">
-                                        <CheckBox Content="Suppress Popups?" IsChecked="{Binding IsChecked, ElementName=SuppressRandomMagicItemListPopups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="SuppressRandomMagicItemListPopups_Checked" Unchecked="SuppressRandomMagicItemListPopups_Checked" />
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                                <Button Click="btnEditMagicItems_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Magic Items" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                        <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
                                     </StackPanel>
-                                </StackPanel>
-                            </materialDesign:PopupBox>
+                                </Button>
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                                <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
+                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                                </Button>
+                            </StackPanel>
                         </DockPanel>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
@@ -335,7 +323,6 @@
                     </StackPanel>
                     <Separator Margin="16,0" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                        <CheckBox x:Name="SuppressRandomMagicItemListPopups" Visibility="Hidden"/>
                         <Button x:Name="btnRandomMagicItemRemove" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Margin="16,16" Width="180" Click="btnRandomMagicItemRemove_Click">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ContentCut" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />

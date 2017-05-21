@@ -51,9 +51,6 @@ namespace LootGoblin.Controls
             currentContainerHasChanged = false;
             currentContainer = null;
 
-            // Process settings
-            SuppressContainerEditPopups.IsChecked = programStorage.Settings.SuppressContainerEditPopups;
-
             // Set item sources
             comboContainerType.ItemsSource = programStorage.ContainerTypes;
 
@@ -854,7 +851,6 @@ namespace LootGoblin.Controls
             List<Item> containerSet = (List<Item>)container.GetType().GetProperty(category).GetValue(container);
             if (containerSet == null)
             {
-                Console.WriteLine("containerset emptyu");
                 return;  // containerSet for "Category" not found
             }
 
@@ -918,7 +914,7 @@ namespace LootGoblin.Controls
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (currentContainer == null)
+            if (currentContainer == null || !programStorage.LootContainers.Contains(currentContainer))
             {
                 return;
             }
@@ -948,11 +944,10 @@ namespace LootGoblin.Controls
             }
         }
 
-        private void SuppressContainerEditPopups_Checked(object sender, RoutedEventArgs e)
+        private void btnOptions_Click(object sender, RoutedEventArgs e)
         {
-            var suppress = SuppressContainerEditPopups.IsChecked.Value;
-            programStorage.Settings.SuppressMagicItemEditPopups = suppress;
-            programStorage.Settings.Save();
+            OptionsWindow options = new OptionsWindow();
+            options.ShowDialog();
         }
 
         //================================================================================

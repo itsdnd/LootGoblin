@@ -59,32 +59,23 @@
                     <DockPanel Height="32">
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/magic.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Magic Item Management"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" HorizontalAlignment="Right">
-                            <StackPanel>
-                                <Button x:Name="bntNew" Click="btnNew_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="NewBox" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="New Magic Item" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button x:Name="bntDuplicate" Click="btnDuplicate_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="ContentCopy" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="Duplicate Magic Item" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button x:Name="btnDelete" Click="btnDelete_Click" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                                        <TextBlock Text="Delete Magic Item" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Separator />
-                                <StackPanel Margin="18,10,20,10">
-                                    <CheckBox Content="Suppress Popups?" IsChecked="{Binding IsChecked, ElementName=SuppressMagicItemEditPopups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="SuppressMagicItemEditPopups_Checked" Unchecked="SuppressMagicItemEditPopups_Checked" />
-                                </StackPanel>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
+                            <Button Click="btnNew_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Create New Magic Item" >
+                                <materialDesign:PackIcon Kind="NewBox" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                            </Button>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                            <Button Click="btnDuplicate_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Duplicate Magic Item" >
+                                <materialDesign:PackIcon Kind="ContentCopy" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                            </Button>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                            <Button Click="btnDelete_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Delete Magic Item" >
+                                <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                            </Button>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
+                                <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
+                            </Button>
+                        </StackPanel>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
@@ -112,7 +103,6 @@
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                     <Separator Margin="0,16" />
-                    <CheckBox x:Name="SuppressMagicItemEditPopups" Visibility="Hidden" Margin="0,-32,0,0" />
                     <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,0,16,16" Click="btnSave_Click" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />

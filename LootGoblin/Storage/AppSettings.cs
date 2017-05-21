@@ -6,15 +6,11 @@ namespace LootGoblin.Storage
 {
     public class AppSettings
     {
-        public bool SuppressRandomMagicItemListPopups { get; set; }
-
         public bool SuppressEncounterListPopups { get; set; }
-
-        public bool SuppressMagicItemEditPopups { get; set; }
-
         public bool SuppressMagicItemListPopups { get; set; }
-
+        public bool SuppressRandomMagicItemListPopups { get; set; }
         public bool SuppressContainerEditPopups { get; set; }
+        public bool SuppressMagicItemEditPopups { get; set; }
 
         public void Save()
         {
