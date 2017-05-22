@@ -11,6 +11,7 @@ namespace LootGoblin.Storage
         public bool SuppressRandomMagicItemListPopups { get; set; }
         public bool SuppressContainerEditPopups { get; set; }
         public bool SuppressMagicItemEditPopups { get; set; }
+        public bool SuppressExternalLinksPopups { get; set; }
 
         public void Save()
         {

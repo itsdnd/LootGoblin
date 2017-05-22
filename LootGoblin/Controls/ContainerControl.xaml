@@ -27,8 +27,7 @@
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <StackPanel>
-                <TreeView x:Name="containerTree" ItemsSource="{Binding}" SelectedItemChanged="containerTree_SelectedItemChanged" Height="1290" VerticalAlignment="Top" VerticalContentAlignment="Stretch">
+            <TreeView x:Name="containerTree" ItemsSource="{Binding}" SelectedItemChanged="containerTree_SelectedItemChanged" VerticalContentAlignment="Stretch" >
                     <TreeView.Resources>
                         <DataTemplate x:Key="ContainerNames">
                             <TextBlock Text="{Binding Path=Name}"  VerticalAlignment="Center" />
@@ -43,7 +42,6 @@
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
-            </StackPanel>
         </GroupBox>
         <GroupBox Grid.Column="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>

@@ -23,6 +23,7 @@ namespace LootGoblin
             btnSuppressRandomMagicItemListPopups.IsChecked = programStorage.Settings.SuppressRandomMagicItemListPopups;
             btnSuppressContainerEditPopups.IsChecked = programStorage.Settings.SuppressContainerEditPopups;
             btnSuppressMagicItemEditPopups.IsChecked = programStorage.Settings.SuppressMagicItemEditPopups;
+            btnSuppressExternalLinksPopups.IsChecked = programStorage.Settings.SuppressExternalLinksPopups;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -32,8 +33,10 @@ namespace LootGoblin
             programStorage.Settings.SuppressRandomMagicItemListPopups = btnSuppressRandomMagicItemListPopups.IsChecked.Value;
             programStorage.Settings.SuppressContainerEditPopups = btnSuppressContainerEditPopups.IsChecked.Value;
             programStorage.Settings.SuppressMagicItemEditPopups = btnSuppressMagicItemEditPopups.IsChecked.Value;
+            programStorage.Settings.SuppressExternalLinksPopups = btnSuppressExternalLinksPopups.IsChecked.Value;
 
             programStorage.Settings.Save();
+            this.Close();
         }
     }
 }

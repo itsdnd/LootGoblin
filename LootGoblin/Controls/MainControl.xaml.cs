@@ -10,6 +10,7 @@ using LootGoblin.Storage;
 using LootGoblin.Storage.Trees;
 using LootGoblin.Storage.Grids;
 using System.Linq;
+using System.Diagnostics;
 
 namespace LootGoblin.Controls
 {
@@ -727,6 +728,48 @@ namespace LootGoblin.Controls
         {
             OptionsWindow options = new OptionsWindow();
             options.ShowDialog();
+        }
+
+        private void btnWiki_Click(object sender, RoutedEventArgs e)
+        {
+            if (!programStorage.Settings.SuppressExternalLinksPopups)
+            {
+                var proceed = WarningPopup.Show("Go to Link?", "Clicking proceed will open up an external Internet browser on your computer that leads to the Loot Goblin wiki. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki");
+        }
+
+        private void btnBug_Click(object sender, RoutedEventArgs e)
+        {
+            if (!programStorage.Settings.SuppressExternalLinksPopups)
+            {
+                var proceed = WarningPopup.Show("Go to Link?", "Clicking proceed will open up an external Internet browser on your computer that leads to the Loot Goblin Bug Report Page. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki");
+        }
+
+        private void btnFeature_Click(object sender, RoutedEventArgs e)
+        {
+            if (!programStorage.Settings.SuppressExternalLinksPopups)
+            {
+                var proceed = WarningPopup.Show("Go to Link?", "Clicking proceed will open up an external Internet browser on your computer that leads to the Loot Goblin Feature Requests. Proceed?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki");
         }
     }
 }

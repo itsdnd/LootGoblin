@@ -10,19 +10,42 @@
              TextElement.FontSize="14"
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Height="1674" 
+             Height="1718" 
              Width="1370"
 >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="665"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="660"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Grid.Row="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="16,16,16,0">
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="View Wiki" Click="btnWiki_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="HelpCircleOutline" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="View Wiki" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Report a bug" Click="btnBug_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Bug" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="Report a bug" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Request a feature" Click="btnFeature_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Star" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="Request a feature" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16" >
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -77,7 +100,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Column="1" Grid.Row="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -170,7 +193,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <GroupBox Grid.Row="2" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -218,7 +241,7 @@
                 </Button>
             </StackPanel>
         </GroupBox>
-        <StackPanel Grid.Row="1" Grid.Column="1">
+        <StackPanel Grid.Row="2" Grid.Column="1">
             <GroupBox Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
