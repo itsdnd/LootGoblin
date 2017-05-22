@@ -91,6 +91,11 @@ namespace LootGoblin
                 var input = File.ReadAllText(files[i]);
                 var container = JsonConvert.DeserializeObject<LootContainer>(input);
 
+                if (container == null)
+                {
+                    continue;
+                }
+
                 // Make sure the container is not missing any details
                 CheckNullContainer(container, files[i]);
 
@@ -201,9 +206,7 @@ namespace LootGoblin
 
         private void CheckNullContainer(LootContainer container, string fileName)
         {
-            // Potentially reduce IO by only resaving when changes occur?
             var change = false;
-
             if (container.Name == null || container.Name.Trim().Equals(String.Empty))
             {
                 container.Name = Path.GetFileNameWithoutExtension(fileName);
@@ -212,7 +215,7 @@ namespace LootGoblin
 
             if (container.Type == null || container.Type.Trim().Equals(String.Empty))
             {
-                container.Type = "Other";
+                container.Type = "No Type";
                 change = true;
             }
 
@@ -221,295 +224,7 @@ namespace LootGoblin
                 container.Description = "Placeholder container description";
                 change = true;
             }
-
-            if (container.CopperMin < 0)
-            {
-                container.CopperMin = 0;
-                change = true;
-            }
-
-            if (container.CopperMax < 0)
-            {
-                container.CopperMax = 0;
-                change = true;
-            }
-
-            if (container.SilverMin < 0)
-            {
-                container.SilverMin = 0;
-                change = true;
-            }
-
-            if (container.SilverMax < 0)
-            {
-                container.SilverMax = 0;
-                change = true;
-            }
-
-            if (container.ElectrumMin < 0)
-            {
-                container.ElectrumMin = 0;
-                change = true;
-            }
-
-            if (container.ElectrumMax < 0)
-            {
-                container.ElectrumMax = 0;
-                change = true;
-            }
-
-            if (container.GoldMin < 0)
-            {
-                container.GoldMin = 0;
-                change = true;
-            }
-
-            if (container.GoldMax < 0)
-            {
-                container.GoldMax = 0;
-                change = true;
-            }
-
-            if (container.PlatinumMin < 0)
-            {
-                container.PlatinumMin = 0;
-                change = true;
-            }
-
-            if (container.PlatinumMax < 0)
-            {
-                container.PlatinumMax = 0;
-                change = true;
-            }
-
-            if (container.ArmorSetsMin < 0)
-            {
-                container.ArmorSetsMin = 0;
-                change = true;
-            }
-
-            if (container.ArmorSetsMax < 0)
-            {
-                container.ArmorSetsMax = 0;
-                change = true;
-            }
-
-            if (container.ArmorSets == null)
-            {
-                container.ArmorSets = new List<Item>();
-                change = true;
-            }
-
-            if (container.ArmorPiecesMin < 0)
-            {
-                container.ArmorPiecesMin = 0;
-                change = true;
-            }
-
-            if (container.ArmorPiecesMax < 0)
-            {
-                container.ArmorPiecesMax = 0;
-                change = true;
-            }
-
-            if (container.ArmorPieces == null)
-            {
-                container.ArmorPieces = new List<Item>();
-                change = true;
-            }
-
-            if (container.WeaponsMin < 0)
-            {
-                container.WeaponsMin = 0;
-                change = true;
-            }
-
-            if (container.WeaponsMax < 0)
-            {
-                container.WeaponsMax = 0;
-                change = true;
-            }
-
-            if (container.Weapons == null)
-            {
-                container.Weapons = new List<Item>();
-                change = true;
-            }
-
-            if (container.AmmoMin < 0)
-            {
-                container.AmmoMin = 0;
-                change = true;
-            }
-
-            if (container.AmmoMax < 0)
-            {
-                container.AmmoMax = 0;
-                change = true;
-            }
-
-            if (container.Ammo == null)
-            {
-                container.Ammo = new List<Item>();
-                change = true;
-            }
-
-            if (container.ClothingMin < 0)
-            {
-                container.ClothingMin = 0;
-                change = true;
-            }
-
-            if (container.ClothingMax < 0)
-            {
-                container.ClothingMax = 0;
-                change = true;
-            }
-
-            if (container.Clothing == null)
-            {
-                container.Clothing = new List<Item>();
-                change = true;
-            }
-
-            if (container.ClothingAccessoriesMin < 0)
-            {
-                container.ClothingAccessoriesMin = 0;
-                change = true;
-            }
-
-            if (container.ClothingAccessoriesMax < 0)
-            {
-                container.ClothingAccessoriesMax = 0;
-                change = true;
-            }
-
-            if (container.ClothingAccessories == null)
-            {
-                container.ClothingAccessories = new List<Item>();
-                change = true;
-            }
-
-            if (container.FoodDrinksMin < 0)
-            {
-                container.FoodDrinksMin = 0;
-                change = true;
-            }
-
-            if (container.FoodDrinksMax < 0)
-            {
-                container.FoodDrinksMax = 0;
-                change = true;
-            }
-
-            if (container.FoodDrinks == null)
-            {
-                container.FoodDrinks = new List<Item>();
-                change = true;
-            }
-
-            if (container.TradeGoodsMin < 0)
-            {
-                container.TradeGoodsMin = 0;
-                change = true;
-            }
-
-            if (container.TradeGoodsMax < 0)
-            {
-                container.TradeGoodsMax = 0;
-                change = true;
-            }
-
-            if (container.TradeGoods == null)
-            {
-                container.TradeGoods = new List<Item>();
-                change = true;
-            }
-
-            if (container.PreciousItemsMin < 0)
-            {
-                container.PreciousItemsMin = 0;
-                change = true;
-            }
-
-            if (container.PreciousItemsMax < 0)
-            {
-                container.PreciousItemsMax = 0;
-                change = true;
-            }
-
-            if (container.PreciousItems == null)
-            {
-                container.PreciousItems = new List<Item>();
-                change = true;
-            }
-
-            if (container.ArtDecorMin < 0)
-            {
-                container.ArtDecorMin = 0;
-                change = true;
-            }
-
-            if (container.ArtDecorMax < 0)
-            {
-                container.ArtDecorMax = 0;
-                change = true;
-            }
-
-            if (container.ArtDecor == null)
-            {
-                container.ArtDecor = new List<Item>();
-                change = true;
-            }
-
-            if (container.BooksPapersMin < 0)
-            {
-                container.BooksPapersMin = 0;
-                change = true;
-            }
-
-            if (container.BooksPapersMax < 0)
-            {
-                container.BooksPapersMax = 0;
-                change = true;
-            }
-
-            if (container.BooksPapers == null)
-            {
-                container.BooksPapers = new List<Item>();
-                change = true;
-            }
-
-            if (container.OtherItemsMin < 0)
-            {
-                container.OtherItemsMin = 0;
-                change = true;
-            }
-
-            if (container.OtherItemsMax < 0)
-            {
-                container.OtherItemsMax = 0;
-                change = true;
-            }
-
-            if (container.OtherItems == null)
-            {
-                container.OtherItems = new List<Item>();
-                change = true;
-            }
-
-            if (container.MundaneMin < 0)
-            {
-                container.MundaneMin = 0;
-                change = true;
-            }
-
-            if (container.MundaneMax < 0)
-            {
-                container.MundaneMax = 0;
-                change = true;
-            }
-
+            
             if (change)
             {
                 var output = JsonConvert.SerializeObject(container, Formatting.Indented);
@@ -526,12 +241,12 @@ namespace LootGoblin
 
             if (item.Type == null || item.Type.Trim().Equals(String.Empty))
             {
-                item.Type = "Other";
+                item.Type = "No Type";
             }
 
             if (item.Rarity == null || item.Rarity.Trim().Equals(String.Empty))
             {
-                item.Rarity = "Uncommon";
+                item.Rarity = "No Rarity";
             }
 
             if (item.Description == null || item.Description.Trim().Equals(String.Empty))
