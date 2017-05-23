@@ -15,6 +15,7 @@
         Icon="chest.ico" 
         Height="550" 
         Width="600"
+        ResizeMode="NoResize"
 >
     <Grid>
         <StackPanel>

@@ -60,19 +60,19 @@
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/magic.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Magic Item Management"/>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
-                            <Button Click="btnNew_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Create New Magic Item" >
+                            <Button Click="btnNew_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Create a new magic item" >
                                 <materialDesign:PackIcon Kind="NewBox" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnDuplicate_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Duplicate Magic Item" >
+                            <Button Click="btnDuplicate_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Duplicate the currently selected magic item" >
                                 <materialDesign:PackIcon Kind="ContentCopy" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnDelete_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Delete Magic Item" >
+                            <Button Click="btnDelete_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Delete the currently selected magic item" >
                                 <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
+                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" >
                                 <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
                         </StackPanel>
@@ -87,17 +87,17 @@
                     </StackPanel>
                     <TextBlock x:Name="txtItemNameError" Text="Error: Item name already in use" Margin="150,2,0,-16" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
                     <TextBlock x:Name="txtItemNameEmptyError" Text="Error: Item name cannot be empty" Margin="150,2,0,-16" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
-                    <Separator Margin="0,16" />
+                    <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Magic Item Type: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
                         <ComboBox x:Name="comboItemType" materialDesign:HintAssist.Hint="Magic Item Type" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="350" DropDownClosed="comboItemType_DropDownClosed" TextBoxBase.TextChanged="comboItemType_TextChanged" />
                     </StackPanel>
-                    <Separator Margin="0,16" />
+                    <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Magic Item Rarity: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
                         <ComboBox x:Name="comboItemRarity" materialDesign:HintAssist.Hint="Magic Item Rarity" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="350" DropDownClosed="comboItemRarity_DropDownClosed" TextBoxBase.TextChanged="comboItemRarity_TextChanged" />
                     </StackPanel>
-                    <Separator Margin="0,16" />
+                    <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <TextBlock Text="Magic Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,16" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
                     <TextBox x:Name="txtItemDescription" TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,0,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Magic Item Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" MaxHeight="370" TextChanged="txtItemDescription_TextChanged" />
                 </StackPanel>
