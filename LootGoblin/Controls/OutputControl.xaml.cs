@@ -95,7 +95,8 @@ namespace LootGoblin.Controls
             foreach (KeyValuePair<MagicItem, int> pair in guaranteedMagicItemList)
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}] - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
+                var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                var itemString = String.Format("- {0}{1} [{2} | {3}]{4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, description, Environment.NewLine, Environment.NewLine);
                 AppendText(txtGuaranteedMagicItems, itemString);
             }
         }
@@ -177,7 +178,8 @@ namespace LootGoblin.Controls
             foreach (KeyValuePair<MagicItem, int> pair in randomMagicItemList)
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}] - {4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, pair.Key.Description, Environment.NewLine, Environment.NewLine);
+                var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                var itemString = String.Format("- {0}{1} [{2} | {3}]{4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, description, Environment.NewLine, Environment.NewLine);
                 
                 AppendText(txtRandomMagicItems, itemString);
             }
@@ -424,7 +426,10 @@ namespace LootGoblin.Controls
                 foreach (KeyValuePair<Item, int> pair in dictionary)
                 {
                     var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    AppendText(txtIndividualGear, String.Format(" - {0}{1} ({2} ea.) - {3}{4}", amount, pair.Key.Name, pair.Key.Value, pair.Key.Description, Environment.NewLine));
+                    var each = (pair.Value > 1) ? " ea." : "";
+                    var value = (!pair.Key.Value.Equals(String.Empty)) ? String.Format(" ({0}{1})", pair.Key.Value, each) : "";
+                    var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                    AppendText(txtIndividualGear, String.Format(" - {0}{1}{2}{3}{4}", amount, pair.Key.Name, value, description, Environment.NewLine));
                 }
             }
         }
@@ -483,7 +488,10 @@ namespace LootGoblin.Controls
                 foreach (KeyValuePair<Item, int> pair in dictionary)
                 {
                     var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    AppendText(txtEncounterGear, String.Format(" - {0}{1} ({2} ea.) - {3}{4}", amount, pair.Key.Name, pair.Key.Value, pair.Key.Description, Environment.NewLine));
+                    var each = (pair.Value > 1) ? " ea." : "";
+                    var value = (!pair.Key.Value.Equals(String.Empty)) ? String.Format(" ({0}{1})", pair.Key.Value, each) : "";
+                    var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}{3}{4}", amount, pair.Key.Name, value, description, Environment.NewLine));
                 }
 
                 string dashes = "------------------------------------------------------------------------------------------------------------------------------";
