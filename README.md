@@ -28,6 +28,7 @@ Visit the [Wiki](https://github.com/ItsDnD/LootGoblin/wiki) for more information
 
 #### Issues or Feature Requests
 Need to report a bug? Get started [here](https://github.com/ItsDnD/LootGoblin/wiki/Submitting-a-Bug-Report)
+
 Have a feature you want to request? Get started [here](https://github.com/ItsDnD/LootGoblin/wiki/Submitting-a-Feature-Request)
 
 #### Screenshots
