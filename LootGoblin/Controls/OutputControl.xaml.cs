@@ -468,6 +468,9 @@ namespace LootGoblin.Controls
                 }
             }
 
+            string dashes = "------------------------------------------------------------------------------------------------------------------------------";
+            AppendText(txtEncounterGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
+
             if (mundaneListEncounter.Count > 0)
             {
 

@@ -755,7 +755,7 @@ namespace LootGoblin.Controls
                 }
             }
 
-            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki");
+            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki/Submitting-a-Bug-Report");
         }
 
         private void btnFeature_Click(object sender, RoutedEventArgs e)
@@ -769,7 +769,7 @@ namespace LootGoblin.Controls
                 }
             }
 
-            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki");
+            Process.Start("https://github.com/ItsDnD/LootGoblin/wiki/Submitting-a-Feature-Request");
         }
     }
 }
