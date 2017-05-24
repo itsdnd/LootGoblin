@@ -23,7 +23,7 @@
                 <DataTemplate>
                     <DockPanel Height="32">
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
-                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Container List"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Loot Containers"/>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>

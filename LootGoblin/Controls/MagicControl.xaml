@@ -25,7 +25,7 @@
                 <DataTemplate>
                     <DockPanel Height="32">
                         <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/ring.png"/>
-                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Magic Item List"/>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Magic Items"/>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
