@@ -3,6 +3,7 @@ using LootGoblin.Storage.Trees;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,18 +26,18 @@ namespace LootGoblin.Controls
         private string originalFileName = String.Empty;
         private Item editedItem = null;
 
-        private List<Item> ArmorSetsList;
-        private List<Item> ArmorPiecesList;
-        private List<Item> WeaponsList;
-        private List<Item> AmmoList;
-        private List<Item> ClothingList;
-        private List<Item> ClothingAccessoriesList;
-        private List<Item> FoodDrinksList;
-        private List<Item> TradeGoodsList;
-        private List<Item> PreciousItemsList;
-        private List<Item> ArtDecorList;
-        private List<Item> BooksPapersList;
-        private List<Item> OtherItemsList;
+        private ObservableCollection<Item> ArmorSetsList;
+        private ObservableCollection<Item> ArmorPiecesList;
+        private ObservableCollection<Item> WeaponsList;
+        private ObservableCollection<Item> AmmoList;
+        private ObservableCollection<Item> ClothingList;
+        private ObservableCollection<Item> ClothingAccessoriesList;
+        private ObservableCollection<Item> FoodDrinksList;
+        private ObservableCollection<Item> TradeGoodsList;
+        private ObservableCollection<Item> PreciousItemsList;
+        private ObservableCollection<Item> ArtDecorList;
+        private ObservableCollection<Item> BooksPapersList;
+        private ObservableCollection<Item> OtherItemsList;
 
         private List<string> containerNames;
 
@@ -168,29 +169,29 @@ namespace LootGoblin.Controls
             txtPlatinumMin.Text = container.PlatinumMin.ToString();
             txtPlatinumMax.Text = container.PlatinumMax.ToString();
 
-            ArmorSetsList = new List<Item>(container.ArmorSets);
+            ArmorSetsList = new ObservableCollection<Item>(container.ArmorSets);
             dataArmorSets.ItemsSource = ArmorSetsList;
-            ArmorPiecesList = new List<Item>(container.ArmorPieces);
+            ArmorPiecesList = new ObservableCollection<Item>(container.ArmorPieces);
             dataArmorPieces.ItemsSource = ArmorPiecesList;
-            WeaponsList = new List<Item>(container.Weapons);
+            WeaponsList = new ObservableCollection<Item>(container.Weapons);
             dataWeapons.ItemsSource = WeaponsList;
-            AmmoList = new List<Item>(container.Ammo);
+            AmmoList = new ObservableCollection<Item>(container.Ammo);
             dataAmmo.ItemsSource = AmmoList;
-            ClothingList = new List<Item>(container.Clothing);
+            ClothingList = new ObservableCollection<Item>(container.Clothing);
             dataClothing.ItemsSource = ClothingList;
-            ClothingAccessoriesList = new List<Item>(container.ClothingAccessories);
+            ClothingAccessoriesList = new ObservableCollection<Item>(container.ClothingAccessories);
             dataClothingAccessories.ItemsSource = ClothingAccessoriesList;
-            FoodDrinksList = new List<Item>(container.FoodDrinks);
+            FoodDrinksList = new ObservableCollection<Item>(container.FoodDrinks);
             dataFoodDrinks.ItemsSource = FoodDrinksList;
-            TradeGoodsList = new List<Item>(container.TradeGoods);
+            TradeGoodsList = new ObservableCollection<Item>(container.TradeGoods);
             dataTradeGoods.ItemsSource = TradeGoodsList;
-            PreciousItemsList = new List<Item>(container.PreciousItems);
+            PreciousItemsList = new ObservableCollection<Item>(container.PreciousItems);
             dataPreciousItems.ItemsSource = PreciousItemsList;
-            ArtDecorList = new List<Item>(container.ArtDecor);
+            ArtDecorList = new ObservableCollection<Item>(container.ArtDecor);
             dataArtDecor.ItemsSource = ArtDecorList;
-            BooksPapersList = new List<Item>(container.BooksPapers);
+            BooksPapersList = new ObservableCollection<Item>(container.BooksPapers);
             dataBooksPapers.ItemsSource = BooksPapersList;     
-            OtherItemsList = new List<Item>(container.OtherItems);
+            OtherItemsList = new ObservableCollection<Item>(container.OtherItems);
             dataOtherItems.ItemsSource = OtherItemsList;
 
             UpdateAvailableCategoryItemAmounts();
@@ -530,7 +531,7 @@ namespace LootGoblin.Controls
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
             var addTextButton = (TextBlock)this.FindName(button);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
             // Find the Name, Value, and Description textboxes for updating data
             var txtName = (TextBox)this.FindName(String.Format("txt{0}Name", category));
@@ -556,7 +557,7 @@ namespace LootGoblin.Controls
             UpdateAvailableCategoryItemAmounts();
         }
 
-        private void AddItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, List<Item> itemList, DataGrid dataGrid)
+        private void AddItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, ObservableCollection<Item> itemList, DataGrid dataGrid)
         {
             Item item = new Item();
 
@@ -574,7 +575,7 @@ namespace LootGoblin.Controls
             ChangeHappened();
         }
 
-        private void EditItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, List<Item> itemList, DataGrid dataGrid, TextBlock addTextButton)
+        private void EditItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, ObservableCollection<Item> itemList, DataGrid dataGrid, TextBlock addTextButton)
         {
             // First make sure we are editing a item
             if (editedItem != null)
@@ -618,7 +619,7 @@ namespace LootGoblin.Controls
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
             // Check for null/not found controls/fields
             if (dataGrid == null || itemList == null)
@@ -680,7 +681,7 @@ namespace LootGoblin.Controls
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
             // Check for null/not found controls/fields
             if (dataGrid == null || itemList == null)
@@ -715,7 +716,7 @@ namespace LootGoblin.Controls
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
             // Check for null/not found controls/fields
             if (dataGrid == null || itemList == null)
@@ -736,17 +737,24 @@ namespace LootGoblin.Controls
                     }
                 }
 
-                // Loop through each selection and remove them from the itemlist
+                ObservableCollection<Item> removeList = new ObservableCollection<Item>();
+                // Loop through each selection and add them to a list of items to remove
                 foreach (Item item in dataGrid.SelectedItems)
                 {
                     foreach (Item listItem in itemList)
                     {
                         if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            itemList.Remove(item);
+                            removeList.Add(item); // Add to the removeList to be removed while not iterating
                             break;
                         }
                     }
+                }
+
+                // Remove each item in the removeList from the itemList
+                foreach (Item item in removeList)
+                {
+                    itemList.Remove(item);
                 }
 
                 dataGrid.Items.Refresh(); // Refresh the datagrid items
@@ -766,7 +774,7 @@ namespace LootGoblin.Controls
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
 
             // Check for null/not found controls/fields
             if (dataGrid == null || itemList == null)
@@ -816,7 +824,7 @@ namespace LootGoblin.Controls
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
-            var itemList = (List<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
+            var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
             var comboBox = (ComboBox)this.FindName(String.Format("combo{0}Import", category));
 
             // Check for null/not found controls/fields
@@ -1003,40 +1011,40 @@ namespace LootGoblin.Controls
             currentContainer.TrinketMin = Convert.ToInt32(txtTrinketsMin.Text);
             currentContainer.TrinketMax = Convert.ToInt32(txtTrinketsMax.Text);
 
-            currentContainer.ArmorSets = ArmorSetsList;
+            currentContainer.ArmorSets = new List<Item>(ArmorSetsList);
             currentContainer.ArmorSetsMin = Convert.ToInt32(txtArmorSetsMin.Text);
             currentContainer.ArmorSetsMax = Convert.ToInt32(txtArmorSetsMax.Text);
-            currentContainer.ArmorPieces = ArmorPiecesList;
+            currentContainer.ArmorPieces = new List<Item>(ArmorPiecesList);
             currentContainer.ArmorPiecesMin = Convert.ToInt32(txtArmorPiecesMin.Text);
             currentContainer.ArmorPiecesMax = Convert.ToInt32(txtArmorPiecesMax.Text);
-            currentContainer.Weapons = WeaponsList;
+            currentContainer.Weapons = new List<Item>(WeaponsList);
             currentContainer.WeaponsMin = Convert.ToInt32(txtWeaponsMin.Text);
             currentContainer.WeaponsMax = Convert.ToInt32(txtWeaponsMax.Text);
-            currentContainer.Ammo = AmmoList;
+            currentContainer.Ammo = new List<Item>(AmmoList);
             currentContainer.AmmoMin = Convert.ToInt32(txtAmmoMin.Text);
             currentContainer.AmmoMax = Convert.ToInt32(txtAmmoMax.Text);
-            currentContainer.Clothing = ClothingList;
+            currentContainer.Clothing = new List<Item>(ClothingList);
             currentContainer.ClothingMin = Convert.ToInt32(txtClothingMin.Text);
             currentContainer.ClothingMax = Convert.ToInt32(txtClothingMax.Text);
-            currentContainer.ClothingAccessories = ClothingAccessoriesList;
+            currentContainer.ClothingAccessories = new List<Item>(ClothingAccessoriesList);
             currentContainer.ClothingAccessoriesMin = Convert.ToInt32(txtClothingAccessoriesMin.Text);
             currentContainer.ClothingAccessoriesMax = Convert.ToInt32(txtClothingAccessoriesMax.Text);
-            currentContainer.FoodDrinks = FoodDrinksList;
+            currentContainer.FoodDrinks = new List<Item>(FoodDrinksList);
             currentContainer.FoodDrinksMin = Convert.ToInt32(txtFoodDrinksMin.Text);
             currentContainer.FoodDrinksMax = Convert.ToInt32(txtFoodDrinksMax.Text);
-            currentContainer.TradeGoods = TradeGoodsList;
+            currentContainer.TradeGoods = new List<Item>(TradeGoodsList);
             currentContainer.TradeGoodsMin = Convert.ToInt32(txtTradeGoodsMin.Text);
             currentContainer.TradeGoodsMax = Convert.ToInt32(txtTradeGoodsMax.Text);
-            currentContainer.PreciousItems = PreciousItemsList;
+            currentContainer.PreciousItems = new List<Item>(PreciousItemsList);
             currentContainer.PreciousItemsMin = Convert.ToInt32(txtPreciousItemsMin.Text);
             currentContainer.PreciousItemsMax = Convert.ToInt32(txtPreciousItemsMax.Text);
-            currentContainer.ArtDecor = ArtDecorList;
+            currentContainer.ArtDecor = new List<Item>(ArtDecorList);
             currentContainer.ArtDecorMin = Convert.ToInt32(txtArtDecorMin.Text);
             currentContainer.ArtDecorMax = Convert.ToInt32(txtArtDecorMax.Text);
-            currentContainer.BooksPapers = BooksPapersList;
+            currentContainer.BooksPapers = new List<Item>(BooksPapersList);
             currentContainer.BooksPapersMin = Convert.ToInt32(txtBooksPapersMin.Text);
             currentContainer.BooksPapersMax = Convert.ToInt32(txtBooksPapersMax.Text);
-            currentContainer.OtherItems = OtherItemsList;
+            currentContainer.OtherItems = new List<Item>(OtherItemsList);
             currentContainer.OtherItemsMin = Convert.ToInt32(txtOtherItemsMin.Text);
             currentContainer.OtherItemsMax = Convert.ToInt32(txtOtherItemsMax.Text);
 
@@ -1174,73 +1182,73 @@ namespace LootGoblin.Controls
 
             txtArmorSetsMin.Text = "0";
             txtArmorSetsMax.Text = "0";
-            ArmorSetsList = new List<Item>();
+            ArmorSetsList = new ObservableCollection<Item>();
             dataArmorSets.ItemsSource = ArmorSetsList;
             dataArmorSets.Items.Refresh();
 
             txtArmorPiecesMin.Text = "0";
             txtArmorPiecesMax.Text = "0";
-            ArmorPiecesList = new List<Item>();
+            ArmorPiecesList = new ObservableCollection<Item>();
             dataArmorPieces.ItemsSource = ArmorPiecesList;
             dataArmorPieces.Items.Refresh();
 
             txtWeaponsMin.Text = "0";
             txtWeaponsMax.Text = "0";
-            WeaponsList = new List<Item>();
+            WeaponsList = new ObservableCollection<Item>();
             dataWeapons.ItemsSource = WeaponsList;
             dataWeapons.Items.Refresh();
 
             txtAmmoMin.Text = "0";
             txtAmmoMax.Text = "0";
-            AmmoList = new List<Item>();
+            AmmoList = new ObservableCollection<Item>();
             dataAmmo.ItemsSource = AmmoList;
             dataAmmo.Items.Refresh();
 
             txtClothingMin.Text = "0";
             txtClothingMax.Text = "0";
-            ClothingList = new List<Item>();
+            ClothingList = new ObservableCollection<Item>();
             dataClothing.ItemsSource = ClothingList;
             dataClothing.Items.Refresh();
 
             txtClothingAccessoriesMin.Text = "0";
             txtClothingAccessoriesMax.Text = "0";
-            ClothingAccessoriesList = new List<Item>();
+            ClothingAccessoriesList = new ObservableCollection<Item>();
             dataClothingAccessories.ItemsSource = ClothingAccessoriesList;
             dataClothingAccessories.Items.Refresh();
 
             txtFoodDrinksMin.Text = "0";
             txtFoodDrinksMax.Text = "0";
-            FoodDrinksList = new List<Item>();
+            FoodDrinksList = new ObservableCollection<Item>();
             dataFoodDrinks.ItemsSource = FoodDrinksList;
             dataFoodDrinks.Items.Refresh();
 
             txtTradeGoodsMin.Text = "0";
             txtTradeGoodsMax.Text = "0";
-            TradeGoodsList = new List<Item>();
+            TradeGoodsList = new ObservableCollection<Item>();
             dataTradeGoods.ItemsSource = TradeGoodsList;
             dataTradeGoods.Items.Refresh();
 
             txtPreciousItemsMin.Text = "0";
             txtPreciousItemsMax.Text = "0";
-            PreciousItemsList = new List<Item>();
+            PreciousItemsList = new ObservableCollection<Item>();
             dataPreciousItems.ItemsSource = PreciousItemsList;
             dataPreciousItems.Items.Refresh();
 
             txtArtDecorMin.Text = "0";
             txtArtDecorMax.Text = "0";
-            ArtDecorList = new List<Item>();
+            ArtDecorList = new ObservableCollection<Item>();
             dataArtDecor.ItemsSource = ArtDecorList;
             dataArtDecor.Items.Refresh();
 
             txtBooksPapersMin.Text = "0";
             txtBooksPapersMax.Text = "0";
-            BooksPapersList = new List<Item>();
+            BooksPapersList = new ObservableCollection<Item>();
             dataBooksPapers.ItemsSource = BooksPapersList;
             dataBooksPapers.Items.Refresh();
 
             txtOtherItemsMin.Text = "0";
             txtOtherItemsMax.Text = "0";
-            OtherItemsList = new List<Item>();
+            OtherItemsList = new ObservableCollection<Item>();
             dataOtherItems.ItemsSource = OtherItemsList;
             dataOtherItems.Items.Refresh();
 
