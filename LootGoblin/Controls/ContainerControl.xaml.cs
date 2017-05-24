@@ -977,6 +977,16 @@ namespace LootGoblin.Controls
                 return;
             }
 
+            // Check to see if the container to save appears to be a "default" new container
+            if (currentContainer.Name.Equals("New Loot Container") && currentContainer.Type.Equals("No Type") && currentContainer.Description.Equals("Placeholder container description"))
+            {
+                var proceed = WarningPopup.Show("Save Container?", "The container you are attempting to save appears to be a default new loot container. Make sure you set a proper Name, Type, and Description. Proceed with saving?");
+                if (proceed != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
             SaveObject();
             SaveFile();
 
