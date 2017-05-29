@@ -995,6 +995,12 @@ namespace LootGoblin.Controls
             programStorage.GenerateLootContainerTypesLists(); // Recheck all types
             PopulateContainerTree(); // Repopulate tree
 
+            ScrollViewer scrollViewer = (ScrollViewer)Window.GetWindow(this).FindName("scrollViewer");
+            if (scrollViewer != null)
+            {
+                scrollViewer.ScrollToTop();
+            }
+
             ClearControlInputs();
         }
 

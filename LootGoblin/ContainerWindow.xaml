@@ -19,7 +19,7 @@
         MinHeight="500"
         Loaded="Window_Loaded"
 >
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <local:ContainerControl />
     </ScrollViewer>
 </Window>
