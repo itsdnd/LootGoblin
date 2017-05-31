@@ -220,6 +220,22 @@ namespace LootGoblin.Controls
             }
         }
 
+        private void containerTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            {
+                ((TreeView)sender).CaptureMouse();
+            }
+        }
+
+        private void containerTree_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            {
+                ((TreeView)sender).ReleaseMouseCapture();
+            }
+        }
+
         //================================================================================
         // Encounter - Container List
         //================================================================================
@@ -404,6 +420,22 @@ namespace LootGoblin.Controls
             outputWindow.ShowDialog();
         }
 
+        private void dataEncounterContainers_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
+            {
+                ((DataGrid)sender).CaptureMouse();
+            }
+        }
+
+        private void dataEncounterContainers_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
+            {
+                ((DataGrid)sender).ReleaseMouseCapture();
+            }
+        }
+
         //================================================================================
         // Magic Item List
         //================================================================================
@@ -487,6 +519,22 @@ namespace LootGoblin.Controls
             PopulateMagicItemTree();
         }
 
+        private void magicItemTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            {
+                ((TreeView)sender).CaptureMouse();
+            }
+        }
+
+        private void magicItemTree_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            {
+                ((TreeView)sender).ReleaseMouseCapture();
+            }
+        }
+
         //================================================================================
         // Encounter - Guaranteed Magic Items
         //================================================================================
@@ -553,6 +601,22 @@ namespace LootGoblin.Controls
 
             programStorage.MagicItemList.Clear();
             dataMagicItems.Items.Refresh();
+        }
+
+        private void dataMagicItems_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
+            {
+                ((DataGrid)sender).CaptureMouse();
+            }
+        }
+
+        private void dataMagicItems_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
+            {
+                ((DataGrid)sender).ReleaseMouseCapture();
+            }
         }
 
         //================================================================================
@@ -723,6 +787,26 @@ namespace LootGoblin.Controls
         {
             DetermineRandomMagicItemRarities();
         }
+
+        private void dataRandomMagicItems_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
+            {
+                ((DataGrid)sender).CaptureMouse();
+            }
+        }
+
+        private void dataRandomMagicItems_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
+            {
+                ((DataGrid)sender).ReleaseMouseCapture();
+            }
+        }
+
+        //================================================================================
+        // Misc.
+        //================================================================================
 
         private void btnOptions_Click(object sender, RoutedEventArgs e)
         {

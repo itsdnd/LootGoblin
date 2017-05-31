@@ -3,76 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LootGoblin.Controls"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Settings"
         WindowStartupLocation="CenterScreen"
         Icon="chest.ico" 
-        Height="550" 
-        Width="600"
+        Height="675" 
+        Width="710"
         ResizeMode="NoResize"
 >
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="16,16,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress Encounter List Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when editing the Encounter List?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressEncounterListPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress Guaranteed Magic Item List Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when editing the Guaranteed Magic Item List?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressMagicItemListPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress Random Magic Item List Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when editing the Random Magic Item List?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressRandomMagicItemListPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress Container Edit Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when editing Loot Containers?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressContainerEditPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress Magic Item Edit Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when editing the Magic Items?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressMagicItemEditPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
-                <StackPanel>
-                    <TextBlock Text="Suppress External Links Popups? " Style="{StaticResource MaterialDesignSubheadingTextBlock}" Foreground="{StaticResource PrimaryHueMidBrush}" materialDesign:ColorZoneAssist.Mode="Accent" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,8" HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Suppress the popup warnings when clicking links that lead outside of Loot Goblin?" Margin="0" HorizontalAlignment="Left" Width="475" />
-                </StackPanel>
-                <ToggleButton x:Name="btnSuppressExternalLinksPopups" Margin="32,0,0,0"/>
-            </StackPanel>
-            <Separator Margin="0,16" />
-            <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="16,0" Click="btnSave_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" />
-                    <TextBlock Text="Save Settings" VerticalAlignment="Center" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <local:OptionsControl/>
+        </ScrollViewer>
     </Grid>
 </Window>

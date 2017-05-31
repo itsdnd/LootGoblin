@@ -228,6 +228,22 @@ namespace LootGoblin.Controls
             txtTrinketsMax.Text = container.TrinketMax.ToString();
         }
 
+        private void containerTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            {
+                ((TreeView)sender).CaptureMouse();
+            }
+        }
+
+        private void containerTree_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            {
+                ((TreeView)sender).ReleaseMouseCapture();
+            }
+        }
+
         //================================================================================
         // Container Details
         //================================================================================
@@ -871,6 +887,22 @@ namespace LootGoblin.Controls
             dataGrid.Items.Refresh(); // Refresh the datagrid items
 
             ChangeHappened();
+        }
+
+        private void dataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
+            {
+                ((DataGrid)sender).CaptureMouse();
+            }
+        }
+
+        private void dataGrid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
+            {
+                ((DataGrid)sender).ReleaseMouseCapture();
+            }
         }
 
         //================================================================================

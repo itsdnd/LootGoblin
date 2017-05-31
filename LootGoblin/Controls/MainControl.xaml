@@ -63,7 +63,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <StackPanel>
-                <TreeView x:Name="containerTree" ItemsSource="{Binding}" VerticalAlignment="Top" Grid.Column="0" Height="501">
+                <TreeView x:Name="containerTree" ItemsSource="{Binding}" VerticalAlignment="Top" Grid.Column="0" Height="501" PreviewMouseWheel="containerTree_PreviewMouseWheel" MouseWheel="containerTree_MouseWheel">
                     <TreeView.Resources>
                         <DataTemplate x:Key="ContainerNames">
                             <TextBlock Text="{Binding Path=Name}"  VerticalAlignment="Center" />
@@ -143,7 +143,7 @@
                     </Button>
                 </StackPanel>
                 <Separator Margin="16,0" Background="{StaticResource PrimaryHueMidBrush}" />
-                <DataGrid x:Name="dataEncounterContainers" Height="404" Margin="16" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid x:Name="dataEncounterContainers" Height="404" Margin="16" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" MouseWheel="dataEncounterContainers_MouseWheel" PreviewMouseWheel="dataEncounterContainers_PreviewMouseWheel">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Quantity}" Header="Quantity" MinWidth="80" CanUserReorder="False" MaxWidth="80">
                             <DataGridTextColumn.ElementStyle>
@@ -211,7 +211,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <StackPanel>
-                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" Height="840">
+                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" Height="840" PreviewMouseWheel="magicItemTree_PreviewMouseWheel" MouseWheel="magicItemTree_MouseWheel">
                     <TreeView.Resources>
                         <DataTemplate x:Key="ItemNames">
                             <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />
@@ -285,7 +285,7 @@
                         </Button>
                     </StackPanel>
                     <Separator Margin="16,0" Background="{StaticResource PrimaryHueMidBrush}" />
-                    <DataGrid x:Name="dataMagicItems" Margin="16" Height="275" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid x:Name="dataMagicItems" Margin="16" Height="275" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" PreviewMouseWheel="dataMagicItems_PreviewMouseWheel" MouseWheel="dataMagicItems_MouseWheel">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="300" CanUserReorder="False" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
@@ -360,7 +360,7 @@
                         </Button>
                     </StackPanel>
                     <Separator Margin="16,0" Background="{StaticResource PrimaryHueMidBrush}" />
-                    <DataGrid x:Name="dataRandomMagicItems" Height="275" Margin="16" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid x:Name="dataRandomMagicItems" Height="275" Margin="16" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" PreviewMouseWheel="dataRandomMagicItems_PreviewMouseWheel" MouseWheel="dataRandomMagicItems_MouseWheel">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Type}" Header="Item Type" MinWidth="225" CanUserReorder="False" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>

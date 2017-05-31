@@ -30,7 +30,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <StackPanel>
-                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" Height="700" SelectedItemChanged="magicItemTree_SelectedItemChanged">
+                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" Height="700" SelectedItemChanged="magicItemTree_SelectedItemChanged" PreviewMouseWheel="magicItemTree_PreviewMouseWheel" MouseWheel="magicItemTree_MouseWheel">
                     <TreeView.Resources>
                         <DataTemplate x:Key="ItemNames">
                             <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />

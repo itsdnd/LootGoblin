@@ -12,6 +12,12 @@ namespace LootGoblin.Storage
         public bool SuppressContainerEditPopups { get; set; }
         public bool SuppressMagicItemEditPopups { get; set; }
         public bool SuppressExternalLinksPopups { get; set; }
+        public bool OverrideContainerListMouseWheelScrolling { get; set; }
+        public bool OverrideMagicItemListMouseWheelScrolling { get; set; }
+        public bool OverrideEncounterListMouseWheelScrolling { get; set; }
+        public bool OverrideGuaranteedMagicItemsMouseWheelScrolling { get; set; }
+        public bool OverrideRandomMagicItemsMouseWheelScrolling { get; set; }
+        public bool OverrideContainerEditGridMouseWheelScrolling { get; set; }
 
         public void Save()
         {

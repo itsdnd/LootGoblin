@@ -27,7 +27,7 @@
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <TreeView x:Name="containerTree" ItemsSource="{Binding}" SelectedItemChanged="containerTree_SelectedItemChanged" VerticalContentAlignment="Stretch" >
+            <TreeView x:Name="containerTree" ItemsSource="{Binding}" SelectedItemChanged="containerTree_SelectedItemChanged" VerticalContentAlignment="Stretch" PreviewMouseWheel="containerTree_PreviewMouseWheel" MouseWheel="containerTree_MouseWheel" >
                 <TreeView.Resources>
                     <DataTemplate x:Key="ContainerNames">
                         <TextBlock Text="{Binding Path=Name}"  VerticalAlignment="Center" />
@@ -491,7 +491,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataArmorSets" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataArmorSets" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -662,7 +662,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataArmorPieces" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataArmorPieces" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -833,7 +833,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataWeapons" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataWeapons" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1004,7 +1004,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataAmmo" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataAmmo" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1175,7 +1175,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataClothing" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataClothing" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1346,7 +1346,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataClothingAccessories" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataClothingAccessories" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1517,7 +1517,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataFoodDrinks" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataFoodDrinks" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1688,7 +1688,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataTradeGoods" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataTradeGoods" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -1859,7 +1859,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataPreciousItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataPreciousItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -2030,7 +2030,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataArtDecor" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataArtDecor" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -2201,7 +2201,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataBooksPapers" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataBooksPapers" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>
@@ -2372,7 +2372,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel>
-                                    <DataGrid x:Name="dataOtherItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100">
+                                    <DataGrid x:Name="dataOtherItems" BorderThickness="1" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Top" Margin="0" MaxHeight="350" MinHeight="100" PreviewMouseWheel="dataGrid_PreviewMouseWheel" MouseWheel="dataGrid_MouseWheel">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Item Name" MinWidth="225" CanUserReorder="False">
                                                 <DataGridTextColumn.ElementStyle>

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace LootGoblin.Controls
 {
@@ -355,6 +356,22 @@ namespace LootGoblin.Controls
         {
             OptionsWindow options = new OptionsWindow();
             options.ShowDialog();
+        }
+
+        private void magicItemTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            {
+                ((TreeView)sender).CaptureMouse();
+            }
+        }
+
+        private void magicItemTree_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            {
+                ((TreeView)sender).ReleaseMouseCapture();
+            }
         }
     }
 }
