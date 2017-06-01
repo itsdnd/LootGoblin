@@ -301,7 +301,7 @@ namespace LootGoblin.Controls
             }
 
             // Check to see if the container to save appears to be a "default" new container
-            if (currentItem.Name.Equals("New Magic Item") && currentItem.Type.Equals("No Type") && currentItem.Rarity.Equals("No Rarity"))
+            if (txtItemName.Text.Equals("New Magic Item") && comboItemType.Text.Equals("No Type") && comboItemRarity.Text.Equals("No Rarity"))
             {
                 var proceed = WarningPopup.Show("Save Magic Item?", "The magic item you are attempting to save appears to be a default new magic item. Make sure you set a proper Name, Type, and Rarity. Proceed with saving?");
                 if (proceed != MessageBoxResult.Yes)
