@@ -2,7 +2,7 @@
 
 A D&D 5e loot creation and generation application for Windows. 
 
-[![GitHub release](https://img.shields.io/github/release/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/releases/) [![Issues](https://img.shields.io/github/issues/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/issues) 
+[![GitHub release](https://img.shields.io/github/release/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/releases/) [![Issues](https://img.shields.io/github/issues/ItsDnD/LootGoblin.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin/issues) [![Github All Releases](https://img.shields.io/github/downloads/ItsDnD/LootGoblin/total.svg?style=flat-square)](https://github.com/ItsDnD/LootGoblin)
 
 
 ### About
@@ -32,6 +32,8 @@ Need to report a bug? Get started [here](https://github.com/ItsDnD/LootGoblin/wi
 Have a feature you want to request? Get started [here](https://github.com/ItsDnD/LootGoblin/wiki/Submitting-a-Feature-Request)
 
 ### Screenshots
+***Note***: Screenshots may differ from actual program
+
 This is the main menu (encounter screen) of Loot Goblin. For more screenshots, [click here](https://github.com/ItsDnD/LootGoblin/wiki/View-Screenshots).
 ![Main Menu (Encounter Screen)](http://i.imgur.com/xrseTik.png)
 
