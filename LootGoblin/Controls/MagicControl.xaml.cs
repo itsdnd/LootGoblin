@@ -352,12 +352,6 @@ namespace LootGoblin.Controls
             comboItemRarity.ItemsSource = programStorage.MagicItemRarities;
         }
 
-        private void btnOptions_Click(object sender, RoutedEventArgs e)
-        {
-            OptionsWindow options = new OptionsWindow();
-            options.ShowDialog();
-        }
-
         private void magicItemTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)

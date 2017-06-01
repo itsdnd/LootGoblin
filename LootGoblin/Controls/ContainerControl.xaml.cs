@@ -984,12 +984,6 @@ namespace LootGoblin.Controls
             }
         }
 
-        private void btnOptions_Click(object sender, RoutedEventArgs e)
-        {
-            OptionsWindow options = new OptionsWindow();
-            options.ShowDialog();
-        }
-
         //================================================================================
         // Misc. / Utility
         //================================================================================

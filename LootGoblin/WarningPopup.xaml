@@ -10,11 +10,10 @@
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Warning Notification"
+        Title="Notification"
         WindowStartupLocation="CenterScreen"
         Icon="chest.ico" 
         Width="475"
-        MinHeight="275"
         ResizeMode="NoResize" 
         SizeToContent="Height" 
         Closing="Window_Closing" 
@@ -24,9 +23,9 @@
         <StackPanel>
             <TextBlock x:Name="txtHeader" Text="Header" Style="{StaticResource MaterialDesignHeadlineTextBlock}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,10,0,0" />
             <Separator />
-            <StackPanel Orientation="Horizontal" MinHeight="125">
-                <materialDesign:PackIcon Kind="AlertCircleOutline" VerticalAlignment="Center" Margin="25" Width="50" Height="50" Foreground="{DynamicResource PrimaryHueDarkBrush}" />
-                <TextBlock x:Name="txtWarningText" Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Width="360" Margin="0" VerticalAlignment="Center" Text="Text" />
+            <StackPanel Orientation="Horizontal" MinHeight="125" Margin="8,0">
+                <materialDesign:PackIcon Kind="AlertCircleOutline" VerticalAlignment="Center" Margin="16" Width="50" Height="50" Foreground="{DynamicResource PrimaryHueDarkBrush}" />
+                <TextBlock x:Name="txtWarningText" Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Text="Text" Width="360" />
             </StackPanel>
             <Separator />
             <DockPanel>

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="LootGoblin.Controls.HeaderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+>
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,16,0">
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="View the Loot Goblin Wiki" Click="btnWiki_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="HelpCircleOutline" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="View Wiki" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Report a bug" Click="btnBug_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Bug" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="Report a bug" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Request a feature" Click="btnFeature_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Star" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="Request a feature" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" Click="btnSettings_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
+                    <TextBlock Text="Change Settings" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

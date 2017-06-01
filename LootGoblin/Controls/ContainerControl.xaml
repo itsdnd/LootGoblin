@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LootGoblin.Controls"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
@@ -14,11 +15,18 @@
              Width="1370"
 >
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="2126*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <local:HeaderControl/>
+        </DockPanel>
+        <GroupBox Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -43,7 +51,7 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -60,10 +68,6 @@
                             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
                             <Button Click="btnDelete_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Delete the currently selected loot container" >
                                 <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
-                            </Button>
-                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" >
-                                <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
                         </StackPanel>
                     </DockPanel>

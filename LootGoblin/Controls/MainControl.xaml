@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LootGoblin.Controls"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
@@ -23,28 +24,9 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="16,16,16,0">
-            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="View the Loot Goblin Wiki" Click="btnWiki_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="HelpCircleOutline" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
-                    <TextBlock Text="View Wiki" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                </StackPanel>
-            </Button>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Report a bug" Click="btnBug_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Bug" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
-                    <TextBlock Text="Report a bug" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                </StackPanel>
-            </Button>
-            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-            <Button Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Request a feature" Click="btnFeature_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Star" VerticalAlignment="Center" Margin="0,0,8,0" Width="20" Height="20" Foreground="WhiteSmoke" />
-                    <TextBlock Text="Request a feature" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <local:HeaderControl/>
+        </DockPanel>
         <GroupBox Grid.Column="0" Grid.Row="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16" >
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
@@ -106,18 +88,6 @@
                     <DockPanel Height="32">
                         <Image Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/chest.png"/>
                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Container List"/>
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
-                            <Button Click="btnEditContainers_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit loot containers" >
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
-                                    <TextBlock Text="Edit Containers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                                </StackPanel>
-                            </Button>
-                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" >
-                                <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
-                            </Button>
-                        </StackPanel>
                     </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
@@ -248,18 +218,6 @@
                         <DockPanel Height="32">
                             <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/magic.png"/>
                             <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Guaranteed Magic Items"/>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
-                                <Button Click="btnEditMagicItems_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit magic items" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
-                                        <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                                    </StackPanel>
-                                </Button>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                                <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" >
-                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
-                                </Button>
-                            </StackPanel>
                         </DockPanel>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
@@ -318,18 +276,6 @@
                         <DockPanel Height="32">
                             <Image Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/LootGoblin;component/Resources/dice.png"/>
                             <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Encounter - Random Magic Items"/>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource MaterialDesignCardBackground}">
-                                <Button Click="btnEditMagicItems_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Edit Magic Items" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center" Margin="0,0,8,-5" Width="20" Height="20" Foreground="WhiteSmoke" />
-                                        <TextBlock Text="Edit Magic Items" VerticalAlignment="Center" Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="WhiteSmoke" />
-                                    </StackPanel>
-                                </Button>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                                <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open Options Menu" >
-                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
-                                </Button>
-                            </StackPanel>
                         </DockPanel>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>

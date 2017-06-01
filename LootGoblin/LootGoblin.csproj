@@ -91,6 +91,9 @@
     <Compile Include="Controls\ContainerControl.xaml.cs">
       <DependentUpon>ContainerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HeaderControl.xaml.cs">
+      <DependentUpon>HeaderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MagicControl.xaml.cs">
       <DependentUpon>MagicControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ContainerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

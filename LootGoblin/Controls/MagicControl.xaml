@@ -3,24 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LootGoblin.Controls"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
              TextElement.FontSize="14"
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Height="800" 
-             Width="1000"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             Width="1100"
 >
-
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="747*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*" />
-            <ColumnDefinition Width="11*" />
+            <ColumnDefinition Width="13*" />
         </Grid.ColumnDefinitions>
-
-        <GroupBox Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <local:HeaderControl/>
+        </DockPanel>
+        <GroupBox Grid.Row="1" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -53,7 +58,7 @@
                 </TreeView>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="Card Group Box" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
+        <GroupBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource MaterialDesignCardGroupBox}" materialDesign:ColorZoneAssist.Mode="PrimaryDark" Margin="16">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <DockPanel Height="32">
@@ -71,10 +76,6 @@
                             <Button Click="btnDelete_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Delete the currently selected magic item" >
                                 <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
                             </Button>
-                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="1,0" />
-                            <Button Click="btnOptions_Click" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Open the settings menu" >
-                                <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Width="20" Height="20" Foreground="WhiteSmoke" />
-                            </Button>
                         </StackPanel>
                     </DockPanel>
                 </DataTemplate>
@@ -83,19 +84,19 @@
                 <StackPanel DockPanel.Dock="Top" Height="620">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Magic Item Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
-                        <TextBox x:Name="txtItemName" materialDesign:HintAssist.Hint="Magic Item Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="350" materialDesign:HintAssist.HintOpacity=".26" TextChanged="txtItemName_TextChanged" />
+                        <TextBox x:Name="txtItemName" materialDesign:HintAssist.Hint="Magic Item Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="450" materialDesign:HintAssist.HintOpacity=".26" TextChanged="txtItemName_TextChanged" />
                     </StackPanel>
                     <TextBlock x:Name="txtItemNameError" Text="Error: Item name already in use" Margin="150,2,0,-16" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
                     <TextBlock x:Name="txtItemNameEmptyError" Text="Error: Item name cannot be empty" Margin="150,2,0,-16" FontWeight="Medium" FontStyle="Italic" FontSize="12" Foreground="#FF388E3C" Visibility="Hidden" />
                     <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Magic Item Type: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
-                        <ComboBox x:Name="comboItemType" materialDesign:HintAssist.Hint="Magic Item Type" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="350" DropDownClosed="comboItemType_DropDownClosed" TextBoxBase.TextChanged="comboItemType_TextChanged" />
+                        <ComboBox x:Name="comboItemType" materialDesign:HintAssist.Hint="Magic Item Type" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="450" DropDownClosed="comboItemType_DropDownClosed" TextBoxBase.TextChanged="comboItemType_TextChanged" />
                     </StackPanel>
                     <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Magic Item Rarity: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
-                        <ComboBox x:Name="comboItemRarity" materialDesign:HintAssist.Hint="Magic Item Rarity" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="350" DropDownClosed="comboItemRarity_DropDownClosed" TextBoxBase.TextChanged="comboItemRarity_TextChanged" />
+                        <ComboBox x:Name="comboItemRarity" materialDesign:HintAssist.Hint="Magic Item Rarity" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="450" DropDownClosed="comboItemRarity_DropDownClosed" TextBoxBase.TextChanged="comboItemRarity_TextChanged" />
                     </StackPanel>
                     <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
                     <TextBlock Text="Magic Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,16" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />

@@ -17,7 +17,8 @@
         MinWidth="750" 
         Height="500" 
         MinHeight="500"
-        Loaded="Window_Loaded" ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        ResizeMode="NoResize"
 >
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
