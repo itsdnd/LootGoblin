@@ -42,8 +42,8 @@ namespace LootGoblin
             result = MessageBoxResult.Yes;
             this.Visibility = Visibility.Hidden;
         }
-
-        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
             this.Visibility = Visibility.Hidden;

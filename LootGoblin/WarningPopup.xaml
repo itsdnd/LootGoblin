@@ -17,6 +17,7 @@
         MinHeight="275"
         ResizeMode="NoResize" 
         SizeToContent="Height" 
+        Closing="Window_Closing" 
 >
 
     <Grid>
