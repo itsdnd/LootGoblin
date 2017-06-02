@@ -23,6 +23,8 @@ namespace LootGoblin
 
             this.Left = (currentWindowWidth / 2) - (this.Width / 2);
             this.Top = (currentWindowHeight / 2) - (this.Height / 2) - 20;
+
+            this.WindowState = WindowState.Maximized;
         }
     }
 }

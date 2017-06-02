@@ -124,6 +124,7 @@ namespace LootGoblin.Controls
             txtItemName.Text = item.Name;
             comboItemType.Text = item.Type;
             comboItemRarity.Text = item.Rarity;
+            checkAttunement.IsChecked = item.RequiresAttunement;
             txtItemDescription.Text = item.Description;
         }
 
@@ -313,6 +314,7 @@ namespace LootGoblin.Controls
             currentItem.Name = txtItemName.Text;
             currentItem.Type = comboItemType.Text;
             currentItem.Rarity = comboItemRarity.Text;
+            currentItem.RequiresAttunement = checkAttunement.IsChecked.Value;
             currentItem.Description = txtItemDescription.Text;
 
             if (!programStorage.MagicItems.Contains(currentItem))

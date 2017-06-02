@@ -96,7 +96,8 @@ namespace LootGoblin.Controls
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
                 var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}]{4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, description, Environment.NewLine, Environment.NewLine);
+                var attunement = (pair.Key.RequiresAttunement) ? " | Requires Attunement" : "";
+                var itemString = String.Format("- {0}{1} [{2} | {3}{4}]{5}{6}{7}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, attunement, description, Environment.NewLine, Environment.NewLine);
                 AppendText(txtGuaranteedMagicItems, itemString);
             }
         }
@@ -179,8 +180,9 @@ namespace LootGoblin.Controls
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
                 var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}]{4}{5}{6}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, description, Environment.NewLine, Environment.NewLine);
-                
+                var attunement = (pair.Key.RequiresAttunement) ? " | Requires Attunement" : "";
+                var itemString = String.Format("- {0}{1} [{2} | {3}{4}]{5}{6}{7}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, attunement, description, Environment.NewLine, Environment.NewLine);
+
                 AppendText(txtRandomMagicItems, itemString);
             }
         }
