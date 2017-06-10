@@ -96,8 +96,10 @@ namespace LootGoblin.Controls
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
                 var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                var value = (!pair.Key.Value.Equals(String.Empty)) ? String.Format(" | {0}", pair.Key.Value) : "";
                 var attunement = (pair.Key.RequiresAttunement) ? " | Requires Attunement" : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}{4}]{5}{6}{7}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, attunement, description, Environment.NewLine, Environment.NewLine);
+                var itemString = String.Format("- {0}{1} [{2} | {3}{4}{5}]{6}{7}{8}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, value, attunement, description, Environment.NewLine, Environment.NewLine);
+
                 AppendText(txtGuaranteedMagicItems, itemString);
             }
         }
@@ -180,8 +182,9 @@ namespace LootGoblin.Controls
             {
                 var amount = (pair.Value > 1) ? String.Format("[x{0}] ", pair.Value) : "";
                 var description = (!pair.Key.Description.Equals(String.Empty)) ? String.Format(" - {0}", pair.Key.Description) : "";
+                var value = (!pair.Key.Value.Equals(String.Empty)) ? String.Format(" | {0}", pair.Key.Value) : "";
                 var attunement = (pair.Key.RequiresAttunement) ? " | Requires Attunement" : "";
-                var itemString = String.Format("- {0}{1} [{2} | {3}{4}]{5}{6}{7}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, attunement, description, Environment.NewLine, Environment.NewLine);
+                var itemString = String.Format("- {0}{1} [{2} | {3}{4}{5}]{6}{7}{8}", amount, pair.Key.Name, pair.Key.Type, pair.Key.Rarity, value, attunement, description, Environment.NewLine, Environment.NewLine);
 
                 AppendText(txtRandomMagicItems, itemString);
             }
@@ -383,19 +386,6 @@ namespace LootGoblin.Controls
             AppendText(txtIndividualGear, String.Format("{0}:{1}", loot.Name, Environment.NewLine));
             AppendText(txtIndividualGear, String.Format("Copper: {0} | Silver: {1} | Electrum: {2} | Gold: {3} | Platinum: {4} {5}", loot.Copper, loot.Silver, loot.Electrum, loot.Gold, loot.Platinum, Environment.NewLine));
 
-            OutputItems("Armor Sets", loot.ArmorSets);
-            OutputItems("Armor Pieces", loot.ArmorPieces);
-            OutputItems("Weapons", loot.Weapons);
-            OutputItems("Ammmo", loot.Ammo);
-            OutputItems("Clothing", loot.Clothing);
-            OutputItems("Clothing Accessories", loot.ClothingAccessories);
-            OutputItems("Food & Drinks", loot.FoodDrinks);
-            OutputItems("Trade Goods", loot.TradeGoods);
-            OutputItems("Precious Items", loot.PreciousItems);
-            OutputItems("Art & Decor", loot.ArtDecor);
-            OutputItems("Books & Papers", loot.BooksPapers);
-            OutputItems("Other Items", loot.OtherItems);
-
             if (loot.Trinkets != null && loot.Trinkets.Count > 0)
             {
                 AppendText(txtIndividualGear, Environment.NewLine + "Trinkets:" + Environment.NewLine);
@@ -415,6 +405,19 @@ namespace LootGoblin.Controls
                     AppendText(txtIndividualGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
                 }
             }
+
+            OutputItems("Armor Sets", loot.ArmorSets);
+            OutputItems("Armor Pieces", loot.ArmorPieces);
+            OutputItems("Weapons", loot.Weapons);
+            OutputItems("Ammmo", loot.Ammo);
+            OutputItems("Clothing", loot.Clothing);
+            OutputItems("Clothing Accessories", loot.ClothingAccessories);
+            OutputItems("Food & Drinks", loot.FoodDrinks);
+            OutputItems("Trade Goods", loot.TradeGoods);
+            OutputItems("Precious Items", loot.PreciousItems);
+            OutputItems("Art & Decor", loot.ArtDecor);
+            OutputItems("Books & Papers", loot.BooksPapers);
+            OutputItems("Other Items", loot.OtherItems);
 
             string dashes = "------------------------------------------------------------------------------------------------------------------------------";
             AppendText(txtIndividualGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
@@ -446,6 +449,32 @@ namespace LootGoblin.Controls
                 txtPlatinum.Text = platinum.ToString();
             }, DispatcherPriority.Background);
 
+            if (trinketListEncounter.Count > 0)
+            {
+                AppendText(txtEncounterGear, "Trinkets:" + Environment.NewLine);
+                foreach (KeyValuePair<string, int> pair in trinketListEncounter)
+                {
+                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
+                }
+
+                string dashes = "------------------------------------------------------------------------------------------------------------------------------";
+                AppendText(txtEncounterGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
+            }
+
+            if (mundaneListEncounter.Count > 0)
+            {
+                AppendText(txtEncounterGear, "Mundane Items:" + Environment.NewLine);
+                foreach (KeyValuePair<string, int> pair in mundaneListEncounter)
+                {
+                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
+                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
+                }
+
+                string dashes = "------------------------------------------------------------------------------------------------------------------------------";
+                AppendText(txtEncounterGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
+            }
+
             OutputEncounterItems("Armor Sets", armorSetListEncounter);
             OutputEncounterItems("Armor Pieces", armorPiecesListEncounter);
             OutputEncounterItems("Weapons", weaponListEncounter);
@@ -458,31 +487,6 @@ namespace LootGoblin.Controls
             OutputEncounterItems("Art & Decor", artDecorListEncounter);
             OutputEncounterItems("Books & Papers", booksPapersListEncounter);
             OutputEncounterItems("Other Items", otherItemsListEncounter);
-
-            if (trinketListEncounter.Count > 0)
-            {
-
-                AppendText(txtEncounterGear, "Trinkets:" + Environment.NewLine);
-                foreach (KeyValuePair<string, int> pair in trinketListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
-                }
-            }
-
-            string dashes = "------------------------------------------------------------------------------------------------------------------------------";
-            AppendText(txtEncounterGear, String.Format("{0}{1}{2}{3}", Environment.NewLine, dashes, Environment.NewLine, Environment.NewLine));
-
-            if (mundaneListEncounter.Count > 0)
-            {
-
-                AppendText(txtEncounterGear, "Mundane Items:" + Environment.NewLine);
-                foreach (KeyValuePair<string, int> pair in mundaneListEncounter)
-                {
-                    var amount = (pair.Value > 1) ? String.Format("[{0}x] ", pair.Value) : "";
-                    AppendText(txtEncounterGear, String.Format(" - {0}{1}{2}", amount, pair.Key, Environment.NewLine));
-                }
-            }
         }
 
         private void OutputEncounterItems(string header, Dictionary<Item, int> dictionary)

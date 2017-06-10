@@ -121,9 +121,11 @@ namespace LootGoblin.Controls
         private void LoadMagicItem(MagicItem item)
         {
             currentItem = item;
+
             txtItemName.Text = item.Name;
             comboItemType.Text = item.Type;
             comboItemRarity.Text = item.Rarity;
+            txtItemValue.Text = item.Value;
             checkAttunement.IsChecked = item.RequiresAttunement;
             txtItemDescription.Text = item.Description;
         }
@@ -168,6 +170,8 @@ namespace LootGoblin.Controls
             newItem.Name = name;
             newItem.Type = currentItem.Type;
             newItem.Rarity = currentItem.Rarity;
+            newItem.Value = currentItem.Value;
+            newItem.RequiresAttunement = currentItem.RequiresAttunement;
             newItem.Description = currentItem.Description;
 
             currentItem = newItem;
@@ -314,6 +318,7 @@ namespace LootGoblin.Controls
             currentItem.Name = txtItemName.Text;
             currentItem.Type = comboItemType.Text;
             currentItem.Rarity = comboItemRarity.Text;
+            currentItem.Value = txtItemValue.Text;
             currentItem.RequiresAttunement = checkAttunement.IsChecked.Value;
             currentItem.Description = txtItemDescription.Text;
 

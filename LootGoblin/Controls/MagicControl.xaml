@@ -35,7 +35,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <StackPanel>
-                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" SelectedItemChanged="magicItemTree_SelectedItemChanged" PreviewMouseWheel="magicItemTree_PreviewMouseWheel" MouseWheel="magicItemTree_MouseWheel" MaxHeight="860">
+                <TreeView Name="magicItemTree" ItemsSource="{Binding}" VerticalAlignment="Top" SelectedItemChanged="magicItemTree_SelectedItemChanged" PreviewMouseWheel="magicItemTree_PreviewMouseWheel" MouseWheel="magicItemTree_MouseWheel" MaxHeight="945">
                     <TreeView.Resources>
                         <DataTemplate x:Key="ItemNames">
                             <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />
@@ -99,13 +99,14 @@
                         <ComboBox x:Name="comboItemRarity" materialDesign:HintAssist.Hint="Magic Item Rarity" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.HintOpacity=".26" Width="450" DropDownClosed="comboItemRarity_DropDownClosed" TextBoxBase.TextChanged="comboItemRarity_TextChanged" />
                     </StackPanel>
                     <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
-                    <DockPanel Margin="0,0,0,16">
-                        <TextBlock Text="Magic Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                            <TextBlock Text="Requires Attunement?" Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,16,0" VerticalAlignment="Center" />
-                            <CheckBox x:Name="checkAttunement" Margin="0,0,16,0"/>
-                        </StackPanel>
-                    </DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Magic Item Name: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,4" VerticalAlignment="Bottom" Width="150" />
+                        <TextBox x:Name="txtItemValue" materialDesign:HintAssist.Hint="Magic Item Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="260" materialDesign:HintAssist.HintOpacity=".26" TextChanged="txtItemName_TextChanged" />
+                        <TextBlock Text="Requires Attunement?" Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="16,0" VerticalAlignment="Center" />
+                        <CheckBox x:Name="checkAttunement" Margin="0,0,16,0"/>
+                    </StackPanel>
+                    <Separator Margin="0,16,0,32" Background="{StaticResource PrimaryHueMidBrush}" />
+                    <TextBlock Text="Magic Item Description: " Style="{StaticResource MaterialDesignBody2TextBlock}" TextWrapping="Wrap" Margin="0,0,0,16" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" />
                     <TextBox x:Name="txtItemDescription" TextWrapping="Wrap" VerticalAlignment="Top" Margin="8,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Magic Item Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.HintOpacity=".26" MaxHeight="480" TextChanged="txtItemDescription_TextChanged" />
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
