@@ -680,26 +680,24 @@ namespace LootGoblin.Controls
 
         private void CheckRandomMagicItemList()
         {
-            List<RandomMagicItem> remove = new List<RandomMagicItem>();
-            foreach (RandomMagicItem randomItem in programStorage.RandomMagicItemList)
+            List<RandomMagicItem> removeList = new List<RandomMagicItem>();
+            foreach (RandomMagicItem randomMagicItem in programStorage.RandomMagicItemList)
             {
-                var found = false;
-                foreach (MagicItem magicItem in programStorage.MagicItems)
+                var type = randomMagicItem.Type;
+                var rarity = randomMagicItem.Rarity;
+
+                if (type.Equals("Random") && rarity.Equals("Random"))
                 {
-                    if (magicItem.Type.Equals(randomItem.Type) && magicItem.Rarity.Equals(randomItem.Rarity))
-                    {
-                        found = true;
-                        break;
-                    }
+                    continue;
                 }
 
-                if (!found && !remove.Contains(randomItem))
+                if (!programStorage.MagicItemTypes.Contains(type) && !programStorage.MagicItemRarities.Contains(rarity))
                 {
-                    remove.Add(randomItem);
+                    removeList.Add(randomMagicItem);
                 }
             }
 
-            foreach (RandomMagicItem removeItem in remove)
+            foreach(RandomMagicItem removeItem in removeList)
             {
                 programStorage.RandomMagicItemList.Remove(removeItem);
             }
