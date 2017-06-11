@@ -70,8 +70,7 @@
                 </GroupBox.HeaderTemplate>
                 <StackPanel>
                     <StackPanel Margin="16">
-                        <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0" ><Run Text="This section is used to override the way that the mouse wheel scrolling works within certain areas of the Loot Goblin. Overriding the mouse wheel scrolling will force the mouse wheel scrolling to count towards scrolling the windows instead of the area that the mouse is positioned over. Please note that when you do so, you will not be able to use the mouse wheel to scroll in that area when it contains content. You will have to manually move the scrollbar or click the up/down buttons."/><LineBreak/></TextBlock>
-                        <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="0" FontStyle="Italic" Text="Note: I am still working on a better way to handle mouse wheel scrolling and hope to find a better solution than this in the future." />
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0" Text="This section is used to override the way that the mouse wheel scrolling works within certain areas of the Loot Goblin. Overriding the mouse wheel scrolling will force the mouse wheel scrolling to count towards scrolling the windows instead of the area that the mouse is positioned over. Please note that when you do so, you will not be able to use the mouse wheel to scroll in that area when it contains content. You will have to manually move the scrollbar or click the up/down buttons." />
                     </StackPanel>
                     <Separator Margin="16" Background="{StaticResource PrimaryHueMidBrush}"/>
                     <StackPanel Orientation="Horizontal" Margin="16,0,0,0" >
