@@ -583,13 +583,24 @@ namespace LootGoblin.Controls
                 }
             }
 
-            var selections = dataMagicItems.SelectedItems;
-            for (var i = programStorage.MagicItemList.Count - 1; i >= 0; i--)
+            List<MagicItem> removeList = new List<MagicItem>();
+            // Loop through each selection and add them to a list of items to remove
+            foreach (MagicItem item in dataMagicItems.SelectedItems)
             {
-                if (selections.Contains(programStorage.MagicItemList[i]))
+                foreach (MagicItem listItem in programStorage.MagicItemList)
                 {
-                    programStorage.MagicItemList.RemoveAt(i);
+                    if (listItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        removeList.Add(item); // Add to the removeList to be removed while not iterating
+                        break;
+                    }
                 }
+            }
+
+            // Remove each item in the removeList from the MagicItemList
+            foreach (MagicItem item in removeList)
+            {
+                programStorage.MagicItemList.Remove(item);
             }
 
             dataMagicItems.Items.Refresh();
