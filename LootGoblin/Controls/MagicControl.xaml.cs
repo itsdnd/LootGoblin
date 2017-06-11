@@ -361,7 +361,9 @@ namespace LootGoblin.Controls
 
         private void magicItemTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(magicItemTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
             {
                 ((TreeView)sender).CaptureMouse();
             }
@@ -369,7 +371,9 @@ namespace LootGoblin.Controls
 
         private void magicItemTree_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(magicItemTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
             {
                 ((TreeView)sender).ReleaseMouseCapture();
             }

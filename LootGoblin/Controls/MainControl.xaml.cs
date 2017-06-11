@@ -10,6 +10,7 @@ using LootGoblin.Storage;
 using LootGoblin.Storage.Trees;
 using LootGoblin.Storage.Grids;
 using System.Linq;
+using System.Windows.Media;
 
 namespace LootGoblin.Controls
 {
@@ -221,7 +222,9 @@ namespace LootGoblin.Controls
 
         private void containerTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(containerTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerListMouseWheelScrolling)
             {
                 ((TreeView)sender).CaptureMouse();
             }
@@ -229,7 +232,9 @@ namespace LootGoblin.Controls
 
         private void containerTree_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(containerTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerListMouseWheelScrolling)
             {
                 ((TreeView)sender).ReleaseMouseCapture();
             }
@@ -421,7 +426,9 @@ namespace LootGoblin.Controls
 
         private void dataEncounterContainers_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataEncounterContainers);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
             {
                 ((DataGrid)sender).CaptureMouse();
             }
@@ -429,7 +436,9 @@ namespace LootGoblin.Controls
 
         private void dataEncounterContainers_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataEncounterContainers);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideEncounterListMouseWheelScrolling)
             {
                 ((DataGrid)sender).ReleaseMouseCapture();
             }
@@ -520,7 +529,9 @@ namespace LootGoblin.Controls
 
         private void magicItemTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(magicItemTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
             {
                 ((TreeView)sender).CaptureMouse();
             }
@@ -528,7 +539,9 @@ namespace LootGoblin.Controls
 
         private void magicItemTree_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(magicItemTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideMagicItemListMouseWheelScrolling)
             {
                 ((TreeView)sender).ReleaseMouseCapture();
             }
@@ -604,7 +617,9 @@ namespace LootGoblin.Controls
 
         private void dataMagicItems_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataMagicItems);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
             {
                 ((DataGrid)sender).CaptureMouse();
             }
@@ -612,7 +627,9 @@ namespace LootGoblin.Controls
 
         private void dataMagicItems_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataMagicItems);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideGuaranteedMagicItemsMouseWheelScrolling)
             {
                 ((DataGrid)sender).ReleaseMouseCapture();
             }
@@ -787,7 +804,9 @@ namespace LootGoblin.Controls
 
         private void dataRandomMagicItems_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataRandomMagicItems);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
             {
                 ((DataGrid)sender).CaptureMouse();
             }
@@ -795,7 +814,9 @@ namespace LootGoblin.Controls
 
         private void dataRandomMagicItems_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(dataRandomMagicItems);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideRandomMagicItemsMouseWheelScrolling)
             {
                 ((DataGrid)sender).ReleaseMouseCapture();
             }

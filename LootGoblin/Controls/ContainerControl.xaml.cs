@@ -230,7 +230,9 @@ namespace LootGoblin.Controls
 
         private void containerTree_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(containerTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerListMouseWheelScrolling)
             {
                 ((TreeView)sender).CaptureMouse();
             }
@@ -238,7 +240,9 @@ namespace LootGoblin.Controls
 
         private void containerTree_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerListMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer(containerTree);
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerListMouseWheelScrolling)
             {
                 ((TreeView)sender).ReleaseMouseCapture();
             }
@@ -891,7 +895,9 @@ namespace LootGoblin.Controls
 
         private void dataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer((sender as DataGrid));
+            
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
             {
                 ((DataGrid)sender).CaptureMouse();
             }
@@ -899,7 +905,9 @@ namespace LootGoblin.Controls
 
         private void dataGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
+            ScrollViewer scrollViewer = UIElementHelper.GetScrollViewer((sender as DataGrid));
+
+            if ((scrollViewer != null && scrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible) || programStorage.Settings.OverrideContainerEditGridMouseWheelScrolling)
             {
                 ((DataGrid)sender).ReleaseMouseCapture();
             }

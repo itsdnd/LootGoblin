@@ -133,6 +133,7 @@
     <Compile Include="TrinketsWindow.xaml.cs">
       <DependentUpon>TrinketsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIElementHelper.cs" />
     <Compile Include="WarningPopup.xaml.cs">
       <DependentUpon>WarningPopup.xaml</DependentUpon>
     </Compile>
