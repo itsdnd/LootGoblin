@@ -580,14 +580,10 @@ namespace LootGoblin.Controls
         private void AddItem(TextBox txtName, TextBox txtValue, TextBox txtDescription, ObservableCollection<Item> itemList, DataGrid dataGrid)
         {
             Item item = new Item();
-
-            var name = (txtName.Text.Equals(String.Empty)) ? "No name provided" : txtName.Text;
-            item.Name = name;
-
+            
+            item.Name = txtName.Text;
             item.Value = txtValue.Text;
-
-            var desc = (txtDescription.Text.Equals(String.Empty)) ? "No description provided" : txtDescription.Text;
-            item.Description = desc;
+            item.Description = txtDescription.Text;
 
             itemList.Add(item);
             dataGrid.Items.Refresh();
@@ -607,13 +603,9 @@ namespace LootGoblin.Controls
                 }
                 else
                 {
-                    var name = (txtName.Text.Equals(String.Empty)) ? "No name provided" : txtName.Text;
-                    editedItem.Name = name;
-
+                    editedItem.Name = txtName.Text;
                     editedItem.Value = txtValue.Text;
-
-                    var desc = (txtDescription.Text.Equals(String.Empty)) ? "No description provided" : txtDescription.Text;
-                    editedItem.Description = desc;
+                    editedItem.Description = txtDescription.Text;
 
                     dataGrid.Items.Refresh();
                 }
@@ -841,11 +833,13 @@ namespace LootGoblin.Controls
 
             var grid = String.Format("data{0}", category); // Format = data"Category"
             var list = String.Format("{0}List", category); // Format = "Category"List
+            var check = String.Format("check{0}Import", category); // Format = check"Category"Import
 
             // Get controls/fields relevant to the category
             var dataGrid = (DataGrid)this.FindName(grid);
             var itemList = (ObservableCollection<Item>)this.GetType().GetField(list, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(this);
             var comboBox = (ComboBox)this.FindName(String.Format("combo{0}Import", category));
+            var checkBox = (CheckBox)this.FindName(check);
 
             // Check for null/not found controls/fields
             if (dataGrid == null || itemList == null || comboBox == null)
@@ -854,7 +848,6 @@ namespace LootGoblin.Controls
             }
 
             var text = comboBox.Text;
-
             if (text.Equals(String.Empty))
             {
                 return;
@@ -885,7 +878,24 @@ namespace LootGoblin.Controls
             // Copy all items from the "Category" from the selected container
             foreach (Item item in containerSet)
             {
-                itemList.Add(item);
+                var skip = false;
+                            
+                if (checkBox != null && checkBox.IsChecked.Value)
+                {
+                    foreach (Item dataGridItem in dataGrid.Items)
+                    {
+                        if (dataGridItem.Name.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!skip)
+                {
+                    itemList.Add(item);
+                }
             }
 
             dataGrid.Items.Refresh(); // Refresh the datagrid items
