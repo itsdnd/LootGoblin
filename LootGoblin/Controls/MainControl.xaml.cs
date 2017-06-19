@@ -356,26 +356,22 @@ namespace LootGoblin.Controls
                     // Random Magic Items
                     if (split.Length == 4)
                     {
-                        foreach (MagicItem item in programStorage.MagicItems)
-                        {
-                            if (item.Type.Equals(split[0], StringComparison.CurrentCultureIgnoreCase) &&
-                                item.Rarity.Equals(split[1], StringComparison.CurrentCultureIgnoreCase)) 
-                            {
-                                var min = 0;
-                                int.TryParse(split[2], out min);
+                        var min = 0;
+                        int.TryParse(split[2], out min);
 
-                                var max = 0;
-                                int.TryParse(split[3], out max);
-
-                                RandomMagicItem randomItem = new RandomMagicItem(item.Type, item.Rarity, min, max);
-                                programStorage.RandomMagicItemList.Add(randomItem);
-                                break;
-                            }
-                        }
+                        var max = 0;
+                        int.TryParse(split[3], out max);
+                        
+                        RandomMagicItem randomItem = new RandomMagicItem(split[0], split[1], min, max);
+                        programStorage.RandomMagicItemList.Add(randomItem);
                     }
                 }
 
                 dataEncounterContainers.Items.Refresh();
+                dataMagicItems.Items.Refresh();
+                dataRandomMagicItems.Items.Refresh();
+
+                CheckRandomMagicItemList();
             }
         }
 

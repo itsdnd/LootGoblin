@@ -409,7 +409,7 @@ namespace LootGoblin.Controls
             OutputItems("Armor Sets", loot.ArmorSets);
             OutputItems("Armor Pieces", loot.ArmorPieces);
             OutputItems("Weapons", loot.Weapons);
-            OutputItems("Ammmo", loot.Ammo);
+            OutputItems("Ammo", loot.Ammo);
             OutputItems("Clothing", loot.Clothing);
             OutputItems("Clothing Accessories", loot.ClothingAccessories);
             OutputItems("Food & Drinks", loot.FoodDrinks);

@@ -1,6 +1,6 @@
 ﻿namespace LootGoblin.Storage.Grids
 {
-    class RandomMagicItemType
+    public class RandomMagicItemType
     {
         public RandomMagicItemType(string Type, int Min, int Max)
         {

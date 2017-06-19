@@ -8,7 +8,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        Title="SplashScreen" 
+        Title="Loot Goblin" 
         WindowStartupLocation="CenterScreen"
         Icon="chest.ico"
         Height="300" 
